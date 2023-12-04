@@ -23,67 +23,40 @@ Artur Dwornik
  
  
 
-3. Pracownicy biurowi: 
-
-Generowanie raportów: 
-
-Raport finansowy - zestawienie przychodów z poszczególnych wydarzeń. 
-
-Lista dłużników - sprawozdanie zalegających z płatnościami użytkowników. 
-
-Raport ogólny z zapisanych osób na przyszłe wydarzenia. 
-
-Raport frekwencji na zakończonych wydarzeniach. 
-
-Lista obecności dla każdego szkolenia. 
-
-Raport bilokacji – lista osób zapisanych na kolidujące ze sobą wydarzenia. 
+2. Pracownicy biurowi: 
+    * Generowanie raportów: 
+        * Raport finansowy - zestawienie przychodów z poszczególnych wydarzeń. 
+        * Lista dłużników - sprawozdanie zalegających z płatnościami użytkowników. 
+        * Raport ogólny z zapisanych osób na przyszłe wydarzenia. 
+        * Raport frekwencji na zakończonych wydarzeniach. 
+        * Lista obecności dla każdego szkolenia. 
+        * Raport bilokacji – lista osób zapisanych na kolidujące ze sobą wydarzenia. 
 	 
+ 3. Wykładowca: 
+    * Edycja prowadzonych wydarzeń. 
+    * Oznaczanie obecności: 
+        * Oznaczanie obecności uczestników w trakcie spotkań. 
+        * Modyfikowanie listy obecności (oznaczenie odrobienia zajęć w przypadku studiów) 
+    * Dodawanie materiałów: 
+        * Wykładowca może dodawać materiały do kursów, takie jak prezentacje, pliki do pobrania itp. 
  
+4.  Uczestnik: 
+    * Przeglądanie oferty: 
+        * Przeglądanie dostępnych kursów, webinarów i studiów. 
+        * Przeglądanie sylabusów studiów, 
+    * Rejestracja i płatności: 
+        * Rejestracja na wybrane wydarzenia. 
+        * Dodawanie wydarzeń do koszyka. 
+        * Generowanie linku do płatności. 
+        * Uiszczenie opłat za uczestnictwo w wydarzeniach. 
+    * Dostęp do nagrań: 
+        * Dostęp do nagrań z różnych wydarzeń online. 
+        * Przeglądanie dostępnych nagrań przez okres 30 dni. 
+    * Przeglądanie danych: 
+        * Uczestnik może przeglądać swoje płatności i historię uczestnictwa. 
 
-4. Wykładowca: 
+### 2. Diagram bazy danych:
 
-Edycja prowadzonych wydarzeń 
 
-Oznaczanie obecności: 
-
-Oznaczanie obecności uczestników w trakcie spotkań. 
-
-Modyfikowanie listy obecności (oznaczenie odrobienia zajęć w przypadku studiów) 
-
-Dodawanie materiałów: 
-
-Wykładowca może dodawać materiały do kursów, takie jak prezentacje, pliki do pobrania itp. 
- 
- 
- 
- 
-
-5.  Uczestnik: 
-
-Przeglądanie oferty: 
-
-Przeglądanie dostępnych kursów, webinarów i studiów. 
-
-Przeglądanie sylabusów studiów, 
-
-Rejestracja i płatności: 
-
-Rejestracja na wybrane wydarzenia. 
-
-Dodawanie wydarzeń do koszyka. 
-
-Generowanie linku do płatności. 
-
-Uiszczenie opłat za uczestnictwo w wydarzeniach. 
-
-Dostęp do nagrań: 
-
-Dostęp do nagrań z różnych wydarzeń online. 
-
-Przeglądanie dostępnych nagrań przez okres 30 dni. 
-
-Przeglądanie danych: 
-
-Uczestnik może przeglądać swoje płatności i historię uczestnictwa. 
+![diagram](diagram.png)
 
