@@ -58,5 +58,5 @@ Artur Dwornik
 ### 2. Diagram bazy danych:
 
 
-![diagram](diagram.png)
+![diagram](Diagram.png)
 
