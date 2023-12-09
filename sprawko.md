@@ -60,3 +60,11 @@ Artur Dwornik
 
 ![diagram](./diagram.svg)
 
+
+nieuchwycone rzeczy:
+* kilku prowadzacych moga prowadzic kusy,
+* roznica w prica za miejsce dla osob ktore sa 'z zewnatrz'
+* koszyk ogarniecie identyfikator platnosci i potwierdzenie platnosci
+* lista dloznikow != odroczona platnosc
+* kurs to set webinarow, studia to set kursów itd...
+
