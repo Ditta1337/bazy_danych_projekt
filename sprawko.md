@@ -20,8 +20,6 @@ Artur Dwornik
         * Raport frekwencji na zakończonych wydarzeniach. 
         * Lista obecności dla każdego szkolenia. 
         * Raport bilokacji – lista osób zapisanych na kolidujące ze sobą wydarzenia. 
- 
- 
 
 2. Pracownicy biurowi: 
     * Generowanie raportów: 
