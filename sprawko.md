@@ -58,11 +58,43 @@ Artur Dwornik
 
 ![diagram](./diagram.svg)
 
-
-nieuchwycone rzeczy:
-* kilku prowadzacych moga prowadzic kusy,
-* roznica w prica za miejsce dla osob ktore sa 'z zewnatrz'
-* koszyk ogarniecie identyfikator platnosci i potwierdzenie platnosci
-* lista dloznikow != odroczona platnosc
-* kurs to set webinarow, studia to set kursów itd...
+### 3. Przykładowe dane testowe:
+* Tabela `students`:\
+`Edward,Harris,EdwardHarris@gmail.com,6130b6ba25b29c18ba24`
+* Tabela `lecturers`:\
+`Lisa,Sanders,mgr.,LisaSanders@gmail.com,af4acfa79131e063ceac`
+* Tabela `employees`:\
+`Robert,Williams,1,RobertWilliams@gmail.com,d58e44aff86b392efb18`
+* Tabela `roles`:\
+`accountant`
+* Tabela `lecturers`:\
+`Larry,Hooper,dr.,LarryHooper@gmail.com,9888a64ed172993c911a`
+* Tabela `lessons`:\
+`1,1,analysising lesson,analysising lesson description,2022-01-16,08:25:00,09:55:00,130.69,25,room 8`
+* Tabela `materials`:\
+`2,societying material,societying material material description,https://TheBestUni.com/materials/societying_material.avi`
+* Tabela `attendance`:\
+`21,1,1`
+* Tabela `courses`:\
+`1,howevering course,howevering course description,608.93,15`
+* Tabela `studies`:\
+`everyoneing study,everyoneing study description,1402.03,15,2023-03-25`
+* Tabela `internships`:\
+`8,1,Electronic Arts,Internship at Electronic Arts,2022-05-29`
+* Tabela `shopping_carts`:\
+`16,1`
+* Tabela `lesson_items`:\
+`1,15`
+* Tabela `courses_items`:\
+`26,4`
+* Tabela `studies_items`:\
+`29,1`
+* Tabela `payments`:\
+`1,2021-12-11,https://PayPal.com/payment/1091940562903259`
+* Tabela `lesson_payments`:\
+`16,15,1`
+* Tabela `course_payments`:\
+`1,4,26,1`
+* Tabela `study_payments`:\
+`4,1,29`
 
