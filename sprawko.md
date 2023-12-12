@@ -98,3 +98,10 @@ Artur Dwornik
 * Tabela `study_payments`:\
 `4,1,29`
 
+ naprawic 1 do wiele przy payments
+ cena przy kursie ktory jest ze studiow - null
+ jak kupione to brak mozliwosci edycji koszyka
+ komentarz o tym ze zewnetrzna firma daje papier o ukonczeniu studiów
+ koszyk to widok
+ 3 lata danych
+ tłumacze
