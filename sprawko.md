@@ -111,12 +111,13 @@ Artur Dwornik
 ### Pracownicy
 ``` sql
 CREATE TABLE employees (
-   employee_id int  NOT NULL,
+   employee_id int  NOT NULL IDENTITY(1, 1),
    first_name varchar(20)  NOT NULL,
    last_name varchar(20)  NOT NULL,
    role_id int  NOT NULL,
    email varchar(30)  NOT NULL,
    password varchar(20)  NOT NULL,
+   CONSTRAINT employees_ak_1 UNIQUE (email),
    CONSTRAINT employees_pk PRIMARY KEY  (employee_id)
 );
 
@@ -124,7 +125,7 @@ CREATE TABLE employees (
 ### Role pracowników
 ``` sql
 CREATE TABLE roles (
-   role_id int  NOT NULL,
+   role_id int  NOT NULL IDENTITY(1,1),
    role_name varchar(20)  NOT NULL,
    CONSTRAINT roles_pk PRIMARY KEY  (role_id)
 );
@@ -133,11 +134,12 @@ CREATE TABLE roles (
 ### Studenci
 ``` sql
 CREATE TABLE students (
-   student_id int  NOT NULL,
+   student_id int  NOT NULL IDENTITY(1, 1),
    first_name varchar(20)  NOT NULL,
    last_name varchar(20)  NOT NULL,
    email varchar(30)  NOT NULL,
    password varchar(20)  NOT NULL,
+   CONSTRAINT students_ak_1 UNIQUE (email),
    CONSTRAINT students_pk PRIMARY KEY  (student_id)
 );
 ```
@@ -155,11 +157,12 @@ CREATE TABLE attendance (
 ### Materiały do lekcji online
 ``` sql
 CREATE TABLE materials (
-   material_id int  NOT NULL,
+   material_id int  NOT NULL IDENTITY(1, 1),
    lesson_id int  NOT NULL,
    name varchar(20)  NOT NULL,
    description varchar(max)  NOT NULL DEFAULT no description found,
    file_url varchar(100)  NOT NULL,
+   CONSTRAINT materials_ak_1 UNIQUE (file_url),
    CONSTRAINT materials_pk PRIMARY KEY  (material_id)
 );
 ```
@@ -173,6 +176,7 @@ CREATE TABLE lecturers (
    email varchar(30)  NOT NULL,
    password varchar(20)  NOT NULL,
    title varchar(10)  NULL,
+   CONSTRAINT lecturers_ak_1 UNIQUE (email),
    CONSTRAINT lecturers_pk PRIMARY KEY  (lecturer_id)
 );
 ```
@@ -180,7 +184,7 @@ CREATE TABLE lecturers (
 ### Praktyki zawodowe
 ``` sql
 CREATE TABLE internships (
-   internship_id int  NOT NULL,
+   internship_id int  NOT NULL IDENTITY(1,1),
    student_id int  NOT NULL,
    study_id int  NOT NULL,
    company varchar(50)  NOT NULL,
@@ -193,18 +197,21 @@ CREATE TABLE internships (
 ### Lekcje (z kursów i studiów) i webinary
 ``` sql
 CREATE TABLE lessons (
-   lesson_id int  NOT NULL,
+   lesson_id int  NOT NULL IDENTITY(1, 1),
    course_id int  NULL,
    lecturer_id int  NOT NULL,
    name varchar(30)  NOT NULL,
-   description varchar(max)  NOT NULL DEFAULT no description found,
+   description varchar(max)  NOT NULL DEFAULT 'no description found',
    date date  NOT NULL,
    start_time time  NOT NULL,
    end_time time  NOT NULL,
-   price int  NULL,
+   price smallmoney  NULL,
    students_limit int  NULL,
    classroom varchar(10)  NOT NULL,
    translator_id int  NULL,
+   CONSTRAINT data CHECK (start_time < end_time),
+   CONSTRAINT studens_limit CHECK (students_limit > 0),
+   CONSTRAINT price CHECK (price > 0),
    CONSTRAINT lessons_pk PRIMARY KEY  (lesson_id)
 );
 ```
@@ -212,13 +219,16 @@ CREATE TABLE lessons (
 ### Kursy
 ``` sql
 CREATE TABLE courses (
-   course_id int  NOT NULL,
+   course_id int  NOT NULL IDENTITY(1, 1),
    study_id int  NULL,
    name varchar(30)  NOT NULL,
    description varchar(max)  NOT NULL DEFAULT no description found,
-   entry_price int  NULL,
-   full_price int  NULL,
+   entry_price smallmoney  NULL,
+   full_price smallmoney  NULL,
    students_limit int  NULL,
+   CONSTRAINT entry_price CHECK (entry_price > 0),
+   CONSTRAINT full_price CHECK (full_price > 0),
+   CONSTRAINT studens_limit CHECK (studens_limit > 0),
    CONSTRAINT courses_pk PRIMARY KEY  (course_id)
 );
 ```
@@ -226,13 +236,15 @@ CREATE TABLE courses (
 ### Studia
 ``` sql
 CREATE TABLE studies (
-   study_id int  NOT NULL,
+   study_id int  NOT NULL IDENTITY(1, 1),
    name varchar(30)  NOT NULL,
    description varchar(max)  NOT NULL DEFAULT no description found,
    entry_fee int  NOT NULL,
    students_limit int  NOT NULL,
    exam_date datetime  NULL,
    employee_id int  NOT NULL,
+   CONSTRAINT entry_fee CHECK (entry_fee > 0),
+   CONSTRAINT students_limit CHECK (students_limit > 0),
    CONSTRAINT studies_pk PRIMARY KEY  (study_id)
 );
 ```
@@ -240,7 +252,7 @@ CREATE TABLE studies (
 ### Płatności
 ``` sql
 CREATE TABLE payments (
-   payment_id int  NOT NULL,
+   payment_id int  NOT NULL IDENTITY(1,1),
    status bit  NOT NULL DEFAULT 0,
    date date  NOT NULL,
    payment_url varchar(100)  NOT NULL,
