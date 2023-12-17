@@ -1,65 +1,68 @@
-1,1,agoing lesson,agoing lesson description,2022-01-01,13:54:00,15:24:00,106.75,25,room 4
-1,2,oking lesson,oking lesson description,2022-01-08,10:57:00,12:27:00,24.25,25,online
-1,1,analysising lesson,analysising lesson description,2022-01-16,08:25:00,09:55:00,130.69,25,room 8
-1,2,factoring lesson,factoring lesson description,2022-01-23,11:40:00,13:10:00,173.01,25,room 29
-1,1,stronging lesson,stronging lesson description,2022-01-31,12:09:00,13:39:00,410.01,25,room 9
-2,1,childing lesson,childing lesson description,2022-02-01,10:53:00,12:23:00,403.76,25,room 29
-2,1,treating lesson,treating lesson description,2022-02-07,16:41:00,18:11:00,243.60,25,online
-2,2,anying lesson,anying lesson description,2022-02-14,15:11:00,16:41:00,147.41,25,room 15
-2,5,sporting lesson,sporting lesson description,2022-02-21,13:04:00,14:34:00,258.68,25,room 14
-2,3,liveing lesson,liveing lesson description,2022-02-28,17:29:00,18:59:00,244.34,25,room 3
-3,4,pasting lesson,pasting lesson description,2022-03-01,08:25:00,09:55:00,167.56,25,room 15
-3,3,skining lesson,skining lesson description,2022-03-08,09:52:00,11:22:00,408.36,25,room 20
-3,1,shorting lesson,shorting lesson description,2022-03-16,10:24:00,11:54:00,347.43,25,room 6
-3,2,whethering lesson,whethering lesson description,2022-03-23,12:00:00,13:30:00,374.43,25,room 29
-3,2,rooming lesson,rooming lesson description,2022-03-31,16:41:00,18:11:00,227.14,25,online
-None,1,arriveing lesson,arriveing lesson description,2022-01-01,17:51:00,19:21:00,494.53,35,room 21
-None,3,scoreing lesson,scoreing lesson description,2022-03-01,16:04:00,17:34:00,362.55,35,online
-None,3,asking lesson,asking lesson description,2022-04-29,10:55:00,12:25:00,22.44,35,room 20
-None,4,airing lesson,airing lesson description,2022-06-27,10:39:00,12:09:00,166.31,35,room 12
-None,2,developmenting lesson,developmenting lesson description,2022-08-26,17:30:00,19:00:00,271.36,35,room 10
-4,3,ending lesson,ending lesson description,2022-03-01,12:57:00,14:27:00,342.52,35,room 3
-4,3,beyonding lesson,beyonding lesson description,2022-03-10,12:30:00,14:00:00,21.01,35,room 4
-4,2,workering lesson,workering lesson description,2022-03-20,09:17:00,10:47:00,257.60,35,online
-4,1,understanding lesson,understanding lesson description,2022-03-29,16:18:00,17:48:00,29.94,35,room 30
-4,1,ageing lesson,ageing lesson description,2022-04-08,15:23:00,16:53:00,229.22,35,room 17
-4,1,turning lesson,turning lesson description,2022-04-17,16:10:00,17:40:00,454.16,35,room 17
-4,4,seaing lesson,seaing lesson description,2022-04-27,09:29:00,10:59:00,22.14,35,room 2
-4,1,againing lesson,againing lesson description,2022-05-06,09:56:00,11:26:00,156.52,35,online
-4,5,pieceing lesson,pieceing lesson description,2022-05-16,12:27:00,13:57:00,111.68,35,room 5
-4,5,currenting lesson,currenting lesson description,2022-05-26,08:58:00,10:28:00,395.21,35,online
-5,3,papering lesson,papering lesson description,2022-05-01,08:33:00,10:03:00,162.95,25,room 15
-5,2,recognizeing lesson,recognizeing lesson description,2022-05-15,11:55:00,13:25:00,103.76,25,room 2
-5,1,siting lesson,siting lesson description,2022-05-29,09:23:00,10:53:00,138.87,25,online
-5,4,futureing lesson,futureing lesson description,2022-06-12,09:38:00,11:08:00,233.03,25,room 30
-5,1,mentioning lesson,mentioning lesson description,2022-06-26,13:02:00,14:32:00,437.34,25,online
-6,1,reaching lesson,reaching lesson description,2022-09-01,11:19:00,12:49:00,366.07,25,room 26
-6,4,presidenting lesson,presidenting lesson description,2022-09-08,13:53:00,15:23:00,152.53,25,room 24
-6,4,whening lesson,whening lesson description,2022-09-16,12:28:00,13:58:00,57.84,25,room 11
-6,1,responding lesson,responding lesson description,2022-09-24,08:57:00,10:27:00,410.91,25,room 29
-6,1,internationaling lesson,internationaling lesson description,2022-10-02,14:38:00,16:08:00,88.88,25,room 1
-6,5,themselvesing lesson,themselvesing lesson description,2022-10-10,10:54:00,12:24:00,67.51,25,room 19
-6,1,recenting lesson,recenting lesson description,2022-10-18,17:11:00,18:41:00,481.70,25,online
-6,2,sooning lesson,sooning lesson description,2022-10-25,16:10:00,17:40:00,309.14,25,room 4
-6,1,thirding lesson,thirding lesson description,2022-11-02,11:50:00,13:20:00,55.81,25,room 27
-6,1,suffering lesson,suffering lesson description,2022-11-10,17:42:00,19:12:00,73.76,25,online
-6,3,acting lesson,acting lesson description,2022-11-18,08:40:00,10:10:00,338.18,25,room 3
-6,3,localing lesson,localing lesson description,2022-11-26,15:42:00,17:12:00,287.28,25,room 24
-6,3,includinging lesson,includinging lesson description,2022-12-04,13:47:00,15:17:00,49.84,25,room 26
-6,1,likeing lesson,likeing lesson description,2022-12-12,09:01:00,10:31:00,402.84,25,room 15
-6,1,staying lesson,staying lesson description,2022-12-19,13:42:00,15:12:00,83.54,25,room 26
-7,1,haveing lesson,haveing lesson description,2023-01-01,11:58:00,13:28:00,242.94,25,room 18
-7,1,magazineing lesson,magazineing lesson description,2023-01-04,12:50:00,14:20:00,345.80,25,room 13
-7,1,whating lesson,whating lesson description,2023-01-08,12:47:00,14:17:00,448.31,25,room 21
-7,1,perhapsing lesson,perhapsing lesson description,2023-01-11,09:00:00,10:30:00,398.99,25,room 7
-7,1,yeting lesson,yeting lesson description,2023-01-15,14:47:00,16:17:00,294.69,25,room 17
-7,1,thoughting lesson,thoughting lesson description,2023-01-18,13:41:00,15:11:00,427.55,25,online
-7,1,northing lesson,northing lesson description,2023-01-22,13:30:00,15:00:00,462.84,25,room 4
-7,1,hising lesson,hising lesson description,2023-01-25,15:18:00,16:48:00,144.18,25,room 8
-7,1,knowing lesson,knowing lesson description,2023-01-29,08:32:00,10:02:00,418.50,25,room 25
-7,1,worrying lesson,worrying lesson description,2023-02-02,10:28:00,11:58:00,221.72,25,room 8
-7,1,freeing lesson,freeing lesson description,2023-02-05,17:54:00,19:24:00,149.27,25,room 24
-7,1,applying lesson,applying lesson description,2023-02-09,09:14:00,10:44:00,454.27,25,room 18
-7,1,whiching lesson,whiching lesson description,2023-02-12,09:50:00,11:20:00,282.79,25,room 14
-7,1,supporting lesson,supporting lesson description,2023-02-16,12:09:00,13:39:00,471.62,25,room 13
-7,1,responsibilitying lesson,responsibilitying lesson description,2023-02-19,09:01:00,10:31:00,417.55,25,online
+1,3,coaching lesson,coaching lesson description,2024-01-01,08:12:00,09:42:00,65,35,C1,6
+1,6,maybeing lesson,maybeing lesson description,2024-01-07,16:25:00,17:55:00,65,35,C2,6
+1,3,stageing lesson,stageing lesson description,2024-01-13,14:54:00,16:24:00,65,None,Online,6
+1,8,catching lesson,catching lesson description,2024-01-19,10:37:00,12:07:00,65,35,A4,6
+1,4,continueing lesson,continueing lesson description,2024-01-25,08:25:00,09:55:00,65,35,C5,6
+1,3,cameraing lesson,cameraing lesson description,2024-01-31,16:26:00,17:56:00,65,35,A1,6
+2,1,civiling lesson,civiling lesson description,2024-02-01,13:53:00,15:23:00,75,35,B5,7
+2,8,necessarying lesson,necessarying lesson description,2024-02-06,10:41:00,12:11:00,75,35,B3,7
+2,1,developmenting lesson,developmenting lesson description,2024-02-12,10:18:00,11:48:00,75,35,B5,7
+2,5,perhapsing lesson,perhapsing lesson description,2024-02-17,11:16:00,12:46:00,75,35,A4,7
+2,7,establishing lesson,establishing lesson description,2024-02-23,13:02:00,14:32:00,75,35,B3,7
+2,5,fishing lesson,fishing lesson description,2024-02-29,16:15:00,17:45:00,75,None,Online,7
+3,2,radioing lesson,radioing lesson description,2024-03-01,12:33:00,14:03:00,70,35,B1,7
+3,1,borning lesson,borning lesson description,2024-03-07,15:49:00,17:19:00,70,35,A3,7
+3,3,fewing lesson,fewing lesson description,2024-03-13,14:31:00,16:01:00,70,35,A4,7
+3,3,largeing lesson,largeing lesson description,2024-03-19,16:01:00,17:31:00,70,35,C3,7
+3,2,finishing lesson,finishing lesson description,2024-03-25,11:39:00,13:09:00,70,35,A2,7
+3,9,amounting lesson,amounting lesson description,2024-03-31,15:16:00,16:46:00,70,35,A2,7
+4,10,nexting lesson,nexting lesson description,2024-04-01,16:05:00,17:35:00,60,35,B2,6
+4,10,forming lesson,forming lesson description,2024-04-06,11:41:00,13:11:00,60,35,C1,6
+4,5,evidenceing lesson,evidenceing lesson description,2024-04-12,13:10:00,14:40:00,60,35,B1,6
+4,6,justing lesson,justing lesson description,2024-04-18,15:48:00,17:18:00,60,35,B2,6
+4,2,almosting lesson,almosting lesson description,2024-04-24,09:41:00,11:11:00,60,35,A2,6
+4,9,marketing lesson,marketing lesson description,2024-04-30,11:35:00,13:05:00,60,35,A1,6
+5,10,possibleing lesson,possibleing lesson description,2024-05-01,16:09:00,17:39:00,80,35,A3,9
+5,5,certaining lesson,certaining lesson description,2024-05-07,13:28:00,14:58:00,80,35,C1,9
+5,5,controling lesson,controling lesson description,2024-05-13,16:05:00,17:35:00,80,35,A2,9
+5,3,remaining lesson,remaining lesson description,2024-05-19,09:18:00,10:48:00,80,35,B3,9
+5,1,collegeing lesson,collegeing lesson description,2024-05-25,16:12:00,17:42:00,80,35,C1,9
+5,3,priceing lesson,priceing lesson description,2024-05-31,14:25:00,15:55:00,80,35,A4,9
+6,8,managementing lesson,managementing lesson description,2024-06-01,08:48:00,10:18:00,80,35,B2,9
+6,7,socialing lesson,socialing lesson description,2024-06-06,14:47:00,16:17:00,80,35,B4,9
+6,1,leveling lesson,leveling lesson description,2024-06-12,08:42:00,10:12:00,80,35,B3,9
+6,9,springing lesson,springing lesson description,2024-06-18,10:10:00,11:40:00,80,35,C4,9
+6,3,howevering lesson,howevering lesson description,2024-06-24,12:21:00,13:51:00,80,35,B3,9
+6,4,moderning lesson,moderning lesson description,2024-06-30,15:51:00,17:21:00,80,35,C5,9
+7,1,againing lesson,againing lesson description,2024-10-01,15:23:00,16:53:00,75,35,B5,6
+7,6,summering lesson,summering lesson description,2024-10-07,14:34:00,16:04:00,75,None,Online,6
+7,5,millioning lesson,millioning lesson description,2024-10-13,12:18:00,13:48:00,75,35,B1,6
+7,8,successfuling lesson,successfuling lesson description,2024-10-19,13:27:00,14:57:00,75,35,A5,6
+7,4,radioing lesson,radioing lesson description,2024-10-25,14:29:00,15:59:00,75,35,C5,6
+7,8,southing lesson,southing lesson description,2024-10-31,11:34:00,13:04:00,75,35,C2,6
+8,9,blooding lesson,blooding lesson description,2024-11-01,08:34:00,10:04:00,65,35,C2,7
+8,2,differenceing lesson,differenceing lesson description,2024-11-06,13:26:00,14:56:00,65,35,A1,7
+8,3,buting lesson,buting lesson description,2024-11-12,16:50:00,18:20:00,65,35,B3,7
+8,2,executiveing lesson,executiveing lesson description,2024-11-18,14:06:00,15:36:00,65,35,B4,7
+8,10,womaning lesson,womaning lesson description,2024-11-24,11:06:00,12:36:00,65,None,Online,7
+8,9,wideing lesson,wideing lesson description,2024-11-30,15:04:00,16:34:00,65,35,A4,7
+9,1,businessing lesson,businessing lesson description,2023-05-01,08:56:00,10:26:00,60,None,Online,7
+9,1,officering lesson,officering lesson description,2023-05-04,13:38:00,15:08:00,60,75,B5,7
+9,5,insteading lesson,insteading lesson description,2023-05-07,09:53:00,11:23:00,60,None,Online,7
+9,2,seeking lesson,seeking lesson description,2023-05-10,14:52:00,16:22:00,60,75,A2,7
+9,2,styleing lesson,styleing lesson description,2023-05-13,09:29:00,10:59:00,60,75,C2,7
+9,4,campaigning lesson,campaigning lesson description,2023-05-16,10:20:00,11:50:00,60,75,C3,7
+9,7,quiteing lesson,quiteing lesson description,2023-05-19,17:51:00,19:21:00,60,75,A4,7
+9,4,itsing lesson,itsing lesson description,2023-05-23,14:51:00,16:21:00,60,75,A4,7
+9,3,themselvesing lesson,themselvesing lesson description,2023-05-26,12:57:00,14:27:00,60,75,C4,7
+9,10,agreementing lesson,agreementing lesson description,2023-05-29,08:31:00,10:01:00,60,None,Online,7
+9,1,industrying lesson,industrying lesson description,2023-06-01,16:59:00,18:29:00,60,75,A4,7
+9,2,consumering lesson,consumering lesson description,2023-06-04,17:09:00,18:39:00,60,75,B2,7
+9,5,energying lesson,energying lesson description,2023-06-07,10:31:00,12:01:00,60,75,B5,7
+9,4,thirding lesson,thirding lesson description,2023-06-11,15:07:00,16:37:00,60,75,A2,7
+9,4,gardening lesson,gardening lesson description,2023-06-14,15:47:00,17:17:00,60,75,B3,7
+9,8,borning lesson,borning lesson description,2023-06-17,08:51:00,10:21:00,60,75,A2,7
+9,4,seriesing lesson,seriesing lesson description,2023-06-20,12:30:00,14:00:00,60,75,B1,7
+9,8,centraling lesson,centraling lesson description,2023-06-23,09:19:00,10:49:00,60,75,A5,7
+9,1,riching lesson,riching lesson description,2023-06-26,08:12:00,09:42:00,60,75,A4,7
+9,8,whoseing lesson,whoseing lesson description,2023-06-29,15:59:00,17:29:00,60,None,Online,7

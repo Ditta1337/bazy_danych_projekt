@@ -1,25 +1,70 @@
-4,1,King,Internship at King,2022-10-20
-4,1,Rovio,Internship at Rovio,2022-03-28
-5,1,NCSoft,Internship at NCSoft,2022-03-06
-5,1,Rovio,Internship at Rovio,2022-05-11
-6,1,Adobe,Internship at Adobe,2022-04-12
-6,1,Take-Two Interactive,Internship at Take-Two Interactive,2023-01-31
-7,1,Uber,Internship at Uber,2022-02-04
-7,1,PayPal,Internship at PayPal,2022-10-02
-8,1,NCSoft,Internship at NCSoft,2023-01-02
-8,1,Electronic Arts,Internship at Electronic Arts,2022-05-29
-9,1,Tencent Games,Internship at Tencent Games,2022-08-15
-9,1,Bandai Namco,Internship at Bandai Namco,2022-02-08
-10,1,King,Internship at King,2022-11-08
-10,1,Atlus,Internship at Atlus,2022-08-08
-11,1,Microsoft Studios,Internship at Microsoft Studios,2022-04-08
-11,1,Koei Tecmo,Internship at Koei Tecmo,2022-02-04
-12,1,Tencent,Internship at Tencent,2022-06-02
-12,1,OpenAI,Internship at OpenAI,2022-12-22
-13,1,SAP,Internship at SAP,2022-04-23
-13,1,Atlus,Internship at Atlus,2022-04-19
-14,1,Konami,Internship at Konami,2022-10-31
-14,1,NCSoft,Internship at NCSoft,2022-07-09
-15,1,Quora,Internship at Quora,2022-03-28
-15,1,Dropbox,Internship at Dropbox,2022-08-26
-
+1,1,Lenovo,Internship at Lenovo,2024-07-29
+1,1,Gameloft,Internship at Gameloft,2024-10-10
+2,1,Zynga,Internship at Zynga,2024-11-05
+2,1,Koei Tecmo,Internship at Koei Tecmo,2024-11-24
+3,1,Nexon,Internship at Nexon,2024-01-12
+3,1,Glu Mobile,Internship at Glu Mobile,2024-01-30
+4,1,Capcom,Internship at Capcom,2024-10-03
+4,1,Panasonic,Internship at Panasonic,2024-10-03
+5,1,Koei Tecmo,Internship at Koei Tecmo,2024-07-21
+5,1,Glu Mobile,Internship at Glu Mobile,2024-07-18
+6,1,Bandai Namco,Internship at Bandai Namco,2024-07-07
+6,1,Tencent,Internship at Tencent,2024-02-17
+7,1,Supercell,Internship at Supercell,2024-12-16
+7,1,IBM,Internship at IBM,2024-05-27
+8,1,Epic Games,Internship at Epic Games,2024-07-10
+8,1,Koei Tecmo,Internship at Koei Tecmo,2024-08-12
+9,1,Samsung,Internship at Samsung,2024-12-16
+9,1,Ubisoft,Internship at Ubisoft,2024-06-22
+10,1,Microsoft Studios,Internship at Microsoft Studios,2024-06-07
+10,1,NCSoft,Internship at NCSoft,2024-05-16
+11,1,NCSoft,Internship at NCSoft,2024-02-28
+11,1,Square Enix,Internship at Square Enix,2024-12-23
+12,1,Aptiv,Internship at Aptiv,2024-10-03
+12,1,Philips,Internship at Philips,2024-10-29
+13,1,Samsung,Internship at Samsung,2024-09-26
+13,1,Cisco,Internship at Cisco,2024-04-02
+14,1,Intel,Internship at Intel,2024-06-18
+14,1,Garena,Internship at Garena,2024-12-08
+15,1,Capcom,Internship at Capcom,2024-02-03
+15,1,Electronic Arts,Internship at Electronic Arts,2024-12-01
+16,1,JD.com,Internship at JD.com,2024-02-10
+16,1,Rovio,Internship at Rovio,2024-10-14
+17,1,Uber,Internship at Uber,2024-10-18
+17,1,Glu Mobile,Internship at Glu Mobile,2024-12-30
+18,1,Cisco,Internship at Cisco,2024-04-20
+18,1,Konami,Internship at Konami,2024-02-14
+19,1,Baidu,Internship at Baidu,2024-02-28
+19,1,Bosch,Internship at Bosch,2024-11-20
+20,1,Philips,Internship at Philips,2024-11-24
+20,1,Nintendo,Internship at Nintendo,2024-02-14
+21,1,Koei Tecmo,Internship at Koei Tecmo,2024-01-30
+21,1,HP,Internship at HP,2024-03-22
+22,1,NCSoft,Internship at NCSoft,2024-03-18
+22,1,Rovio,Internship at Rovio,2024-12-19
+23,1,COMARCH,Internship at COMARCH,2024-02-17
+23,1,Sony,Internship at Sony,2024-08-31
+24,1,King,Internship at King,2024-12-01
+24,1,Nvidia,Internship at Nvidia,2024-03-03
+25,1,Capcom,Internship at Capcom,2024-03-22
+25,1,NCSoft,Internship at NCSoft,2024-05-12
+26,1,Netmarble,Internship at Netmarble,2024-11-16
+26,1,PayPal,Internship at PayPal,2024-01-01
+27,1,Sony Interactive Entertainment,Internship at Sony Interactive Entertainment,2024-02-10
+27,1,Facebook,Internship at Facebook,2024-03-29
+28,1,Twitter,Internship at Twitter,2024-05-12
+28,1,Sony Interactive Entertainment,Internship at Sony Interactive Entertainment,2024-07-21
+29,1,Facebook,Internship at Facebook,2024-12-01
+29,1,OpenAI,Internship at OpenAI,2024-11-13
+30,1,SAP,Internship at SAP,2024-09-22
+30,1,Take-Two Interactive,Internship at Take-Two Interactive,2024-04-13
+31,1,Nintendo,Internship at Nintendo,2024-10-07
+31,1,Tencent,Internship at Tencent,2024-05-31
+32,1,King,Internship at King,2024-08-01
+32,1,Konami,Internship at Konami,2024-09-07
+33,1,Capcom,Internship at Capcom,2024-06-25
+33,1,Nintendo,Internship at Nintendo,2024-03-03
+34,1,Sony Interactive Entertainment,Internship at Sony Interactive Entertainment,2024-08-31
+34,1,Salesforce,Internship at Salesforce,2024-09-04
+35,1,Tencent Games,Internship at Tencent Games,2024-12-08
+35,1,Netmarble,Internship at Netmarble,2024-05-31
