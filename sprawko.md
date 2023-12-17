@@ -131,7 +131,7 @@ CREATE TABLE materials (
 ### Wykładowcy
 ``` sql
 CREATE TABLE lecturers (
-   lecturer_id int  NOT NULL,
+   lecturer_id int  NOT NULL IDENTITY(1,1),
    first_name varchar(20)  NOT NULL,
    last_name varchar(20)  NOT NULL,
    email varchar(30)  NOT NULL,
