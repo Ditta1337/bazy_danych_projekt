@@ -108,7 +108,7 @@ Artur Dwornik
 
 ## Tabele
 
-### Employees
+### Pracownicy
 ``` sql
 CREATE TABLE employees (
    employee_id int  NOT NULL,
@@ -121,7 +121,7 @@ CREATE TABLE employees (
 );
 
 ```
-### Roles
+### Role pracowników
 ``` sql
 CREATE TABLE roles (
    role_id int  NOT NULL,
@@ -130,7 +130,7 @@ CREATE TABLE roles (
 );
 ```
 
-### Students
+### Studenci
 ``` sql
 CREATE TABLE students (
    student_id int  NOT NULL,
@@ -142,7 +142,7 @@ CREATE TABLE students (
 );
 ```
 
-### Attendance
+### Lista obecności
 ``` sql
 CREATE TABLE attendance (
    lesson_id int  NOT NULL,
@@ -152,7 +152,7 @@ CREATE TABLE attendance (
 );
 ```
 
-### Materials
+### Materiały do lekcji online
 ``` sql
 CREATE TABLE materials (
    material_id int  NOT NULL,
@@ -164,7 +164,7 @@ CREATE TABLE materials (
 );
 ```
 
-### Lecturers
+### Wykładowcy
 ``` sql
 CREATE TABLE lecturers (
    lecturer_id int  NOT NULL,
@@ -177,9 +177,9 @@ CREATE TABLE lecturers (
 );
 ```
 
-### Internships
+### Praktyki zawodowe
 ``` sql
-CREATE TABLE Internships (
+CREATE TABLE internships (
    internship_id int  NOT NULL,
    student_id int  NOT NULL,
    study_id int  NOT NULL,
@@ -190,7 +190,7 @@ CREATE TABLE Internships (
 );
 ```
 
-### Lessons
+### Lekcje (z kursów i studiów) i webinary
 ``` sql
 CREATE TABLE lessons (
    lesson_id int  NOT NULL,
@@ -209,7 +209,7 @@ CREATE TABLE lessons (
 );
 ```
 
-### Courses
+### Kursy
 ``` sql
 CREATE TABLE courses (
    course_id int  NOT NULL,
@@ -223,7 +223,7 @@ CREATE TABLE courses (
 );
 ```
 
-### Studies
+### Studia
 ``` sql
 CREATE TABLE studies (
    study_id int  NOT NULL,
@@ -237,7 +237,7 @@ CREATE TABLE studies (
 );
 ```
 
-### Payments
+### Płatności
 ``` sql
 CREATE TABLE payments (
    payment_id int  NOT NULL,
@@ -248,7 +248,7 @@ CREATE TABLE payments (
 );
 ```
 
-### Lesson Payments
+### Płatności za lekcje
 ``` sql
 CREATE TABLE lesson_payments (
    student_id int  NOT NULL,
@@ -258,7 +258,7 @@ CREATE TABLE lesson_payments (
 );
 ```
 
-### Course Payments
+### Płatności za kursy
 ``` sql
 CREATE TABLE course_payments (
    student_id int  NOT NULL,
@@ -269,7 +269,7 @@ CREATE TABLE course_payments (
 );
 ```
 
-### Study Payments
+### Płatności za studia
 ``` sql
 CREATE TABLE study_payments (
    student_id int  NOT NULL,
