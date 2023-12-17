@@ -160,7 +160,7 @@ CREATE TABLE materials (
    material_id int  NOT NULL IDENTITY(1, 1),
    lesson_id int  NOT NULL,
    name varchar(20)  NOT NULL,
-   description varchar(max)  NOT NULL DEFAULT no description found,
+   description varchar(max)  NOT NULL DEFAULT 'no description found',
    file_url varchar(100)  NOT NULL,
    CONSTRAINT materials_ak_1 UNIQUE (file_url),
    CONSTRAINT materials_pk PRIMARY KEY  (material_id)
@@ -188,7 +188,7 @@ CREATE TABLE internships (
    student_id int  NOT NULL,
    study_id int  NOT NULL,
    company varchar(50)  NOT NULL,
-   description varchar(max)  NOT NULL DEFAULT no description found,
+   description varchar(max)  NOT NULL DEFAULT 'no description found',
    start_date date  NOT NULL,
    CONSTRAINT Internships_pk PRIMARY KEY  (internship_id)
 );
@@ -222,13 +222,13 @@ CREATE TABLE courses (
    course_id int  NOT NULL IDENTITY(1, 1),
    study_id int  NULL,
    name varchar(30)  NOT NULL,
-   description varchar(max)  NOT NULL DEFAULT no description found,
+   description varchar(max)  NOT NULL DEFAULT 'no description found',
    entry_price smallmoney  NULL,
    full_price smallmoney  NULL,
    students_limit int  NULL,
    CONSTRAINT entry_price CHECK (entry_price > 0),
    CONSTRAINT full_price CHECK (full_price > 0),
-   CONSTRAINT studens_limit CHECK (studens_limit > 0),
+   CONSTRAINT studens_limit CHECK (students_limit > 0),
    CONSTRAINT courses_pk PRIMARY KEY  (course_id)
 );
 ```
@@ -238,7 +238,7 @@ CREATE TABLE courses (
 CREATE TABLE studies (
    study_id int  NOT NULL IDENTITY(1, 1),
    name varchar(30)  NOT NULL,
-   description varchar(max)  NOT NULL DEFAULT no description found,
+   description varchar(max)  NOT NULL DEFAULT 'no description found',
    entry_fee int  NOT NULL,
    students_limit int  NOT NULL,
    exam_date datetime  NULL,
