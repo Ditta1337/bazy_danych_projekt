@@ -108,7 +108,8 @@ Artur Dwornik
 
  ### Tabele
 Employees
-`
+
+```sql:
 CREATE TABLE employees (
    employee_id int  NOT NULL,
    first_name varchar(20)  NOT NULL,
@@ -118,4 +119,4 @@ CREATE TABLE employees (
    password varchar(20)  NOT NULL,
    CONSTRAINT employees_pk PRIMARY KEY  (employee_id)
 );
-`
+```
