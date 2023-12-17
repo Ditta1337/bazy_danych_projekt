@@ -4,7 +4,7 @@ Hubert Kasprzycki
 Artur Dwornik
 
 
-### 1. Funkcje realizowane przez system:
+### Funkcje realizowane przez system:
 1. Pracownicy zarządzający wydarzeniami:
     * Zarządzanie kursami, webinarami i studiami: 
         * Dodawanie nowych kursów, webinarów i studiów. 
@@ -53,12 +53,12 @@ Artur Dwornik
     * Przeglądanie danych: 
         * Uczestnik może przeglądać swoje płatności i historię uczestnictwa. 
 
-### 2. Diagram bazy danych:
+### Diagram bazy danych:
 
 
 ![diagram](./diagram.svg)
 
-### 3. Przykładowe dane testowe:
+### Przykładowe dane testowe:
 * Tabela `students`:\
 `Edward,Harris,EdwardHarris@gmail.com,6130b6ba25b29c18ba24`
 * Tabela `lecturers`:\
@@ -105,3 +105,17 @@ Artur Dwornik
  koszyk to widok
  3 lata danych
  tłumacze
+
+ ### Tabele
+Employees
+`
+CREATE TABLE employees (
+   employee_id int  NOT NULL,
+   first_name varchar(20)  NOT NULL,
+   last_name varchar(20)  NOT NULL,
+   role_id int  NOT NULL,
+   email varchar(30)  NOT NULL,
+   password varchar(20)  NOT NULL,
+   CONSTRAINT employees_pk PRIMARY KEY  (employee_id)
+);
+`
