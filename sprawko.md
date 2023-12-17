@@ -4,7 +4,7 @@ Hubert Kasprzycki
 Artur Dwornik
 
 
-### Funkcje realizowane przez system:
+## Funkcje realizowane przez system:
 1. Pracownicy zarządzający wydarzeniami:
     * Zarządzanie kursami, webinarami i studiami: 
         * Dodawanie nowych kursów, webinarów i studiów. 
@@ -53,7 +53,7 @@ Artur Dwornik
     * Przeglądanie danych: 
         * Uczestnik może przeglądać swoje płatności i historię uczestnictwa. 
 
-### Diagram bazy danych:
+## Diagram bazy danych:
 
 
 ![diagram](./diagram.svg)
@@ -106,9 +106,9 @@ Artur Dwornik
  3 lata danych
  tłumacze
 
- ### Tabele
-Employees
+## Tabele
 
+### Employees
 ``` sql
 CREATE TABLE employees (
    employee_id int  NOT NULL,
@@ -118,5 +118,164 @@ CREATE TABLE employees (
    email varchar(30)  NOT NULL,
    password varchar(20)  NOT NULL,
    CONSTRAINT employees_pk PRIMARY KEY  (employee_id)
+);
+
+```
+### Roles
+``` sql
+CREATE TABLE roles (
+   role_id int  NOT NULL,
+   role_name varchar(20)  NOT NULL,
+   CONSTRAINT roles_pk PRIMARY KEY  (role_id)
+);
+```
+
+### Students
+``` sql
+CREATE TABLE students (
+   student_id int  NOT NULL,
+   first_name varchar(20)  NOT NULL,
+   last_name varchar(20)  NOT NULL,
+   email varchar(30)  NOT NULL,
+   password varchar(20)  NOT NULL,
+   CONSTRAINT students_pk PRIMARY KEY  (student_id)
+);
+```
+
+### Attendance
+``` sql
+CREATE TABLE attendance (
+   lesson_id int  NOT NULL,
+   student_id int  NOT NULL,
+   status bit  NOT NULL DEFAULT 0,
+   CONSTRAINT attendance_pk PRIMARY KEY  (lesson_id,student_id)
+);
+```
+
+### Materials
+``` sql
+CREATE TABLE materials (
+   material_id int  NOT NULL,
+   lesson_id int  NOT NULL,
+   name varchar(20)  NOT NULL,
+   description varchar(max)  NOT NULL DEFAULT no description found,
+   file_url varchar(100)  NOT NULL,
+   CONSTRAINT materials_pk PRIMARY KEY  (material_id)
+);
+```
+
+### Lecturers
+``` sql
+CREATE TABLE lecturers (
+   lecturer_id int  NOT NULL,
+   first_name varchar(20)  NOT NULL,
+   last_name varchar(20)  NOT NULL,
+   email varchar(30)  NOT NULL,
+   password varchar(20)  NOT NULL,
+   title varchar(10)  NULL,
+   CONSTRAINT lecturers_pk PRIMARY KEY  (lecturer_id)
+);
+```
+
+### Internships
+``` sql
+CREATE TABLE Internships (
+   internship_id int  NOT NULL,
+   student_id int  NOT NULL,
+   study_id int  NOT NULL,
+   company varchar(50)  NOT NULL,
+   description varchar(max)  NOT NULL DEFAULT no description found,
+   start_date date  NOT NULL,
+   CONSTRAINT Internships_pk PRIMARY KEY  (internship_id)
+);
+```
+
+### Lessons
+``` sql
+CREATE TABLE lessons (
+   lesson_id int  NOT NULL,
+   course_id int  NULL,
+   lecturer_id int  NOT NULL,
+   name varchar(30)  NOT NULL,
+   description varchar(max)  NOT NULL DEFAULT no description found,
+   date date  NOT NULL,
+   start_time time  NOT NULL,
+   end_time time  NOT NULL,
+   price int  NULL,
+   students_limit int  NULL,
+   form varchar(20)  NOT NULL,
+   classroom varchar(10)  NOT NULL,
+   translator_id int  NULL,
+   CONSTRAINT lessons_pk PRIMARY KEY  (lesson_id)
+);
+```
+
+### Courses
+``` sql
+CREATE TABLE courses (
+   course_id int  NOT NULL,
+   study_id int  NULL,
+   name varchar(30)  NOT NULL,
+   description varchar(max)  NOT NULL DEFAULT no description found,
+   entry_price int  NULL,
+   full_price int  NULL,
+   students_limit int  NULL,
+   CONSTRAINT courses_pk PRIMARY KEY  (course_id)
+);
+```
+
+### Studies
+``` sql
+CREATE TABLE studies (
+   study_id int  NOT NULL,
+   name varchar(30)  NOT NULL,
+   description varchar(max)  NOT NULL DEFAULT no description found,
+   entry_fee int  NOT NULL,
+   students_limit int  NOT NULL,
+   exam_date datetime  NULL,
+   employee_id int  NOT NULL,
+   CONSTRAINT studies_pk PRIMARY KEY  (study_id)
+);
+```
+
+### Payments
+``` sql
+CREATE TABLE payments (
+   payment_id int  NOT NULL,
+   status bit  NOT NULL DEFAULT 0,
+   date date  NOT NULL,
+   payment_url varchar(100)  NOT NULL,
+   CONSTRAINT payments_pk PRIMARY KEY  (payment_id)
+);
+```
+
+### Lesson Payments
+``` sql
+CREATE TABLE lesson_payments (
+   student_id int  NOT NULL,
+   lesson_id int  NOT NULL,
+   payment_id int  NOT NULL,
+   CONSTRAINT lesson_payments_pk PRIMARY KEY  (student_id,lesson_id)
+);
+```
+
+### Course Payments
+``` sql
+CREATE TABLE course_payments (
+   student_id int  NOT NULL,
+   course_id int  NOT NULL,
+   payment_id int  NOT NULL,
+   is_full_price bit  NOT NULL DEFAULT 0,
+   CONSTRAINT course_payments_pk PRIMARY KEY  (student_id,course_id)
+);
+```
+
+### Study Payments
+``` sql
+CREATE TABLE study_payments (
+   student_id int  NOT NULL,
+   study_id int  NOT NULL,
+   payment_id int  NOT NULL,
+   CONSTRAINT study_payments_pk PRIMARY KEY  (student_id,study_id)
 );
 ```
