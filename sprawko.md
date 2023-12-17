@@ -58,7 +58,7 @@ Artur Dwornik
 
 ![diagram](./diagram.svg)
 
-### Przykładowe dane testowe:
+## Przykładowe dane testowe:
 * Tabela `students`:\
 `Edward,Harris,EdwardHarris@gmail.com,6130b6ba25b29c18ba24`
 * Tabela `lecturers`:\
@@ -203,7 +203,6 @@ CREATE TABLE lessons (
    end_time time  NOT NULL,
    price int  NULL,
    students_limit int  NULL,
-   form varchar(20)  NOT NULL,
    classroom varchar(10)  NOT NULL,
    translator_id int  NULL,
    CONSTRAINT lessons_pk PRIMARY KEY  (lesson_id)
