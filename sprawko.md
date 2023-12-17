@@ -210,7 +210,7 @@ CREATE TABLE lessons (
    classroom varchar(10)  NOT NULL,
    translator_id int  NULL,
    CONSTRAINT data CHECK (start_time < end_time),
-   CONSTRAINT studens_limit CHECK (students_limit > 0),
+   CONSTRAINT students_limit CHECK (students_limit > 0),
    CONSTRAINT price CHECK (price > 0),
    CONSTRAINT lessons_pk PRIMARY KEY  (lesson_id)
 );
@@ -228,7 +228,7 @@ CREATE TABLE courses (
    students_limit int  NULL,
    CONSTRAINT entry_price CHECK (entry_price > 0),
    CONSTRAINT full_price CHECK (full_price > 0),
-   CONSTRAINT studens_limit CHECK (students_limit > 0),
+   CONSTRAINT students_limit CHECK (students_limit > 0),
    CONSTRAINT courses_pk PRIMARY KEY  (course_id)
 );
 ```
