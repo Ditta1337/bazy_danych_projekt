@@ -322,6 +322,36 @@ from t
         on l.lesson_id = t.lesson_id
 ```
 
+### 4. Ogólny raport dotyczący frekwencji na zakończonych już wydarzeniach
+``` sql
+CREATE VIEW attendance_percentage_report AS 
+    WITH 
+        attendanceTotal AS (
+            SELECT 
+                l.lesson_id, 
+                COUNT(*) as count
+            FROM lessons l
+            JOIN attendance a on l.lesson_id=a.lesson_id
+            WHERE l.date < GETDATE()
+            GROUP BY l.lesson_id
+        ),
+        attendancePresent AS (
+            SELECT 
+                l.lesson_id, 
+                COUNT(*) as count
+            FROM lessons l
+            JOIN attendance a on l.lesson_id=a.lesson_id
+            WHERE l.date < GETDATE() AND a.[status]=1
+            GROUP BY l.lesson_id
+        )
+    SELECT 
+        att.lesson_id,
+        CONCAT(CAST(atp.count as float)/CAST(att.count as float)  * 100, '%') as "Attendance Percentage"
+    FROM attendanceTotal att
+    JOIN attendancePresent atp on att.lesson_id=atp.lesson_id
+
+```
+
 ### 5. Lista Obecności
 ``` sql
 CREATE VIEW attendance_list AS (
