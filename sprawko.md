@@ -58,14 +58,8 @@ Artur Dwornik
 
 ![diagram](./diagram.svg)
 
-
- naprawic 1 do wiele przy payments
- cena przy kursie ktory jest ze studiow - null
- jak kupione to brak mozliwosci edycji koszyka
- komentarz o tym ze zewnetrzna firma daje papier o ukonczeniu studiów
- koszyk to widok
- 3 lata danych
- tłumacze
+#### Dodatkowe informacje do diagramu
+* Wpis w tabeli `internships` oznacza, że student dostarczył zaświadczenie z firmy zewnętrznej o ukończeniu 14 dniowych praktyk ze 100% frekwencją w ramach danych studiów.
 
 ## Tabele
 
