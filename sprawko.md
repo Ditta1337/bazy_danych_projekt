@@ -316,6 +316,54 @@ from t
         on l.lesson_id = t.lesson_id
 ```
 
+### 2. Lista „dłużników”
+```sql
+CREATE VIEW debtors_list AS
+select distinct s.student_id
+from students s
+    join attendance a
+        on s.student_id = a.student_id and a.status = 1
+    join lessons l
+        on a.lesson_id = l.lesson_id and l.course_id is null
+    left join lesson_payments lp
+        on s.student_id = lp.student_id and a.lesson_id = lp.lesson_id
+    left join payments p
+        on lp.payment_id = p.payment_id
+where lp.student_id is null or p.status = 0
+union
+select distinct s.student_id
+from students s
+    join attendance a
+        on s.student_id = a.student_id and a.status = 1
+    join lessons l
+        on a.lesson_id = l.lesson_id
+    join courses c
+        on l.course_id = c.course_id and c.study_id is null
+    left join course_payments cp
+        on s.student_id = cp.student_id and c.course_id = cp.course_id
+    left join payments p
+        on cp.payment_id = p.payment_id
+where cp.student_id is null or p.status = 0 or cp.is_full_price = 0
+union
+select distinct s.student_id
+from students s
+    join attendance a
+        on s.student_id = a.student_id and a.status = 1
+    join lessons l
+        on a.lesson_id = l.lesson_id
+    join courses c
+        on l.course_id = c.course_id
+    join studies st
+        on c.study_id = st.study_id
+    left join lesson_payments lp
+        on s.student_id = lp.student_id and a.lesson_id = lp.lesson_id
+    left join study_payments sp
+        on s.student_id = sp.student_id and st.study_id = sp.study_id
+    left join payments p
+        on lp.payment_id = p.payment_id
+where lp.student_id is null or sp.student_id is null or p.status = 0
+```
+
 ### 4. Ogólny raport dotyczący frekwencji na zakończonych już wydarzeniach
 ``` sql
 CREATE VIEW attendance_percentage_report AS 
