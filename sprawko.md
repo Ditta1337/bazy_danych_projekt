@@ -364,6 +364,60 @@ from students s
 where lp.student_id is null or sp.student_id is null or p.status = 0
 ```
 
+### 3. Ogólny raport dotyczący liczby zapisanych osób na przyszłe wydarzenia
+``` sql
+CREATE VIEW students_registered_count AS
+    WITH
+        studiesStudentsCount AS (
+            SELECT s.study_id, count(*) as "count"
+            FROM studies s
+            JOIN study_payments sp ON s.study_id=sp.study_id
+            GROUP BY s.study_id
+        ),
+        coursesStudentsCount AS (
+            SELECT c.course_id, count(*) as "count"
+            FROM courses c
+            JOIN course_payments cp ON c.course_id=cp.course_id
+            GROUP BY c.course_id
+        ),
+        lessonsStudentsCount AS (
+            SELECT l.lesson_id, count(*) as "count"
+            FROM lessons l
+            JOIN lesson_payments lp ON l.lesson_id=lp.lesson_id
+            GROUP BY l.lesson_id
+        ),
+        extraStudentsCount AS (
+            SELECT l.lesson_id, count(*) as "count"
+            FROM lessons l
+            JOIN lesson_payments lp ON l.lesson_id=lp.lesson_id
+            WHERE lp.is_extended=1
+            GROUP BY l.lesson_id
+        )
+    SELECT 
+        l.lesson_id,
+        (
+            CASE 
+                WHEN l.course_id IS NULL THEN lsc.count
+                WHEN c.study_id IS NULL THEN csc.count
+                ELSE ssc.count + ISNULL(esc.count,0)
+            END
+        ) AS "count",
+        (
+            CASE
+                WHEN l.classroom='online' THEN 'remote'
+                ELSE 'stationary'
+            END
+        ) as "lesson form"
+    FROM lessons l
+    LEFT JOIN courses c on l.course_id=c.course_id
+    LEFT JOIN studies s on c.study_id=s.study_id
+    LEFT JOIN lessonsStudentsCount lsc ON l.lesson_id=lsc.lesson_id
+    LEFT JOIN coursesStudentsCount csc ON c.course_id=csc.course_id
+    LEFT JOIN studiesStudentsCount ssc ON s.study_id=ssc.study_id
+    LEFT JOIN extraStudentsCount esc ON l.lesson_id=esc.lesson_id
+    WHERE l.[date] > GETDATE()
+```
+
 ### 4. Ogólny raport dotyczący frekwencji na zakończonych już wydarzeniach
 ``` sql
 CREATE VIEW attendance_percentage_report AS 
