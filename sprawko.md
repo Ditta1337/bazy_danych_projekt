@@ -257,26 +257,7 @@ CREATE TABLE study_payments (
 
 ## Widoki
 
-### 5. Lista Obecności
-``` sql
-CREATE VIEW attendance_list AS (
-    select 
-        l.lesson_id,
-        l.[date],
-        s.first_name,
-        s.last_name,
-        (
-            CASE
-                WHEN a.status=0 THEN 'ABSENT'
-                ELSE 'PRESENT'
-            END
-        ) as "status"
-    from lessons l
-    join attendance a on l.lesson_id=a.lesson_id
-    join students s on a.student_id=s.student_id
-)
-```
-### Raporty finansowe
+### 1. Raporty finansowe
 
 #### Przychody dla studiów
 ```sql
@@ -339,4 +320,24 @@ select t.lesson_id, t.counter * l.price as income
 from t
     join lessons l
         on l.lesson_id = t.lesson_id
+```
+
+### 5. Lista Obecności
+``` sql
+CREATE VIEW attendance_list AS (
+    select 
+        l.lesson_id,
+        l.[date],
+        s.first_name,
+        s.last_name,
+        (
+            CASE
+                WHEN a.status=0 THEN 'ABSENT'
+                ELSE 'PRESENT'
+            END
+        ) as "status"
+    from lessons l
+    join attendance a on l.lesson_id=a.lesson_id
+    join students s on a.student_id=s.student_id
+)
 ```
