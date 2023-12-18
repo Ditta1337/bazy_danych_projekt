@@ -167,12 +167,14 @@ CREATE TABLE lessons (
    start_time time  NOT NULL,
    end_time time  NOT NULL,
    price smallmoney  NULL,
+   extended_price smallmoney  NULL,
    students_limit int  NULL,
    classroom varchar(10)  NOT NULL,
    translator_id int  NULL,
    CONSTRAINT data CHECK (start_time < end_time),
-   CONSTRAINT students_limit CHECK (students_limit > 0),
+   CONSTRAINT students_limit_lessons CHECK (students_limit > 0),
    CONSTRAINT price CHECK (price > 0),
+   CONSTRAINT extended_price CHECK (extended_price > 0),
    CONSTRAINT lessons_pk PRIMARY KEY  (lesson_id)
 );
 ```
@@ -200,12 +202,12 @@ CREATE TABLE studies (
    study_id int  NOT NULL IDENTITY(1, 1),
    name varchar(30)  NOT NULL,
    description varchar(max)  NOT NULL DEFAULT 'no description found',
-   entry_fee int  NOT NULL,
+   entry_fee smallmoney  NOT NULL,
    students_limit int  NOT NULL,
    exam_date datetime  NULL,
    employee_id int  NOT NULL,
    CONSTRAINT entry_fee CHECK (entry_fee > 0),
-   CONSTRAINT students_limit CHECK (students_limit > 0),
+   CONSTRAINT students_limit_studies CHECK (students_limit > 0),
    CONSTRAINT studies_pk PRIMARY KEY  (study_id)
 );
 ```
@@ -227,6 +229,7 @@ CREATE TABLE lesson_payments (
    student_id int  NOT NULL,
    lesson_id int  NOT NULL,
    payment_id int  NOT NULL,
+   is_extended bit  NOT NULL,
    CONSTRAINT lesson_payments_pk PRIMARY KEY  (student_id,lesson_id)
 );
 ```
