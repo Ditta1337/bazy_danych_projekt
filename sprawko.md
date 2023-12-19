@@ -467,3 +467,14 @@ CREATE VIEW attendance_list AS (
     join students s on a.student_id=s.student_id
 )
 ```
+
+-- identydikator platnosci zamiast url
+-- student_id do payments
+-- komentarz ze koszyk na froncie (raczej)
+-- price lesson 0 a nie Null
+-- lista zapisanych na przyszle wydarzenia - rozbic
+    na dwa widoki
+-- zostawic np. 0.15 a nie 15% and so on
+-- procedura: przypsanie obecnosci tylko dla tych,
+    ktorzy kupili wydarzenie - przy zakupie wydarzenia
+    dodajemy attendance z status false i potem to zmieniac
