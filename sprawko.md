@@ -478,3 +478,4 @@ CREATE VIEW attendance_list AS (
 -- procedura: przypsanie obecnosci tylko dla tych,
     ktorzy kupili wydarzenie - przy zakupie wydarzenia
     dodajemy attendance z status false i potem to zmieniac
+-- dodac jezyki do lessons - jezeli nie polski -> tłumacz
