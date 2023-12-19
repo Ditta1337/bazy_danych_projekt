@@ -479,3 +479,4 @@ CREATE VIEW attendance_list AS (
     ktorzy kupili wydarzenie - przy zakupie wydarzenia
     dodajemy attendance z status false i potem to zmieniac
 -- dodac jezyki do lessons - jezeli nie polski -> tłumacz
+-- procedury zwracaja komunikat o bledzie
