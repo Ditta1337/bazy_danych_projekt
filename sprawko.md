@@ -311,7 +311,7 @@ with t as (select l.lesson_id, count(lp.lesson_id) as counter
                     on lp.payment_id = p.payment_id and p.status = 1
             where l.course_id is null
             group by l.lesson_id)
-select t.lesson_id, t.counter * l.price as income
+select t.lesson_id, round(t.counter * l.price, 2) as income
 from t
     join lessons l
         on l.lesson_id = t.lesson_id
