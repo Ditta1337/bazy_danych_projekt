@@ -56,7 +56,7 @@ Artur Dwornik
 ## Diagram bazy danych:
 
 
-![diagram](./diagram.svg)
+![diagram](./diagram.png)
 
 #### Dodatkowe informacje do diagramu
 * Wpis w tabeli `internships` oznacza, że student dostarczył zaświadczenie z firmy zewnętrznej o ukończeniu 14 dniowych praktyk ze 100% frekwencją w ramach danych studiów.
