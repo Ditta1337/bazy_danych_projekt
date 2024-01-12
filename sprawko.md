@@ -152,26 +152,25 @@ CREATE TABLE internships (
 ### Lekcje (z kursów i studiów) i webinary
 ``` sql
 CREATE TABLE lessons (
-    lesson_id int  NOT NULL IDENTITY(1, 1),
-    course_id int  NULL,
-    lecturer_id int  NOT NULL,
-    name varchar(30)  NOT NULL,
-    description varchar(max)  NOT NULL DEFAULT 'no description found',
-    date date  NOT NULL,
-    start_time time  NOT NULL,
-    end_time time  NOT NULL,
-    price smallmoney  NULL,
-    extended_price smallmoney  NULL,
-    students_limit int  NULL,
-    classroom varchar(10)  NOT NULL,
-    translator_id int  NULL,
-    language varchar(30)  NOT NULL,
-    CONSTRAINT data CHECK (start_time < end_time),
-    CONSTRAINT students_limit_lessons CHECK (students_limit > 0),
-    CONSTRAINT price CHECK (price >= 0),
-    CONSTRAINT extended_price CHECK (extended_price >= price),
-    CONSTRAINT lessons_pk PRIMARY KEY  (lesson_id)
-);
+   lesson_id int  NOT NULL IDENTITY(1, 1),
+   course_id int  NULL,
+   lecturer_id int  NOT NULL,
+   name varchar(30)  NOT NULL,
+   description varchar(max)  NOT NULL DEFAULT 'no description found',
+   date date  NOT NULL,
+   start_time time  NOT NULL,
+   end_time time  NOT NULL,
+   price smallmoney  NOT NULL DEFAULT 0,
+   extended_price smallmoney  NOT NULL DEFAULT 0,
+   students_limit int  NULL,
+   classroom varchar(10)  NOT NULL,
+   translator_id int  NULL,
+   language varchar(30)  NOT NULL,
+   CONSTRAINT data CHECK (start_time < end_time),
+   CONSTRAINT students_limit_lessons CHECK (students_limit > 0),
+   CONSTRAINT price CHECK (price >= 0),
+   CONSTRAINT extended_price CHECK (extended_price >= price),
+   CONSTRAINT lessons_pk PRIMARY KEY  (lesson_id)
 );
 ```
 
@@ -182,12 +181,12 @@ CREATE TABLE courses (
    study_id int  NULL,
    name varchar(30)  NOT NULL,
    description varchar(max)  NOT NULL DEFAULT 'no description found',
-   entry_price smallmoney  NULL,
-   full_price smallmoney  NULL,
+   entry_price smallmoney  NOT NULL DEFAULT 0,
+   full_price smallmoney  NOT NULL DEFAULT 0,
    students_limit int  NULL,
-   CONSTRAINT entry_price CHECK (entry_price > 0),
-   CONSTRAINT full_price CHECK (full_price > 0),
-   CONSTRAINT students_limit CHECK (students_limit > 0),
+   CONSTRAINT entry_price CHECK (entry_price >= 0),
+   CONSTRAINT full_price CHECK (full_price >= 0),
+   CONSTRAINT students_limit_courses CHECK (students_limit > 0),
    CONSTRAINT courses_pk PRIMARY KEY  (course_id)
 );
 ```
