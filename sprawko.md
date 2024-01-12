@@ -152,24 +152,26 @@ CREATE TABLE internships (
 ### Lekcje (z kursów i studiów) i webinary
 ``` sql
 CREATE TABLE lessons (
-   lesson_id int  NOT NULL IDENTITY(1, 1),
-   course_id int  NULL,
-   lecturer_id int  NOT NULL,
-   name varchar(30)  NOT NULL,
-   description varchar(max)  NOT NULL DEFAULT 'no description found',
-   date date  NOT NULL,
-   start_time time  NOT NULL,
-   end_time time  NOT NULL,
-   price smallmoney  NULL,
-   extended_price smallmoney  NULL,
-   students_limit int  NULL,
-   classroom varchar(10)  NOT NULL,
-   translator_id int  NULL,
-   CONSTRAINT data CHECK (start_time < end_time),
-   CONSTRAINT students_limit_lessons CHECK (students_limit > 0),
-   CONSTRAINT price CHECK (price > 0),
-   CONSTRAINT extended_price CHECK (extended_price > 0),
-   CONSTRAINT lessons_pk PRIMARY KEY  (lesson_id)
+    lesson_id int  NOT NULL IDENTITY(1, 1),
+    course_id int  NULL,
+    lecturer_id int  NOT NULL,
+    name varchar(30)  NOT NULL,
+    description varchar(max)  NOT NULL DEFAULT 'no description found',
+    date date  NOT NULL,
+    start_time time  NOT NULL,
+    end_time time  NOT NULL,
+    price smallmoney  NULL,
+    extended_price smallmoney  NULL,
+    students_limit int  NULL,
+    classroom varchar(10)  NOT NULL,
+    translator_id int  NULL,
+    language varchar(30)  NOT NULL,
+    CONSTRAINT data CHECK (start_time < end_time),
+    CONSTRAINT students_limit_lessons CHECK (students_limit > 0),
+    CONSTRAINT price CHECK (price >= 0),
+    CONSTRAINT extended_price CHECK (extended_price >= price),
+    CONSTRAINT lessons_pk PRIMARY KEY  (lesson_id)
+);
 );
 ```
 
@@ -209,43 +211,43 @@ CREATE TABLE studies (
 ### Płatności
 ``` sql
 CREATE TABLE payments (
-   payment_id int  NOT NULL IDENTITY(1,1),
-   status bit  NOT NULL DEFAULT 0,
-   date date  NOT NULL,
-   payment_url varchar(100)  NOT NULL,
-   CONSTRAINT payments_pk PRIMARY KEY  (payment_id)
+    payment_id int  NOT NULL IDENTITY(1, 1),
+    student_id int  NOT NULL,
+    status bit  NOT NULL DEFAULT 0,
+    date date  NOT NULL,
+    payment_url varchar(100)  NULL,
+    postponed bit  NOT NULL,
+    CONSTRAINT payments_ak_1 UNIQUE (payment_url),
+    CONSTRAINT payments_pk PRIMARY KEY  (payment_id)
 );
 ```
 
 ### Płatności za lekcje
 ``` sql
 CREATE TABLE lesson_payments (
-   student_id int  NOT NULL,
-   lesson_id int  NOT NULL,
-   payment_id int  NOT NULL,
-   is_extended bit  NOT NULL,
-   CONSTRAINT lesson_payments_pk PRIMARY KEY  (student_id,lesson_id)
+    lesson_id int  NOT NULL,
+    payment_id int  NOT NULL,
+    is_extended bit  NOT NULL,
+    CONSTRAINT lesson_payments_pk PRIMARY KEY  (lesson_id,payment_id)
 );
 ```
 
 ### Płatności za kursy
 ``` sql
 CREATE TABLE course_payments (
-   student_id int  NOT NULL,
-   course_id int  NOT NULL,
-   payment_id int  NOT NULL,
-   is_full_price bit  NOT NULL DEFAULT 0,
-   CONSTRAINT course_payments_pk PRIMARY KEY  (student_id,course_id)
+    course_id int  NOT NULL,
+    payment_id int  NOT NULL,
+    is_full_price bit  NOT NULL DEFAULT 0,
+    CONSTRAINT course_payments_pk PRIMARY KEY  (course_id,payment_id)
 );
 ```
 
 ### Płatności za studia
 ``` sql
 CREATE TABLE study_payments (
-   student_id int  NOT NULL,
-   study_id int  NOT NULL,
-   payment_id int  NOT NULL,
-   CONSTRAINT study_payments_pk PRIMARY KEY  (student_id,study_id)
+    study_id int  NOT NULL,
+    payment_id int  NOT NULL,
+    CONSTRAINT study_payments_pk PRIMARY KEY  (study_id,payment_id)
 );
 ```
 
