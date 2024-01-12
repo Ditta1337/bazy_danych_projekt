@@ -257,112 +257,132 @@ CREATE TABLE study_payments (
 #### Przychody dla studiów
 ```sql
 CREATE VIEW studies_income AS
-with t as (select lp.lesson_id, l.price, l.extended_price, s.study_id, lp.is_extended
-           from lesson_payments lp
-                    join lessons l
-                         on lp.lesson_id = l.lesson_id
-                    join courses c
-                         on l.course_id = c.course_id
-                    join studies s
-                         on c.study_id = s.study_id
-                    join payments p
-                        on lp.payment_id = p.payment_id and p.status = 1)
-select s.study_id,
-       round((select count(*)
-              from study_payments sp
-                    join payments p
-                        on sp.payment_id = p.payment_id and p.status = 1
-              where sp.study_id = s.study_id) * s.entry_fee
-                 +
-             (select isnull(sum(t.price*t.is_extended + t.extended_price*abs(t.is_extended - 1)), 0)
-              from t
-              where t.study_id = s.study_id)
-           , 2) as income
-from studies s
+    with t as (select lp.lesson_id, l.price, l.extended_price, s.study_id, lp.is_extended
+            from lesson_payments lp
+                        join lessons l
+                            on lp.lesson_id = l.lesson_id
+                        join courses c
+                            on l.course_id = c.course_id
+                        join studies s
+                            on c.study_id = s.study_id
+                        join payments p
+                            on lp.payment_id = p.payment_id and p.status = 1)
+    select s.study_id,
+        round((select count(*)
+                from study_payments sp
+                        join payments p
+                            on sp.payment_id = p.payment_id and p.status = 1
+                where sp.study_id = s.study_id) * s.entry_fee
+                    +
+                (select isnull(sum(t.price*t.is_extended + t.extended_price*abs(t.is_extended - 1)), 0)
+                from t
+                where t.study_id = s.study_id)
+            , 2) as income
+    from studies s
 ```
 
 #### Przychody dla kursów
 ```sql
 CREATE VIEW courses_income AS
-with t as (select cp.course_id, cp.is_full_price
-            from course_payments cp
-                join payments p
-                    on cp.payment_id = p.payment_id and p.status = 1)
-select c.course_id,
-       round((select count(*)
-            from t
-            where t.course_id = c.course_id and t.is_full_price = 1) * c.full_price
-            +
-           (select count(*)
-            from t
-            where t.course_id = c.course_id and t.is_full_price = 0) * c.entry_price, 2) as income
-from courses c
-where c.study_id is null
+    with t as (select cp.course_id, cp.is_full_price
+                from course_payments cp
+                    join payments p
+                        on cp.payment_id = p.payment_id and p.status = 1)
+    select c.course_id,
+        round((select count(*)
+                from t
+                where t.course_id = c.course_id and t.is_full_price = 1) * c.full_price
+                +
+            (select count(*)
+                from t
+                where t.course_id = c.course_id and t.is_full_price = 0) * c.entry_price, 2) as income
+    from courses c
+    where c.study_id is null
 ```
 
 #### Przychody dla webinarów
 ```sql
 CREATE VIEW webinars_income AS
-with t as (select l.lesson_id, count(lp.lesson_id) as counter
-            from lessons l
-                join lesson_payments lp
-                    on l.lesson_id = lp.lesson_id
-                join payments p
-                    on lp.payment_id = p.payment_id and p.status = 1
-            where l.course_id is null
-            group by l.lesson_id)
-select t.lesson_id, round(t.counter * l.price, 2) as income
-from t
-    join lessons l
-        on l.lesson_id = t.lesson_id
+    with t as (select l.lesson_id, count(lp.lesson_id) as counter
+                from lessons l
+                    join lesson_payments lp
+                        on l.lesson_id = lp.lesson_id
+                    join payments p
+                        on lp.payment_id = p.payment_id and p.status = 1
+                where l.course_id is null
+                group by l.lesson_id)
+    select t.lesson_id, round(t.counter * l.price, 2) as income
+    from t
+        join lessons l
+            on l.lesson_id = t.lesson_id
 ```
 
 ### 2. Lista „dłużników”
+
+#### Dłużnicy dla studiów
+```sql
+CREATE VIEW studies_debtors_list AS
+    select distinct s.student_id
+    from students s
+        join attendance a
+            on s.student_id = a.student_id and a.status = 1
+        join lessons l
+            on a.lesson_id = l.lesson_id
+        join courses c
+            on l.course_id = c.course_id
+        join studies st
+            on c.study_id = st.study_id
+        left join payments p
+            on s.student_id = p.student_id
+        left join lesson_payments lp
+            on p.payment_id = lp.payment_id and a.lesson_id = lp.lesson_id
+        left join study_payments sp
+            on p.payment_id = sp.payment_id and st.study_id = sp.study_id
+    where p.payment_id is null or (p.postponed = 0 and (lp.payment_id is null or sp.payment_id is null or p.status = 0))
+```
+
+#### Dłużnicy dla kursów
+```sql
+CREATE VIEW courses_debtors_list AS
+    select distinct s.student_id
+    from students s
+        join attendance a
+            on s.student_id = a.student_id and a.status = 1
+        join lessons l
+            on a.lesson_id = l.lesson_id
+        join courses c
+            on l.course_id = c.course_id and c.study_id is null
+        left join payments p
+            on s.student_id = p.student_id
+        left join course_payments cp
+            on p.payment_id = cp.payment_id and c.course_id = cp.course_id
+    where p.payment_id is null or (p.postponed = 0 and (cp.payment_id is null or p.status = 0 or cp.is_full_price = 0))
+```
+
+#### Dłużnicy dla webinarów
+```sql
+CREATE VIEW webinars_debtors_list AS
+    select distinct s.student_id
+    from students s
+        join attendance a
+            on s.student_id = a.student_id and a.status = 1
+        join lessons l
+            on a.lesson_id = l.lesson_id and l.course_id is null
+        left join payments p
+            on s.student_id = p.student_id
+        left join lesson_payments lp
+            on p.payment_id = lp.payment_id and a.lesson_id = lp.lesson_id
+    where p.payment_id is null or (p.postponed = 0 and (lp.payment_id is null or p.status = 0))
+```
+
+#### Wszyscy dłużnicy
 ```sql
 CREATE VIEW debtors_list AS
-select distinct s.student_id
-from students s
-    join attendance a
-        on s.student_id = a.student_id and a.status = 1
-    join lessons l
-        on a.lesson_id = l.lesson_id and l.course_id is null
-    left join lesson_payments lp
-        on s.student_id = lp.student_id and a.lesson_id = lp.lesson_id
-    left join payments p
-        on lp.payment_id = p.payment_id
-where lp.student_id is null or p.status = 0
-union
-select distinct s.student_id
-from students s
-    join attendance a
-        on s.student_id = a.student_id and a.status = 1
-    join lessons l
-        on a.lesson_id = l.lesson_id
-    join courses c
-        on l.course_id = c.course_id and c.study_id is null
-    left join course_payments cp
-        on s.student_id = cp.student_id and c.course_id = cp.course_id
-    left join payments p
-        on cp.payment_id = p.payment_id
-where cp.student_id is null or p.status = 0 or cp.is_full_price = 0
-union
-select distinct s.student_id
-from students s
-    join attendance a
-        on s.student_id = a.student_id and a.status = 1
-    join lessons l
-        on a.lesson_id = l.lesson_id
-    join courses c
-        on l.course_id = c.course_id
-    join studies st
-        on c.study_id = st.study_id
-    left join lesson_payments lp
-        on s.student_id = lp.student_id and a.lesson_id = lp.lesson_id
-    left join study_payments sp
-        on s.student_id = sp.student_id and st.study_id = sp.study_id
-    left join payments p
-        on lp.payment_id = p.payment_id
-where lp.student_id is null or sp.student_id is null or p.status = 0
+    select * from webinars_debtors_list
+    union
+    select * from courses_debtors_list
+    union
+    select * from studies_debtors_list
 ```
 
 ### 3. Ogólny raport dotyczący liczby zapisanych osób na przyszłe wydarzenia
