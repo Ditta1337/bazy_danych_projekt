@@ -13,8 +13,6 @@ Artur Dwornik
     * Zarządzanie użytkownikami: 
         * Dodawanie nowych użytkowników do systemu. 
         * Edycja danych użytkowników. 
-        * Dezaktywacja użytkowników. 
-        * Wpisanie użytkownika na listę dłużników. 
     * Generowanie raportów: 
         * Raport ogólny z zapisanych osób na przyszłe wydarzenia. 
         * Raport frekwencji na zakończonych wydarzeniach. 
