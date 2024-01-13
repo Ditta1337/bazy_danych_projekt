@@ -528,6 +528,110 @@ WHERE md1.[date]=md2.[date] AND
     )
 ```
 
+## Procedury
+
+### 1. Wyświetl koszyk danego użytkownika (lekcje)
+```sql
+CREATE PROCEDURE student_cart_lessons_info(@student_id INT)
+AS
+BEGIN
+    BEGIN TRY
+        IF NOT EXISTS(
+            SELECT * 
+            FROM students
+            WHERE @student_id=student_id
+        )
+        BEGIN
+            THROW 53000, N'There is no student with given ID', 1
+        END
+        SELECT 
+            l.lesson_id, 
+            l.name, 
+            l.[description], 
+            l.[date], 
+            l.start_time, 
+            l.end_time, 
+            CASE
+                WHEN lp.is_extended=1 THEN l.extended_price
+                ELSE l.price
+            END AS "price",
+            l.classroom,
+            l.[language]
+        FROM payments p
+        JOIN lesson_payments lp ON p.payment_id=lp.payment_id
+        JOIN lessons l ON l.lesson_id=lp.lesson_id
+        WHERE p.student_id=@student_id AND p.payment_url IS NULL
+    END TRY
+    BEGIN CATCH
+        DECLARE @msg NVARCHAR(2048) = N'ERROR: ' + ERROR_MESSAGE();
+        THROW 53000, @msg, 1;
+    END CATCH
+END
+```
+
+### 2. Wyświetl koszyk danego użytkownika (kursy)
+```sql
+CREATE PROCEDURE student_cart_courses_info(@student_id INT)
+AS
+BEGIN
+    BEGIN TRY
+        IF NOT EXISTS(
+            SELECT * 
+            FROM students
+            WHERE @student_id=student_id
+        )
+        BEGIN
+            THROW 12345, N'There is no student with given ID', 1
+        END
+        SELECT 
+            c.course_id,
+            c.name, 
+            c.[description],
+            c.entry_price
+        FROM payments p
+        JOIN course_payments cp ON p.payment_id=cp.payment_id
+        JOIN courses c ON c.course_id=cp.course_id
+        WHERE p.student_id=@student_id AND p.payment_url IS NULL
+    END TRY
+    BEGIN CATCH
+        DECLARE @msg NVARCHAR(2048) = N'ERROR: ' + ERROR_MESSAGE();
+        THROW 12345, @msg, 1;
+    END CATCH
+END
+```
+
+### 3. Wyświetl koszyk danego użytkownika (studia)
+```sql
+CREATE PROCEDURE student_cart_studies_info(@student_id INT)
+AS
+BEGIN
+    BEGIN TRY
+        IF NOT EXISTS(
+            SELECT * 
+            FROM students
+            WHERE @student_id=student_id
+        )
+        BEGIN
+            THROW 12345, N'There is no student with given ID', 1
+        END
+        SELECT 
+            s.study_id, 
+            s.name,
+            s.[description],
+            s.entry_fee,
+            s.exam_date
+        FROM payments p
+        JOIN study_payments sp ON p.payment_id=sp.payment_id
+        JOIN studies s ON s.study_id=sp.study_id
+        WHERE p.student_id=@student_id AND p.payment_url IS NULL
+    END TRY
+    BEGIN CATCH
+        DECLARE @msg NVARCHAR(2048) = N'ERROR: ' + ERROR_MESSAGE();
+        THROW 12345, @msg, 1;
+    END CATCH
+END
+```
+
 -- identydikator platnosci zamiast url
 -- student_id do payments
 -- komentarz ze koszyk na froncie (raczej)
