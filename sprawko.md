@@ -579,7 +579,7 @@ BEGIN
             WHERE @student_id=student_id
         )
         BEGIN
-            THROW 12345, N'There is no student with given ID', 1
+            THROW 53000, N'There is no student with given ID', 1
         END
         SELECT 
             c.course_id,
@@ -593,7 +593,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         DECLARE @msg NVARCHAR(2048) = N'ERROR: ' + ERROR_MESSAGE();
-        THROW 12345, @msg, 1;
+        THROW 53000, @msg, 1;
     END CATCH
 END
 ```
@@ -610,7 +610,7 @@ BEGIN
             WHERE @student_id=student_id
         )
         BEGIN
-            THROW 12345, N'There is no student with given ID', 1
+            THROW 53000, N'There is no student with given ID', 1
         END
         SELECT 
             s.study_id, 
@@ -625,7 +625,78 @@ BEGIN
     END TRY
     BEGIN CATCH
         DECLARE @msg NVARCHAR(2048) = N'ERROR: ' + ERROR_MESSAGE();
-        THROW 12345, @msg, 1;
+        THROW 53000, @msg, 1;
+    END CATCH
+END
+```
+
+### 4. Przeglądaj historię uczestnictwa
+```sql
+CREATE PROCEDURE student_attendance_history(@student_id INT)
+AS
+BEGIN
+    BEGIN TRY
+        IF NOT EXISTS(
+            SELECT * 
+            FROM students
+            WHERE @student_id=student_id
+        )
+        BEGIN
+            THROW 53000, N'There is no student with given ID', 1
+        END
+        SELECT 
+            l.lesson_id,
+            l.name,
+            l.[date]
+        FROM attendance a
+        JOIN lessons l ON a.lesson_id=l.lesson_id
+        WHERE a.student_id=@student_id AND a.[status]=1
+        ORDER BY l.[date] ASC
+    END TRY
+    BEGIN CATCH
+        DECLARE @msg NVARCHAR(2048) = N'ERROR: ' + ERROR_MESSAGE();
+        THROW 53000, @msg, 1;
+    END CATCH
+END
+```
+
+### 5. Aktualizuj obecność
+```
+CREATE PROCEDURE update_attendance(@lesson_id INT, @student_id INT)
+AS
+BEGIN
+    BEGIN TRY
+        IF NOT EXISTS(
+            SELECT *
+            FROM attendance
+            WHERE lesson_id=@lesson_id
+        )
+        BEGIN
+            THROW 53000, N'There is no lesson with given ID', 1
+        END
+        IF NOT EXISTS(
+            SELECT *
+            FROM students
+            WHERE student_id=@student_id
+        )
+        BEGIN
+            THROW 53000, N'There is no student with given ID', 1
+        END
+        IF NOT EXISTS(
+            SELECT *
+            FROM attendance
+            WHERE student_id=@student_id
+        )
+        BEGIN
+            THROW 53000, N'There is no attendance for student with given ID', 1
+        END
+        UPDATE attendance
+        SET [status]=1
+        WHERE lesson_id=@lesson_id AND student_id=@student_id
+    END TRY
+    BEGIN CATCH
+        DECLARE @msg NVARCHAR(2048) = N'ERROR: ' + ERROR_MESSAGE();
+        THROW 53000, @msg, 1
     END CATCH
 END
 ```
