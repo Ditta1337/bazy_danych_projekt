@@ -661,7 +661,7 @@ END
 ```
 
 ### 5. Aktualizuj obecność
-```
+```sql
 CREATE PROCEDURE update_attendance(@lesson_id INT, @student_id INT)
 AS
 BEGIN
@@ -700,6 +700,165 @@ BEGIN
     END CATCH
 END
 ```
+
+### 6. Dodaj lekcję ze studiów
+```sql
+CREATE PROCEDURE add_study_lesson(
+    @lecturer_id INT,
+    @course_id INT,
+    @name VARCHAR(30),
+    @date DATE,
+    @start_time TIME,
+    @end_time TIME,
+    @classroom VARCHAR(10),
+    @language VARCHAR(30),
+    @description VARCHAR(max) = 'No description',
+    @price SMALLMONEY = 0,
+    @extended_price SMALLMONEY = 0,
+    @students_limit INT = null,
+    @translator_id INT = null
+)
+AS
+BEGIN
+    BEGIN TRY
+        IF NOT exists(select * from lecturers where lecturer_id = @lecturer_id)
+            BEGIN
+                THROW 53000, N'Uknown lecturer!', 1;
+            END
+
+        IF NOT exists(select * from courses where course_id = @course_id and study_id is not null)
+            BEGIN
+                THROW 53000, N'Uknown course or course is not from any studies!', 1;
+            END
+
+        IF @language <> 'Polish' and @translator_id is null
+            BEGIN
+               THROW 53000, N'Lack of translator', 1;
+            END
+
+        IF @classroom = 'Online' and @students_limit is not null
+            BEGIN
+                THROW 53000, N'Online lessons cannot be limited', 1;
+            END
+
+        DECLARE @study_students_limit INT
+        SET @study_students_limit = (select s.students_limit
+                                    from studies s
+                                    where s.study_id = (select c.study_id
+                                                        from courses c
+                                                        where c.course_id = @course_id))
+
+        IF @students_limit is not null and @students_limit < @study_students_limit
+            BEGIN
+                THROW 53000, N'Incorrect students limit, limit is less than study limit', 1;
+            end
+
+        INSERT INTO lessons (lecturer_id, name, description, date, start_time, end_time, price, extended_price, students_limit,
+                             classroom, translator_id, language)
+        VALUES (@lecturer_id, @name, @description, @date, @start_time, @end_time, @price, @extended_price, @students_limit, @classroom,
+                @translator_id, @language)
+    END TRY
+    BEGIN CATCH
+        DECLARE @msg VARCHAR(2048) = N'ERROR: ' + ERROR_MESSAGE();
+        THROW 53000, @msg, 1;
+    END CATCH
+END
+```
+
+### 7. Dodaj lekcję z kursu
+```sql
+CREATE PROCEDURE add_course_lesson(
+    @lecturer_id INT,
+    @course_id INT,
+    @name VARCHAR(30),
+    @date DATE,
+    @start_time TIME,
+    @end_time TIME,
+    @classroom VARCHAR(10),
+    @language VARCHAR(30),
+    @description VARCHAR(max) = 'No description',
+    @translator_id INT = null
+)
+AS
+BEGIN
+    BEGIN TRY
+        IF NOT exists(select * from lecturers where lecturer_id = @lecturer_id)
+            BEGIN
+                THROW 53000, N'Uknown lecturer!', 1;
+            END
+
+        IF NOT exists(select * from courses where course_id = @course_id and study_id is null)
+            BEGIN
+                THROW 53000, N'Uknown course', 1;
+            END
+
+        IF @language <> 'Polish' and @translator_id is null
+            BEGIN
+               THROW 53000, N'Lack of translator', 1;
+            END
+
+        DECLARE @course_students_limit INT
+        SET @course_students_limit = (select c.students_limit
+                                    from courses c
+                                    where c.course_id = @course_id)
+
+        INSERT INTO lessons (lecturer_id, name, description, date, start_time, end_time, students_limit,
+                             classroom, translator_id, language)
+        VALUES (@lecturer_id, @name, @description, @date, @start_time, @end_time, @course_students_limit, @classroom,
+                @translator_id, @language)
+    END TRY
+    BEGIN CATCH
+        DECLARE @msg VARCHAR(2048) = N'ERROR: ' + ERROR_MESSAGE();
+        THROW 53000, @msg, 1;
+    END CATCH
+END
+```
+
+### 8. Dodaj webinar
+```sql
+CREATE PROCEDURE add_webinar(
+    @lecturer_id INT,
+    @name VARCHAR(30),
+    @date DATE,
+    @start_time TIME,
+    @end_time TIME,
+    @classroom VARCHAR(10),
+    @language VARCHAR(30),
+    @description VARCHAR(max) = 'No description',
+    @price SMALLMONEY = 0,
+    @students_limit INT = null,
+    @translator_id INT = null
+)
+AS
+BEGIN
+    BEGIN TRY
+        IF NOT exists(select * from lecturers where lecturer_id = @lecturer_id)
+            BEGIN
+                THROW 53000, N'Uknown lecturer!', 1;
+            END
+
+        IF @language <> 'Polish' and @translator_id is null
+            BEGIN
+               THROW 53000, N'Lack of translator', 1;
+            END
+
+        IF @classroom = 'Online' and @students_limit is not null
+            BEGIN
+                THROW 5300, N'Online lessons cannot be limited', 1;
+            END
+
+        INSERT INTO lessons (lecturer_id, name, description, date, start_time, end_time, price, extended_price, students_limit,
+                             classroom, translator_id, language)
+        VALUES (@lecturer_id, @name, @description, @date, @start_time, @end_time, @price, @price, @students_limit, @classroom,
+                @translator_id, @language)
+    END TRY
+    BEGIN CATCH
+        DECLARE @msg VARCHAR(2048) = N'ERROR: ' + ERROR_MESSAGE();
+        THROW 53000, @msg, 1;
+    END CATCH
+END
+```
+
 
 -- identydikator platnosci zamiast url
 -- student_id do payments
