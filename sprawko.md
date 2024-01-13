@@ -859,6 +859,80 @@ BEGIN
 END
 ```
 
+## Funkcje
+
+## 1. Obliczanie wolnych miejsc na danych studiach
+```sql
+CREATE FUNCTION calc_study_vacancy_amount(@study_id INT)
+    RETURNS INT
+        AS
+        BEGIN
+            RETURN
+            (
+                SELECT s.students_limit - COUNT(*)
+                FROM studies s
+                JOIN study_payments sp ON s.study_id=sp.study_id
+                JOIN payments p ON p.payment_id=sp.payment_id
+                WHERE s.study_id=@study_id AND (p.[status]=1 OR p.postponed=1)
+                GROUP BY s.students_limit
+            )
+        END
+```
+
+### 2. Obliczanie wolnych miejsc na danym kursie
+```sql
+CREATE FUNCTION calc_course_vacancy_amount(@course_id INT)
+    RETURNS INT
+        AS
+        BEGIN
+            DECLARE @result INT
+            DECLARE @course_study_id INT
+            SET @course_study_id = (SELECT c.study_id FROM courses c WHERE c.course_id=@course_id)
+            IF @course_study_id IS NOT NULL
+                BEGIN
+                    SET @result = dbo.calc_study_vacancy_amount(@course_study_id)
+                END
+            ELSE
+                SET @result = (
+                    SELECT 
+                        c.students_limit - COUNT(*)
+                    FROM courses c
+                    LEFT JOIN course_payments cp ON c.course_id=cp.course_id
+                    LEFT JOIN payments p ON p.payment_id=cp.payment_id
+                    WHERE c.course_id=@course_id AND (p.[status]=1 OR p.postponed=1)
+                    GROUP BY c.students_limit
+                )
+            RETURN @result
+        END
+```
+
+### 3. Obliczanie wolnych miejsc na danej lekcji
+```sql
+CREATE FUNCTION calc_lesson_vacancy_amount(@lesson_id INT)
+    RETURNS INT
+        AS
+        BEGIN
+            DECLARE @result INT
+            DECLARE @MAXINT INT
+            SET @MAXINT = 2147483647
+            SET @result = (
+                    SELECT l.students_limit - COUNT(*)
+                    FROM lessons l
+                    LEFT JOIN lesson_payments lp ON l.lesson_id=lp.lesson_id
+                    LEFT JOIN payments p ON p.payment_id=lp.payment_id
+                    WHERE l.lesson_id=@lesson_id AND (p.[status]=1 OR p.postponed=1)
+                    GROUP BY l.students_limit
+                )
+            IF @result IS NULL
+                BEGIN
+                    SET @result = (SELECT students_limit FROM lessons WHERE lesson_id=@lesson_id)
+                END
+            IF @result IS NULL
+                SET @result=@MAXINT
+            RETURN @result
+        END
+```
+
 
 -- identydikator platnosci zamiast url
 -- student_id do payments
