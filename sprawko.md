@@ -1246,3 +1246,80 @@ BEGIN
         END
 END;
 ```
+
+## Role
+
+### 1. Admin
+```sql
+CREATE ROLE admin
+GRANT ALL PRIVILEGES ON u_ksliwins.dbo TO admin 
+```
+
+### 2. Pracownik zarządzający wydarzeniami
+```sql
+CREATE ROLE event_manager
+
+GRANT EXECUTE ON add_study_lesson TO event_manager
+GRANT EXECUTE ON add_course_lesson TO event_manager
+GRANT EXECUTE ON add_webinar TO event_manager
+GRANT UPDATE ON lessons TO event_manager
+GRANT DELETE ON lessons TO event_manager
+GRANT INSERT ON courses TO event_manager
+GRANT UPDATE ON courses TO event_manager
+GRANT DELETE ON courses TO event_manager
+GRANT INSERT ON studies TO event_manager
+GRANT UPDATE ON studies TO event_manager
+GRANT DELETE ON studies TO event_manager
+GRANT INSERT ON students TO event_manager
+GRANT UPDATE ON students TO event_manager
+GRANT SELECT ON students_registered_count TO event_manager
+GRANT SELECT ON students_registered_future_count TO event_manager
+GRANT SELECT ON attendance_percentage_report TO event_manager
+GRANT SELECT ON attendance_list TO event_manager
+GRANT SELECT ON bilocation_report TO event_manager
+```
+
+### 3. Pracownik biurowy
+```sql
+CREATE ROLE office_worker
+
+GRANT SELECT ON webinars_income TO office_worker
+GRANT SELECT ON courses_income TO office_worker
+GRANT SELECT ON studies_income TO office_worker
+GRANT SELECT ON students_registered_count TO office_worker
+GRANT SELECT ON debtors_list TO office_worker
+GRANT SELECT ON webinars_debtors_list TO office_worker
+GRANT SELECT ON studies_debtors_list TO office_worker
+GRANT SELECT ON students_registered_count TO office_worker
+GRANT SELECT ON students_registered_future_count TO office_worker
+GRANT SELECT ON attendance_percentage_report TO office_worker
+GRANT SELECT ON attendance_list TO office_worker
+GRANT SELECT ON bilocation_report TO office_worker
+```
+
+### 4. Wykładowca
+```sql
+CREATE ROLE lecturer
+
+GRANT EXECUTE update_attendance TO lecturer
+GRANT INSERT ON attendance TO lecturer
+GRANT UPDATE ON attendance TO lecturer
+GRANT INSERT ON materials TO lecturer
+GRANT UPDATE ON materials TO lecturer
+GRANT DELETE ON materials TO lecturer
+GRANT SELECT ON attendance_list TO lecturer
+```
+
+### 5. Student
+```sql
+CREATE ROLE student
+
+GRANT EXECUTE ON add_lesson_to_cart TO student
+GRANT EXECUTE ON add_course_to_cart TO student
+GRANT EXECUTE ON add_study_to_cart TO student
+GRANT EXECUTE ON student_attendance_history TO student
+GRANT EXECUTE ON student_cart_lessons_info TO student
+GRANT EXECUTE ON student_cart_courses_info TO student
+GRANT EXECUTE ON student_cart_studies_info TO student
+GRANT SELECT ON materials TO student
+```
