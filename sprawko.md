@@ -859,9 +859,175 @@ BEGIN
 END
 ```
 
+### 9. Dodawanie lekcji do koszyka
+```sql
+CREATE PROCEDURE add_lesson_to_cart(@payment_id INT, @lesson_id INT, @student_id INT)
+AS
+BEGIN
+    BEGIN TRY
+        IF NOT EXISTS(
+            SELECT *
+            FROM payments
+            WHERE payment_id=@payment_id
+        )
+        BEGIN
+            THROW 53000, N'There is no payment with given ID', 1
+        END
+        IF NOT EXISTS(
+            SELECT *
+            FROM students
+            WHERE student_id=@student_id
+        )
+        BEGIN
+            THROW 53000, N'There is no student with given ID', 1
+        END
+        IF NOT EXISTS(
+            SELECT *
+            FROM lessons
+            WHERE lesson_id=@lesson_id
+        )
+        BEGIN
+            THROW 53000, N'There is no lesson with given ID', 1
+        END
+        DECLARE @is_extended INT
+        DECLARE @lesson_studies INT
+        SET @is_extended = 0
+        SET @lesson_studies = dbo.get_lesson_studies(@lesson_id)
+        IF(@lesson_studies IS NOT NULL)
+            BEGIN
+                IF (
+                    NOT EXISTS( 
+                    SELECT p.payment_id 
+                    FROM study_payments sp 
+                    JOIN payments p ON sp.payment_id=p.payment_id
+                    WHERE p.student_id=@student_id 
+                    AND (p.[status]=1 OR p.postponed=1)
+                    AND dbo.get_lesson_studies(@lesson_id)=sp.study_id
+                    ) 
+                )
+                BEGIN
+                    SET @is_extended=1
+                END
+            END
+        IF (SELECT p.status FROM payments p WHERE p.payment_id=@payment_id)=0 
+            AND dbo.calc_lesson_vacancy_amount(@lesson_id) > 0
+        BEGIN
+            IF NOT(
+                (SELECT l.course_id FROM lessons l WHERE l.lesson_id=@lesson_id) IS NOT NULL
+                AND @lesson_studies IS NULL
+                )
+            BEGIN
+                INSERT INTO lesson_payments(lesson_id, payment_id, is_extended)
+                VALUES (@lesson_id, @payment_id, @is_extended)
+            END
+        END
+    END TRY
+    BEGIN CATCH
+        DECLARE @msg NVARCHAR(2048) = N'ERROR: ' + ERROR_MESSAGE();
+        THROW 53000, @msg, 1
+    END CATCH
+END
+```
+
+### 10. Dodawanie kursu do koszyka
+```sql
+CREATE PROCEDURE add_course_to_cart(@payment_id INT, @course_id INT, @student_id INT, @is_full_price INT)
+AS
+BEGIN
+    BEGIN TRY
+        IF NOT EXISTS(
+            SELECT *
+            FROM payments
+            WHERE payment_id=@payment_id
+        )
+        BEGIN
+            THROW 53000, N'There is no payment with given ID', 1
+        END
+        IF NOT EXISTS(
+            SELECT *
+            FROM students
+            WHERE student_id=@student_id
+        )
+        BEGIN
+            THROW 53000, N'There is no student with given ID', 1
+        END
+        IF NOT EXISTS(
+            SELECT *
+            FROM courses
+            WHERE course_id=@course_id
+        )
+        BEGIN
+            THROW 53000, N'There is no course with given ID', 1
+        END
+
+        DECLARE @course_studies INT
+        SET @course_studies = (SELECT c.study_id FROM courses c WHERE c.course_id=@course_id)
+
+        IF (SELECT p.status FROM payments p WHERE p.payment_id=@payment_id)=0 
+            AND dbo.calc_course_vacancy_amount(@course_id) > 0
+            AND @course_studies IS NULL
+        BEGIN
+            INSERT INTO course_payments(course_id, payment_id, is_full_price)
+            VALUES (@course_id, @payment_id, @is_full_price)
+        END
+        
+    END TRY
+    BEGIN CATCH
+        DECLARE @msg NVARCHAR(2048) = N'ERROR: ' + ERROR_MESSAGE();
+        THROW 53000, @msg, 1
+    END CATCH
+END
+```
+
+### 11. Dodawanie studiw do koszyka
+```sql
+CREATE PROCEDURE add_study_to_cart(@payment_id INT, @study_id INT, @student_id INT)
+AS
+BEGIN
+    BEGIN TRY
+        IF NOT EXISTS(
+            SELECT *
+            FROM payments
+            WHERE payment_id=@payment_id
+        )
+        BEGIN
+            THROW 53000, N'There is no payment with given ID', 1
+        END
+        IF NOT EXISTS(
+            SELECT *
+            FROM students
+            WHERE student_id=@student_id
+        )
+        BEGIN
+            THROW 53000, N'There is no student with given ID', 1
+        END
+        IF NOT EXISTS(
+            SELECT *
+            FROM studies
+            WHERE study_id=@study_id
+        )
+        BEGIN
+            THROW 53000, N'There is no study with given ID', 1
+        END
+
+        IF (SELECT p.status FROM payments p WHERE p.payment_id=@payment_id)=0 
+            AND dbo.calc_study_vacancy_amount(@study_id) > 0
+        BEGIN
+            INSERT INTO study_payments(study_id, payment_id)
+            VALUES (@study_id, @payment_id)
+        END
+        
+    END TRY
+    BEGIN CATCH
+        DECLARE @msg NVARCHAR(2048) = N'ERROR: ' + ERROR_MESSAGE();
+        THROW 53000, @msg, 1
+    END CATCH
+END
+```
+
 ## Funkcje
 
-## 1. Obliczanie wolnych miejsc na danych studiach
+### 1. Obliczanie wolnych miejsc na danych studiach
 ```sql
 CREATE FUNCTION calc_study_vacancy_amount(@study_id INT)
     RETURNS INT
