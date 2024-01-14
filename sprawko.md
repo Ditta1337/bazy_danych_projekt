@@ -979,7 +979,7 @@ BEGIN
 END
 ```
 
-### 11. Dodawanie studiw do koszyka
+### 11. Dodawanie studiów do koszyka
 ```sql
 CREATE PROCEDURE add_study_to_cart(@payment_id INT, @study_id INT, @student_id INT)
 AS
