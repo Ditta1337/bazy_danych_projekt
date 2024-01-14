@@ -51,6 +51,8 @@ Artur Dwornik
     * Przeglądanie danych: 
         * Uczestnik może przeglądać swoje płatności i historię uczestnictwa. 
 
+<div style="page-break-after: always;"></div>
+
 ## Diagram bazy danych:
 
 
@@ -83,6 +85,8 @@ CREATE TABLE roles (
    CONSTRAINT roles_pk PRIMARY KEY  (role_id)
 );
 ```
+
+<div style="page-break-after: always;"></div>
 
 ### Studenci
 ``` sql
@@ -146,6 +150,8 @@ CREATE TABLE internships (
    CONSTRAINT Internships_pk PRIMARY KEY  (internship_id)
 );
 ```
+
+<div style="page-break-after: always;"></div>
 
 ### Lekcje (z kursów i studiów) i webinary
 ``` sql
@@ -298,6 +304,8 @@ CREATE VIEW courses_income AS
     WHERE c.study_id IS NULL
 ```
 
+<div style="page-break-after: always;"></div>
+
 #### Przychody dla webinarów
 ```sql
 CREATE VIEW webinars_income AS
@@ -372,6 +380,8 @@ CREATE VIEW webinars_debtors_list AS
             ON p.payment_id = lp.payment_id AND a.lesson_id = lp.lesson_id
     WHERE p.payment_id IS NULL OR (p.postponed = 0 AND (lp.payment_id IS NULL OR p.status = 0))
 ```
+
+<div style="page-break-after: always;"></div>
 
 #### Wszyscy dłużnicy
 ```sql
@@ -453,6 +463,8 @@ CREATE VIEW students_registered_future_count AS (
 )
 ```
 
+<div style="page-break-after: always;"></div>
+
 ### 5. Ogólny raport dotyczący frekwencji na zakończonych już wydarzeniach
 ``` sql
 CREATE VIEW attendance_percentage_report AS 
@@ -526,6 +538,8 @@ WHERE md1.[date]=md2.[date] AND
     )
 ```
 
+<div style="page-break-after: always;"></div>
+
 ## Procedury
 
 ### 1. Wyświetl koszyk danego użytkownika (lekcje)
@@ -598,6 +612,8 @@ BEGIN
 END
 ```
 
+<div style="page-break-after: always;"></div>
+
 ### 3. Wyświetl koszyk danego użytkownika (studia)
 ```sql
 CREATE PROCEDURE student_cart_studies_info(@student_id INT)
@@ -660,6 +676,8 @@ BEGIN
 END
 ```
 
+<div style="page-break-after: always;"></div>
+
 ### 5. Aktualizuj obecność
 ```sql
 CREATE PROCEDURE update_attendance(@lesson_id INT, @student_id INT)
@@ -700,6 +718,8 @@ BEGIN
     END CATCH
 END
 ```
+
+<div style="page-break-after: always;"></div>
 
 ### 6. Dodaj lekcję ze studiów
 ```sql
@@ -765,6 +785,8 @@ BEGIN
 END
 ```
 
+<div style="page-break-after: always;"></div>
+
 ### 7. Dodaj lekcję z kursu
 ```sql
 CREATE PROCEDURE add_course_lesson(
@@ -814,6 +836,8 @@ BEGIN
 END
 ```
 
+<div style="page-break-after: always;"></div>
+
 ### 8. Dodaj webinar
 ```sql
 CREATE PROCEDURE add_webinar(
@@ -858,6 +882,8 @@ BEGIN
     END CATCH
 END
 ```
+
+<div style="page-break-after: always;"></div>
 
 ### 9. Dodawanie lekcji do koszyka
 ```sql
@@ -929,6 +955,8 @@ BEGIN
 END
 ```
 
+<div style="page-break-after: always;"></div>
+
 ### 10. Dodawanie kursu do koszyka
 ```sql
 CREATE PROCEDURE add_course_to_cart(@payment_id INT, @course_id INT, @student_id INT, @is_full_price INT)
@@ -978,6 +1006,8 @@ BEGIN
     END CATCH
 END
 ```
+
+<div style="page-break-after: always;"></div>
 
 ### 11. Dodawanie studiów do koszyka
 ```sql
@@ -1044,6 +1074,8 @@ CREATE FUNCTION calc_study_vacancy_amount(@study_id INT)
             )
         END
 ```
+
+<div style="page-break-after: always;"></div>
 
 ### 2. Obliczanie wolnych miejsc na danym kursie
 ```sql
@@ -1114,16 +1146,3 @@ CREATE FUNCTION get_lesson_studies(@lesson_id INT)
             RETURN ( SELECT c.study_id FROM courses c WHERE c.course_id=@lesson_course_id)
         END
 ```
-
--- identydikator platnosci zamiast url
--- student_id do payments
--- komentarz ze koszyk na froncie (raczej)
--- price lesson 0 a nie Null
--- lista zapisanych na przyszle wydarzenia - rozbic
-    na dwa widoki
--- zostawic np. 0.15 a nie 15% and so on
--- procedura: przypsanie obecnosci tylko dla tych,
-    ktorzy kupili wydarzenie - przy zakupie wydarzenia
-    dodajemy attendance z status false i potem to zmieniac
--- dodac jezyki do lessons - jezeli nie polski -> tłumacz
--- procedury zwracaja komunikat o bledzie
