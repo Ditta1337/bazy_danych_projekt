@@ -1149,7 +1149,7 @@ CREATE FUNCTION get_lesson_studies(@lesson_id INT)
 
 ## Triggery
 
-## 1. Trigger usuwający zaliczkę po wpłynięciu płatności za całość kursu
+### 1. Trigger usuwający zaliczkę po wpłynięciu płatności za całość kursu
 ```sql
 CREATE TRIGGER trigger_remove_prev_partial_payments
 ON course_payments
@@ -1172,5 +1172,77 @@ BEGIN
           AND payment_id = @payment_id
           AND is_full_price = 0;
     END
+END;
+```
+### 2. Trigger dodający wpis o obecności na zajęciach po zapłaceniu za te zajęcia
+```sql
+CREATE TRIGGER tr_generate_attendance
+    ON payments
+    AFTER INSERT, UPDATE
+    AS
+BEGIN
+    SET NOCOUNT ON
+    DECLARE @status INT
+    select @status = status from inserted
+
+    IF @status = 1
+        BEGIN
+            DECLARE @payment_id INT
+            DECLARE @student_id INT
+            SELECT @payment_id = payment_id, @student_id = student_id from inserted
+
+            -- add attendance for webinars and study lessons
+            DECLARE @lesson_id INT
+
+            DECLARE lessons_cursor CURSOR FOR
+            SELECT lesson_id FROM lesson_payments WHERE payment_id = @payment_id
+
+            OPEN lessons_cursor
+
+            FETCH NEXT FROM lessons_cursor INTO @lesson_id
+
+            WHILE @@FETCH_STATUS = 0
+                BEGIN
+                    INSERT INTO attendance (lesson_id, student_id)
+                    VALUES (@lesson_id, @student_id)
+
+                    FETCH NEXT FROM lessons_cursor INTO @lesson_id
+                END
+            CLOSE lessons_cursor
+            DEALLOCATE lessons_cursor
+
+            -- add attendance for course lessons
+            DECLARE @course_id INT
+
+            DECLARE course_cursor CURSOR FOR
+            SELECT course_id FROM course_payments WHERE payment_id = @payment_id
+
+            OPEN course_cursor
+
+            FETCH NEXT FROM course_cursor INTO @course_id
+
+            WHILE @@FETCH_STATUS = 0
+                BEGIN
+                    DECLARE lessons_cursor CURSOR FOR
+                    SELECT lesson_id FROM lessons WHERE course_id = @course_id
+
+                    OPEN lessons_cursor
+                    FETCH NEXT FROM lessons_cursor INTO @lesson_id
+
+                    WHILE @@FETCH_STATUS = 0
+                        BEGIN
+                            INSERT INTO attendance (lesson_id, student_id)
+                            VALUES (@lesson_id, @student_id)
+
+                            FETCH NEXT FROM lessons_cursor INTO @lesson_id
+                        END
+                    CLOSE lessons_cursor
+                    DEALLOCATE lessons_cursor
+
+                    FETCH NEXT FROM course_cursor INTO @course_id
+                END
+            CLOSE course_cursor
+            DEALLOCATE course_cursor
+        END
 END;
 ```
