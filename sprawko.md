@@ -1323,3 +1323,64 @@ GRANT EXECUTE ON student_cart_courses_info TO student
 GRANT EXECUTE ON student_cart_studies_info TO student
 GRANT SELECT ON materials TO student
 ```
+
+## Indeksy
+
+```sql
+CREATE UNIQUE INDEX students_pk
+ON students (student_id)
+
+CREATE UNIQUE INDEX employees_pk
+ON employees (employee_id)
+
+CREATE UNIQUE INDEX lecturers_pk
+ON lecturers (lecturer_id)
+
+CREATE UNIQUE INDEX studies_pk
+ON studies (study_id)
+
+CREATE UNIQUE INDEX courses_pk
+ON courses (course_id)
+
+CREATE UNIQUE INDEX lessons_pk
+ON lessons (lesson_id)
+
+CREATE UNIQUE INDEX payments_pk
+ON payments (payment_id)
+
+CREATE UNIQUE INDEX materials_pk
+ON materials (material_id)
+
+CREATE UNIQUE INDEX internships_pk
+ON internships (internship_id)
+
+CREATE UNIQUE INDEX roles_pk
+ON roles (role_id);
+
+CREATE UNIQUE INDEX attendance_pk
+ON attendance (student_id, lesson_id)
+
+CREATE UNIQUE INDEX study_payments_pk
+ON study_payments (study_id, payment_id)
+
+CREATE UNIQUE INDEX course_payments_pk
+ON course_payments (course_id, payment_id)
+
+CREATE UNIQUE INDEX lesson_payments_pk
+ON lesson_payments (lesson_id, payment_id)
+
+CREATE UNIQUE INDEX students_email
+ON students (email)
+
+CREATE UNIQUE INDEX lecturers_email
+ON lecturers (email)
+
+CREATE UNIQUE INDEX employees_email
+ON employees (email)
+
+CREATE UNIQUE INDEX file_url
+ON materials (file_url)
+
+CREATE UNIQUE INDEX payment_url
+ON payments (payment_url)
+```
