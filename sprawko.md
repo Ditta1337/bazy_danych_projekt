@@ -1147,6 +1147,8 @@ CREATE FUNCTION get_lesson_studies(@lesson_id INT)
         END
 ```
 
+<div style="page-break-after: always;"></div>
+
 ## Triggery
 
 ### 1. Trigger usuwający zaliczkę po wpłynięciu płatności za całość kursu
@@ -1174,6 +1176,9 @@ BEGIN
     END
 END;
 ```
+
+<div style="page-break-after: always;"></div>
+
 ### 2. Trigger dodający wpis o obecności na zajęciach po zapłaceniu za te zajęcia
 ```sql
 CREATE TRIGGER tr_generate_attendance
@@ -1246,6 +1251,8 @@ BEGIN
         END
 END;
 ```
+
+<div style="page-break-after: always;"></div>
 
 ## Role
 
@@ -1323,6 +1330,8 @@ GRANT EXECUTE ON student_cart_courses_info TO student
 GRANT EXECUTE ON student_cart_studies_info TO student
 GRANT SELECT ON materials TO student
 ```
+
+<div style="page-break-after: always;"></div>
 
 ## Indeksy
 
