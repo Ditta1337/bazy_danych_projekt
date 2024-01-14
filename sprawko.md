@@ -1099,6 +1099,21 @@ CREATE FUNCTION calc_lesson_vacancy_amount(@lesson_id INT)
         END
 ```
 
+### 4. Szukanie id studiów do których należy lekcja
+```sql
+CREATE FUNCTION get_lesson_studies(@lesson_id INT)
+    RETURNS INT
+        AS
+        BEGIN
+            DECLARE @lesson_course_id INT
+            SET @lesson_course_id = (SELECT l.course_id FROM lessons l WHERE l.lesson_id=@lesson_id)
+            IF @lesson_course_id IS NULL
+                BEGIN
+                    RETURN NULL
+                END
+            RETURN ( SELECT c.study_id FROM courses c WHERE c.course_id=@lesson_course_id)
+        END
+```
 
 -- identydikator platnosci zamiast url
 -- student_id do payments
