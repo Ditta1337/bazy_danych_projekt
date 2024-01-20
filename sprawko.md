@@ -402,6 +402,7 @@ CREATE VIEW students_registered_future_count AS (
 <div style="page-break-after: always;"></div>
 
 ### 4. Ogólny raport dotyczący frekwencji na zakończonych już wydarzeniach
+###### Widok wyświetlający id lekcji, nazwę lekcji, datę lekcji oraz frekwencję na danej lekcji dla wszystkich lekcji.
 ``` sql
 CREATE VIEW attendance_percentage_report AS 
     WITH 
@@ -435,6 +436,7 @@ CREATE VIEW attendance_percentage_report AS
 ```
 
 ### 5. Lista Obecności
+###### Widok wyświetlający listę obecności: id lekcji, datę lekcji, imię i nazwisko studenta oraz status obecności ( obecny / nieobecny ), dla wszystkich lekcji.
 ``` sql
 CREATE VIEW attendance_list AS (
     SELECT 
@@ -455,6 +457,7 @@ CREATE VIEW attendance_list AS (
 ```
 
 ### 6. Raport Bilokacji
+###### Widok wyświetlający listę studentów, którzy mają kolidujące ze sobą lekcje: id studenta, data lekcji, id pierwszej kolidującej lekcji i jej nazwa, id drugiej kolidującej lekcji i jej nazwa.
 ```sql
 CREATE VIEW bilocation_report AS
 WITH
@@ -466,7 +469,7 @@ myData AS (
     JOIN lessons l ON l.lesson_id=lp.lesson_id
     where (p.[status]=1 OR (p.[status]=0 AND p.postponed=1))
 )
-SELECT DISTINCT md1.student_id, md1.date, md1.name as "lesson 1", md2.name as "lesson 2"
+SELECT DISTINCT md1.student_id, md1.date, md1.lesson_id as "lesson 1 id", md1.name as "lesson 1", md2.lesson_id as "lesson 2 id", md2.name as "lesson 2"
 FROM myData md1
 JOIN myData md2 ON md1.student_id=md2.student_id
 WHERE md1.[date]=md2.[date] AND 
