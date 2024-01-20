@@ -431,6 +431,8 @@ CREATE VIEW students_registered_count AS
         )
     SELECT 
         l.lesson_id,
+        l.name,
+        l.date,
         (
             CASE 
                 WHEN l.course_id IS NULL THEN lsc.count
@@ -472,11 +474,13 @@ CREATE VIEW attendance_percentage_report AS
         attendanceTotal AS (
             SELECT 
                 l.lesson_id, 
+                l.name,
+                l.date,
                 COUNT(*) AS count
             FROM lessons l
             JOIN attendance a on l.lesson_id=a.lesson_id
             WHERE l.date < GETDATE()
-            GROUP BY l.lesson_id
+            GROUP BY l.lesson_id, l.name, l.date
         ),
         attendancePresent AS (
             SELECT 
@@ -489,10 +493,11 @@ CREATE VIEW attendance_percentage_report AS
         )
     SELECT 
         att.lesson_id,
+        att.name,
+        att.date,
         CAST((CAST(atp.count AS float)/CAST(att.count AS float)) AS numeric(20,2)) AS "Attendance Percentage"
     FROM attendanceTotal att
     JOIN attendancePresent atp on att.lesson_id=atp.lesson_id
-
 ```
 
 ### 6. Lista Obecności
@@ -1096,6 +1101,22 @@ BEGIN
     WHERE src.date > @start_date AND src.date < @end_date
 END
 ```
+
+### 13. Wyświetl raport dotyczący frekwencji na zakończonych już wydarzeniach w danym przedziale czasu
+```sql
+CREATE PROCEDURE get_attendance_percentage_report_in_period(@start_date DATE, @end_date DATE)
+AS
+BEGIN
+    if(@start_date > @end_date)
+    BEGIN
+        THROW 53000, N'Start date must be earlier than end date', 1
+    END
+    SELECT *
+    FROM attendance_percentage_report apr
+    WHERE apr.date > @start_date AND apr.date < @end_date
+END
+
+``` 
 
 ## Funkcje
 
