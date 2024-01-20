@@ -1503,15 +1503,15 @@ ON payments (payment_url)
 
 -- komentarze do widokow <br>
 -- wiecej danych <br>
--- filtrowanie widoków przychodów po dacie, dodanie nazwy kursu/studiów/webinaru <br>
+-- filtrowanie widoków przychodów po dacie, dodanie nazwy kursu/studiów/webinaru ----DONE----<br>
 -- debtor_list dodac imie i nazwisko, moze ile zalega <br>
--- student_registered_count moze tez po dacie? <br>
+-- student_registered_count moze tez po dacie? ----DONE----<br>
 -- dodac takie dane, zeby cos sie pokazywalo w koszyku <br>
 -- komentarz za koszykiem, zeby sie nie domyslac <br>
 -- wrzucic przykladowe outputy po widokami itp <br>
--- znienic insert na insert w select w triggerze <br>
--- zablokowc trigger zeby sie nie wykonywal dwa razy (nie wiem o co chodzi) <br>
+-- znienic insert na insert w select w triggerze ----DONE----<br>
+-- zablokowc trigger zeby sie nie wykonywal dwa razy (nie wiem o co chodzi) ----DONE----<br>
 -- w momencie zapłaty sprawdzać czy jest miejsce na zajęciach <br>
 -- if slecet count(*) from inserted > 1: throw error w triggerze. Czyli blokowanie insert dla wiecej niz jednego wiersza ----DONE---- <br>
--- staramy sie unikać tych petli -> insert_select <br>
+-- staramy sie unikać tych petli -> insert_select ----DONE----<br>
 -- dodac komentarz o indeksach <br>
