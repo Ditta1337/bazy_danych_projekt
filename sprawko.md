@@ -1181,9 +1181,9 @@ CREATE FUNCTION get_lesson_studies(@lesson_id INT)
 ### 1. Trigger usuwający zaliczkę po wpłynięciu płatności za całość kursu
 ```sql
 CREATE TRIGGER tr_remove_prev_partial_payments
-    ON course_payments
-    AFTER INSERT
-    AS
+ON course_payments
+AFTER INSERT
+AS
 BEGIN
     SET NOCOUNT ON;
 
@@ -1191,8 +1191,8 @@ BEGIN
     WHERE EXISTS (
         SELECT 1
         FROM inserted i
-        WHERE course_id = i.course_id
-          AND payment_id = i.payment_id
+        WHERE course_payments.course_id = i.course_id
+          AND course_payments.payment_id = i.payment_id
           AND i.is_full_price = 1
     )
     AND is_full_price = 0;
