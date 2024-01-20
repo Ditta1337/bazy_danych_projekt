@@ -1520,7 +1520,7 @@ ON payments (payment_url)
 -- wrzucic przykladowe outputy po widokami itp <br>
 -- w momencie zapłaty sprawdzać czy jest miejsce na zajęciach <br>
 <br>
--- komentarze do widokow <br> ----DONE----
+-- komentarze do widokow  ----DONE---- <br>
 -- wiecej danych <br> ----DONE----
 -- filtrowanie widoków przychodów po dacie, dodanie nazwy kursu/studiów/webinaru ----DONE----<br>
 -- student_registered_count moze tez po dacie? ----DONE----<br>
