@@ -1203,74 +1203,44 @@ END;
 
 ### 2. Trigger dodający wpis o obecności na zajęciach po zapłaceniu za te zajęcia
 ```sql
-CREATE TRIGGER tr_generate_attendance
+CREATE OR ALTER TRIGGER tr_generate_attendance
     ON payments
     AFTER INSERT, UPDATE
     AS
 BEGIN
     SET NOCOUNT ON
-    DECLARE @status INT
-    select @status = status from inserted
+    DECLARE @paid_inserted TABLE (student_id INT, payment_id INT)
 
-    IF @status = 1
+    IF NOT EXISTS(select * from deleted)
         BEGIN
-            DECLARE @payment_id INT
-            DECLARE @student_id INT
-            SELECT @payment_id = payment_id, @student_id = student_id from inserted
-
-            -- add attendance for webinars and study lessons
-            DECLARE @lesson_id INT
-
-            DECLARE lessons_cursor CURSOR FOR
-            SELECT lesson_id FROM lesson_payments WHERE payment_id = @payment_id
-
-            OPEN lessons_cursor
-
-            FETCH NEXT FROM lessons_cursor INTO @lesson_id
-
-            WHILE @@FETCH_STATUS = 0
-                BEGIN
-                    INSERT INTO attendance (lesson_id, student_id)
-                    VALUES (@lesson_id, @student_id)
-
-                    FETCH NEXT FROM lessons_cursor INTO @lesson_id
-                END
-            CLOSE lessons_cursor
-            DEALLOCATE lessons_cursor
-
-            -- add attendance for course lessons
-            DECLARE @course_id INT
-
-            DECLARE course_cursor CURSOR FOR
-            SELECT course_id FROM course_payments WHERE payment_id = @payment_id
-
-            OPEN course_cursor
-
-            FETCH NEXT FROM course_cursor INTO @course_id
-
-            WHILE @@FETCH_STATUS = 0
-                BEGIN
-                    DECLARE lessons_cursor CURSOR FOR
-                    SELECT lesson_id FROM lessons WHERE course_id = @course_id
-
-                    OPEN lessons_cursor
-                    FETCH NEXT FROM lessons_cursor INTO @lesson_id
-
-                    WHILE @@FETCH_STATUS = 0
-                        BEGIN
-                            INSERT INTO attendance (lesson_id, student_id)
-                            VALUES (@lesson_id, @student_id)
-
-                            FETCH NEXT FROM lessons_cursor INTO @lesson_id
-                        END
-                    CLOSE lessons_cursor
-                    DEALLOCATE lessons_cursor
-
-                    FETCH NEXT FROM course_cursor INTO @course_id
-                END
-            CLOSE course_cursor
-            DEALLOCATE course_cursor
+            INSERT INTO @paid_inserted
+            SELECT i.student_id, i.payment_id
+            FROM inserted i
+            WHERE i.status = 1
         END
+    ELSE
+        BEGIN
+            INSERT INTO @paid_inserted
+            SELECT i.student_id, i.payment_id
+            FROM inserted i
+                JOIN deleted d
+                    ON d.payment_id = i.payment_id
+            WHERE i.status = 1 and d.status = 0
+        END
+
+    INSERT INTO attendance (lesson_id, student_id)
+    SELECT lp.lesson_id, p_inserted.student_id
+    FROM @paid_inserted p_inserted
+        JOIN lesson_payments lp
+            ON lp.payment_id = p_inserted.payment_id
+
+    INSERT INTO attendance (lesson_id, student_id)
+    SELECT l.lesson_id, p_inserted.student_id
+    from @paid_inserted p_inserted
+        JOIN course_payments cp
+            ON cp.payment_id = p_inserted.payment_id
+        JOIN lessons l
+            ON l.course_id = cp.course_id
 END;
 ```
 
