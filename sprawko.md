@@ -1416,17 +1416,17 @@ CREATE UNIQUE INDEX payment_url
 ON payments (payment_url)
 ```
 
--- komentarze do widokow/
--- wiecej danych/
--- filtrowanie widoków przychodów po dacie, dodanie nazwy kursu/studiów/webinaru
--- debtor_list dodac imie i nazwisko, moze ile zalega
--- student_registered_count moze tez po dacie?
--- dodac takie dane, zeby cos sie pokazywalo w koszyku
--- komentarz za koszykiem, zeby sie nie domyslac
--- wrzucic przykladowe outputy po widokami itp
--- znienic insert na insert w select w triggerze
--- zablokowc trigger zeby sie nie wykonywal dwa razy (nie wiem o co chodzi)
--- w momencie zapłaty sprawdzać czy jest miejsce na zajęciach
--- if slecet count(*) from inserted > 1: throw error w triggerze. Czyli blokowanie insert dla wiecej niz jednego wiersza DONE
--- staramy sie unikać tych petli -> insert_select
--- dodac komentarz o indeksach
+-- komentarze do widokow <br>
+-- wiecej danych <br>
+-- filtrowanie widoków przychodów po dacie, dodanie nazwy kursu/studiów/webinaru <br>
+-- debtor_list dodac imie i nazwisko, moze ile zalega <br>
+-- student_registered_count moze tez po dacie? <br>
+-- dodac takie dane, zeby cos sie pokazywalo w koszyku <br>
+-- komentarz za koszykiem, zeby sie nie domyslac <br>
+-- wrzucic przykladowe outputy po widokami itp <br>
+-- znienic insert na insert w select w triggerze <br>
+-- zablokowc trigger zeby sie nie wykonywal dwa razy (nie wiem o co chodzi) <br>
+-- w momencie zapłaty sprawdzać czy jest miejsce na zajęciach <br>
+-- if slecet count(*) from inserted > 1: throw error w triggerze. Czyli blokowanie insert dla wiecej niz jednego wiersza ----DONE---- <br>
+-- staramy sie unikać tych petli -> insert_select <br>
+-- dodac komentarz o indeksach <br>
