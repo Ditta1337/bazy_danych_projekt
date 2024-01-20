@@ -1427,6 +1427,6 @@ ON payments (payment_url)
 -- znienic insert na insert w select w triggerze
 -- zablokowc trigger zeby sie nie wykonywal dwa razy (nie wiem o co chodzi)
 -- w momencie zapłaty sprawdzać czy jest miejsce na zajęciach
--- if slecet count(*) from inserted > 1: throw error w triggerze. Czyli blokowanie insert dla wiecej niz jednego wiersza
+-- if slecet count(*) from inserted > 1: throw error w triggerze. Czyli blokowanie insert dla wiecej niz jednego wiersza DONE
 -- staramy sie unikać tych petli -> insert_select
 -- dodac komentarz o indeksach
