@@ -256,7 +256,7 @@ CREATE TABLE study_payments (
 
 ## Widoki
 ### 1. Lista „dłużników”
-###### Widok wyświetlający id studentów, którzy zalegają z płatnościami za odpowiednio: studia, kursy i lekcje, oraz zbiorczo za wszystkie te kategorie
+###### Widoki wyświetlające id studentów, którzy zalegają z płatnościami za odpowiednio: studia, kursy i lekcje, oraz zbiorczo za wszystkie te kategorie.
 #### Dłużnicy dla studiów
 ```sql
 CREATE VIEW studies_debtors_list AS
@@ -326,6 +326,7 @@ CREATE VIEW debtors_list AS
 ```
 
 ### 2. Ogólny raport dotyczący liczby zapisanych osób na wydarzenia
+###### Widok wyświetlający id lekcji, nazwę lekcji, datę lekcji, liczbę studentów zapisanych na daną lekcję oraz formę danej lekcji ( stacjonarna / zdalna ) dla wszystkich lekcji.
 ``` sql
 CREATE VIEW students_registered_count AS
     WITH
@@ -388,9 +389,10 @@ CREATE VIEW students_registered_count AS
 ```
 
 ### 3. Ogólny raport dotyczący liczby zapisanych osób na przyszłe wydarzenia
+###### Widok wyświetlający id lekcji, nazwę lekcji, datę lekcji, liczbę zapisanych studentów na daną lekcję oraz formę danej lekcji (stacjonarna / zdalna ) dla lekcji, które się jeszcze nie odbyły.
 ```sql
 CREATE VIEW students_registered_future_count AS (
-    SELECT src.lesson_id, src.[count], src.[lesson form] 
+    SELECT src.lesson_id, src.name, src.date, src.[count], src.[lesson form] 
     FROM students_registered_count src
     JOIN lessons l ON src.lesson_id=l.lesson_id
     WHERE l.[date] > GETDATE()
