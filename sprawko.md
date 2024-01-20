@@ -1521,11 +1521,11 @@ ON payments (payment_url)
 -- w momencie zapłaty sprawdzać czy jest miejsce na zajęciach <br>
 <br>
 -- komentarze do widokow  ----DONE---- <br>
--- wiecej danych <br> ----DONE----
+-- wiecej danych ----DONE---- <br> 
 -- filtrowanie widoków przychodów po dacie, dodanie nazwy kursu/studiów/webinaru ----DONE----<br>
 -- student_registered_count moze tez po dacie? ----DONE----<br>
 -- znienic insert na insert w select w triggerze ----DONE----<br>
 -- zablokowc trigger zeby sie nie wykonywal dwa razy (nie wiem o co chodzi) ----DONE----<br>
 -- if slecet count(*) from inserted > 1: throw error w triggerze. Czyli blokowanie insert dla wiecej niz jednego wiersza ----DONE---- <br>
 -- staramy sie unikać tych petli -> insert_select ----DONE----<br>
--- dodac komentarz o indeksach <br> ----DONE----
+-- dodac komentarz o indeksach ----DONE---- <br> 
