@@ -256,11 +256,14 @@ CREATE TABLE study_payments (
 
 ## Widoki
 ### 1. Lista „dłużników”
-###### Widoki wyświetlające id studentów, którzy zalegają z płatnościami za odpowiednio: studia, kursy i lekcje, oraz zbiorczo za wszystkie te kategorie.
+###### Widoki wyświetlające id, imię oraz nazwisko studentów, którzy zalegają z płatnościami za odpowiednio: studia, kursy i webinary, oraz zbiorczo za wszystkie te kategorie.
 #### Dłużnicy dla studiów
 ```sql
 CREATE VIEW studies_debtors_list AS
-    SELECT DISTINCT s.student_id
+    SELECT s.student_id,
+           s.first_name,
+           s.last_name,
+           SUM(IIF(sp.payment_id IS NULL, l.extended_price, l.price)) AS debt
     FROM students s
         JOIN attendance a
             ON s.student_id = a.student_id AND a.status = 1
@@ -277,12 +280,16 @@ CREATE VIEW studies_debtors_list AS
         LEFT JOIN study_payments sp
             ON p.payment_id = sp.payment_id AND st.study_id = sp.study_id
     WHERE p.payment_id IS NULL OR (p.postponed = 0 AND (lp.payment_id IS NULL OR sp.payment_id IS NULL OR p.status = 0))
+    GROUP BY s.student_id, s.first_name, s.last_name
 ```
 
 #### Dłużnicy dla kursów
 ```sql
 CREATE VIEW courses_debtors_list AS
-    SELECT DISTINCT s.student_id
+    SELECT s.student_id,
+           s.first_name,
+           s.last_name,
+           SUM(IIF(cp.is_full_price = 0, c.full_price - c.entry_price, c.full_price)) AS debt
     FROM students s
         JOIN attendance a
             ON s.student_id = a.student_id AND a.status = 1
@@ -295,12 +302,16 @@ CREATE VIEW courses_debtors_list AS
         LEFT JOIN course_payments cp
             ON p.payment_id = cp.payment_id AND c.course_id = cp.course_id
     WHERE p.payment_id IS NULL OR (p.postponed = 0 AND (cp.payment_id IS NULL OR p.status = 0 OR cp.is_full_price = 0))
+    GROUP BY s.student_id, s.first_name, s.last_name
 ```
 
 #### Dłużnicy dla webinarów
 ```sql
 CREATE VIEW webinars_debtors_list AS
-    SELECT DISTINCT s.student_id
+    SELECT s.student_id,
+           s.first_name,
+           s.last_name,
+           SUM(l.price) AS debt
     FROM students s
         JOIN attendance a
             ON s.student_id = a.student_id AND a.status = 1
@@ -311,18 +322,22 @@ CREATE VIEW webinars_debtors_list AS
         LEFT JOIN lesson_payments lp
             ON p.payment_id = lp.payment_id AND a.lesson_id = lp.lesson_id
     WHERE p.payment_id IS NULL OR (p.postponed = 0 AND (lp.payment_id IS NULL OR p.status = 0))
+    GROUP BY s.student_id, s.first_name, s.last_name
 ```
 
 <div style="page-break-after: always;"></div>
 
 #### Wszyscy dłużnicy
 ```sql
-CREATE VIEW debtors_list AS
-    SELECT * FROM webinars_debtors_list
-    UNION
-    SELECT * FROM courses_debtors_list
-    UNION
-    SELECT * FROM studies_debtors_list
+CREATE OR ALTER VIEW debtors_list AS
+    with t as (SELECT * FROM webinars_debtors_list wdl
+               UNION
+               SELECT * FROM courses_debtors_list
+               UNION
+               SELECT * FROM studies_debtors_list)
+    SELECT t.student_id, t.first_name, t.last_name, SUM(t.debt) AS debt
+    FROM t
+    GROUP BY t.student_id, t.first_name, t.last_name
 ```
 
 ### 2. Ogólny raport dotyczący liczby zapisanych osób na wydarzenia
