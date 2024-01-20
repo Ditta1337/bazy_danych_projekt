@@ -680,7 +680,8 @@ END
 
 ### 5. Aktualizuj obecność
 ```sql
-CREATE PROCEDURE update_attendance(@lesson_id INT, @student_id INT)
+-- 5. Aktualizuj obecność
+CREATE PROCEDURE update_attendance(@lesson_id INT, @student_id INT, @status BIT)
 AS
 BEGIN
     BEGIN TRY
@@ -709,7 +710,7 @@ BEGIN
             THROW 53000, N'There is no attendance for student with given ID', 1
         END
         UPDATE attendance
-        SET [status]=1
+        SET [status]=@status
         WHERE lesson_id=@lesson_id AND student_id=@student_id
     END TRY
     BEGIN CATCH
@@ -1402,7 +1403,6 @@ ON payments (payment_url)
 -- dodac takie dane, zeby cos sie pokazywalo w koszyku
 -- komentarz za koszykiem, zeby sie nie domyslac
 -- wrzucic przykladowe outputy po widokami itp
--- zmienic update_attendance tak zeby ustawialo tez status na 0
 -- znienic insert na insert w select w triggerze
 -- zablokowc trigger zeby sie nie wykonywal dwa razy (nie wiem o co chodzi)
 -- w momencie zapłaty sprawdzać czy jest miejsce na zajęciach
