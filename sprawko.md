@@ -457,14 +457,14 @@ CREATE VIEW attendance_list AS (
 CREATE VIEW bilocation_report AS
 WITH
 myData AS (
-    SELECT s.student_id, l.lesson_id, l.[date], start_time, end_time 
+    SELECT s.student_id, l.lesson_id, l.name, l.[date], start_time, end_time 
     FROM students s
     JOIN payments p ON s.student_id=p.student_id
     JOIN lesson_payments lp ON p.payment_id=lp.payment_id
     JOIN lessons l ON l.lesson_id=lp.lesson_id
     where (p.[status]=1 OR (p.[status]=0 AND p.postponed=1))
 )
-SELECT DISTINCT md1.student_id
+SELECT DISTINCT md1.student_id, md1.date, md1.name as "lesson 1", md2.name as "lesson 2"
 FROM myData md1
 JOIN myData md2 ON md1.student_id=md2.student_id
 WHERE md1.[date]=md2.[date] AND 
@@ -1164,6 +1164,38 @@ BEGIN
                   ON l.lesson_id = t.lesson_id
 END;
 ```
+
+### 17. Lista obecności w danym przedziale czasu
+```sql
+CREATE PROCEDURE get_attendance_list_in_period(@start_date DATE, @end_date DATE)
+AS
+BEGIN
+    if(@start_date > @end_date)
+    BEGIN
+        THROW 53000, N'Start date must be earlier than end date', 1
+    END
+    SELECT *
+    FROM attendance_list al
+    WHERE al.date > @start_date AND al.date < @end_date
+END
+```
+
+### 18. Raport bilokacji w danym przedziale czasu
+```sql
+CREATE PROCEDURE get_bilocation_report_in_period(@start_date DATE, @end_date DATE)
+AS
+BEGIN
+    if(@start_date > @end_date)
+    BEGIN
+        THROW 53000, N'Start date must be earlier than end date', 1
+    END
+    SELECT *
+    FROM bilocation_report br
+    WHERE br.date > @start_date AND br.date < @end_date
+END
+
+```
+
 
 ## Funkcje
 
