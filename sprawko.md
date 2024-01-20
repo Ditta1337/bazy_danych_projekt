@@ -1416,8 +1416,8 @@ CREATE UNIQUE INDEX payment_url
 ON payments (payment_url)
 ```
 
--- komentarze do widokow
--- wiecej danych
+-- komentarze do widokow/
+-- wiecej danych/
 -- filtrowanie widoków przychodów po dacie, dodanie nazwy kursu/studiów/webinaru
 -- debtor_list dodac imie i nazwisko, moze ile zalega
 -- student_registered_count moze tez po dacie?
