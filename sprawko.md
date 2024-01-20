@@ -920,6 +920,7 @@ BEGIN
         DECLARE @lesson_studies INT
         SET @is_extended = 0
         SET @lesson_studies = dbo.get_lesson_studies(@lesson_id)
+
         IF(@lesson_studies IS NOT NULL)
             BEGIN
                 IF (
@@ -936,18 +937,28 @@ BEGIN
                     SET @is_extended=1
                 END
             END
-        IF (SELECT p.status FROM payments p WHERE p.payment_id=@payment_id)=0 
-            AND dbo.calc_lesson_vacancy_amount(@lesson_id) > 0
+
+        IF NOT EXISTS
+            (SELECT p.status FROM payments p WHERE p.payment_id=@payment_id AND p.[status]=0 AND p.postponed=0) 
         BEGIN
-            IF NOT(
-                (SELECT l.course_id FROM lessons l WHERE l.lesson_id=@lesson_id) IS NOT NULL
-                AND @lesson_studies IS NULL
-                )
-            BEGIN
-                INSERT INTO lesson_payments(lesson_id, payment_id, is_extended)
-                VALUES (@lesson_id, @payment_id, @is_extended)
-            END
+            THROW 53000, N'Cannot add the item to this payment',  1
         END
+
+        IF dbo.calc_lesson_vacancy_amount(@lesson_id) <= 0
+        BEGIN
+            THROW 53000, N'The are no vacancies for this lesson', 1
+        END
+
+        IF(
+            (SELECT l.course_id FROM lessons l WHERE l.lesson_id=@lesson_id) IS NOT NULL
+            AND @lesson_studies IS NULL
+            )
+        BEGIN
+            THROW 53000, N'This lesson is not available', 1
+        END
+
+        INSERT INTO lesson_payments(lesson_id, payment_id, is_extended)
+        VALUES (@lesson_id, @payment_id, @is_extended)
     END TRY
     BEGIN CATCH
         DECLARE @msg NVARCHAR(2048) = N'ERROR: ' + ERROR_MESSAGE();
@@ -992,14 +1003,24 @@ BEGIN
         DECLARE @course_studies INT
         SET @course_studies = (SELECT c.study_id FROM courses c WHERE c.course_id=@course_id)
 
-        IF (SELECT p.status FROM payments p WHERE p.payment_id=@payment_id)=0 
-            AND dbo.calc_course_vacancy_amount(@course_id) > 0
-            AND @course_studies IS NULL
+        IF NOT EXISTS
+        (SELECT p.status FROM payments p WHERE p.payment_id=@payment_id AND p.[status]=0 AND p.postponed=0) 
         BEGIN
-            INSERT INTO course_payments(course_id, payment_id, is_full_price)
-            VALUES (@course_id, @payment_id, @is_full_price)
+           THROW 53000, N'Cannot add the item to this payment',  1
         END
-        
+
+        IF dbo.calc_course_vacancy_amount(@course_id) <= 0
+        BEGIN
+            THROW 53000, N'The are no vacancies for this course', 1
+        END
+
+        IF @course_studies IS NOT NULL
+        BEGIN
+            THROW 53000, N'This course is not available', 1
+        END
+
+        INSERT INTO course_payments(course_id, payment_id, is_full_price)
+        VALUES (@course_id, @payment_id, @is_full_price)
     END TRY
     BEGIN CATCH
         DECLARE @msg NVARCHAR(2048) = N'ERROR: ' + ERROR_MESSAGE();
@@ -1041,13 +1062,18 @@ BEGIN
             THROW 53000, N'There is no study with given ID', 1
         END
 
-        IF (SELECT p.status FROM payments p WHERE p.payment_id=@payment_id)=0 
-            AND dbo.calc_study_vacancy_amount(@study_id) > 0
+        IF NOT EXISTS
+        (SELECT p.status FROM payments p WHERE p.payment_id=@payment_id AND p.[status]=0 AND p.postponed=0) 
         BEGIN
-            INSERT INTO study_payments(study_id, payment_id)
-            VALUES (@study_id, @payment_id)
+            THROW 53000, N'Cannot add the item to this payment',  1
         END
-        
+
+        IF dbo.calc_study_vacancy_amount(@study_id) <= 0
+        BEGIN
+            THROW 53000, N'The are no vacancies for this study', 1
+        END
+        INSERT INTO study_payments(study_id, payment_id)
+        VALUES (@study_id, @payment_id)
     END TRY
     BEGIN CATCH
         DECLARE @msg NVARCHAR(2048) = N'ERROR: ' + ERROR_MESSAGE();
@@ -1406,7 +1432,6 @@ ON payments (payment_url)
 -- znienic insert na insert w select w triggerze
 -- zablokowc trigger zeby sie nie wykonywal dwa razy (nie wiem o co chodzi)
 -- w momencie zapłaty sprawdzać czy jest miejsce na zajęciach
--- add_course_to_cart dodać w ostatnim ifie try catch
 -- if slecet count(*) from inserted > 1: throw error w triggerze. Czyli blokowanie insert dla wiecej niz jednego wiersza
 -- staramy sie unikać tych petli -> insert_select
 -- dodac komentarz o indeksach
