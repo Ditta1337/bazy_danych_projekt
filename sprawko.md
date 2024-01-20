@@ -1082,6 +1082,21 @@ BEGIN
 END
 ```
 
+### 12. Wyświetl liczbę studentów zapisanych na wydarzenia odbywające się w danym przedziale czasu
+```sql
+CREATE PROCEDURE get_students_registered_count_in_period(@start_date DATE, @end_date DATE)
+AS
+BEGIN
+    if(@start_date > @end_date)
+    BEGIN
+        THROW 53000, N'Start date must be earlier than end date', 1
+    END
+    SELECT *
+    FROM students_registered_count src
+    WHERE src.date > @start_date AND src.date < @end_date
+END
+```
+
 ## Funkcje
 
 ### 1. Obliczanie wolnych miejsc na danych studiach
