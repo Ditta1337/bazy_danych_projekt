@@ -1446,8 +1446,12 @@ GRANT SELECT ON materials TO student
 <div style="page-break-after: always;"></div>
 
 ## Indeksy
-
+###### Klucze główne oraz wartości unikalne
+###### email jest wartością unikalną, ponieważ wymuszamy na studentach, aby każdy z nich miał indywidualny email.
+###### file_url jest wartością unikalną, ponieważ musimy mieć możliwość otrzymania dostępu do każdego materiału osobno.
+###### payment_url jest wartością unikalną, ponieważ każda płatność musi mieć swój osobny url, który ją identyfikuje.
 ```sql
+-- Klucze głowne
 CREATE UNIQUE INDEX students_pk
 ON students (student_id)
 
@@ -1490,6 +1494,7 @@ ON course_payments (course_id, payment_id)
 CREATE UNIQUE INDEX lesson_payments_pk
 ON lesson_payments (lesson_id, payment_id)
 
+-- Emaile
 CREATE UNIQUE INDEX students_email
 ON students (email)
 
@@ -1499,9 +1504,11 @@ ON lecturers (email)
 CREATE UNIQUE INDEX employees_email
 ON employees (email)
 
+-- File Url
 CREATE UNIQUE INDEX file_url
 ON materials (file_url)
 
+-- Payment Url
 CREATE UNIQUE INDEX payment_url
 ON payments (payment_url)
 ```
@@ -1520,3 +1527,4 @@ ON payments (payment_url)
 -- if slecet count(*) from inserted > 1: throw error w triggerze. Czyli blokowanie insert dla wiecej niz jednego wiersza ----DONE---- <br>
 -- staramy sie unikać tych petli -> insert_select ----DONE----<br>
 -- dodac komentarz o indeksach <br>
+-- zmienić role i uprawnienia
