@@ -255,75 +255,7 @@ CREATE TABLE study_payments (
 ```
 
 ## Widoki
-
-### 1. Raporty finansowe
-
-#### Przychody dla studiów
-```sql
-CREATE VIEW studies_income AS
-    WITH t AS (select lp.lesson_id, l.price, l.extended_price, s.study_id, lp.is_extended
-            FROM lesson_payments lp
-                        JOIN lessons l
-                            ON lp.lesson_id = l.lesson_id
-                        JOIN courses c
-                            ON l.course_id = c.course_id
-                        JOIN studies s
-                            ON c.study_id = s.study_id
-                        JOIN payments p
-                            ON lp.payment_id = p.payment_id AND p.status = 1)
-    SELECT s.study_id,
-        ROUND((SELECT COUNT(*)
-                FROM study_payments sp
-                        JOIN payments p
-                            ON sp.payment_id = p.payment_id AND p.status = 1
-                WHERE sp.study_id = s.study_id) * s.entry_fee
-                    +
-                (SELECT ISNULL(SUM(t.price*t.is_extended + t.extended_price*ABS(t.is_extended - 1)), 0)
-                FROM t
-                WHERE t.study_id = s.study_id)
-            , 2) AS income
-    FROM studies s
-```
-
-#### Przychody dla kursów
-```sql
-CREATE VIEW courses_income AS
-    WITH t AS (SELECT cp.course_id, cp.is_full_price
-                FROM course_payments cp
-                    JOIN payments p
-                        ON cp.payment_id = p.payment_id AND p.status = 1)
-    SELECT c.course_id,
-        ROUND((SELECT COUNT(*)
-                FROM t
-                WHERE t.course_id = c.course_id AND t.is_full_price = 1) * c.full_price
-                +
-            (SELECT COUNT(*)
-                FROM t
-                WHERE t.course_id = c.course_id AND t.is_full_price = 0) * c.entry_price, 2) AS income
-    FROM courses c
-    WHERE c.study_id IS NULL
-```
-
-<div style="page-break-after: always;"></div>
-
-#### Przychody dla webinarów
-```sql
-CREATE VIEW webinars_income AS
-    WITH t AS (SELECT l.lesson_id, COUNT(lp.lesson_id) as counter
-                FROM lessons l
-                    JOIN lesson_payments lp
-                        ON l.lesson_id = lp.lesson_id
-                    JOIN payments p
-                        ON lp.payment_id = p.payment_id AND p.status = 1
-                WHERE l.course_id IS NULL
-                GROUP BY l.lesson_id)
-    SELECT t.lesson_id, ROUND(t.counter * l.price, 2) AS income
-    FROM t
-        JOIN lessons l
-            ON l.lesson_id = t.lesson_id
-```
-
-### 2. Lista „dłużników”
+### 1. Lista „dłużników”
 
 #### Dłużnicy dla studiów
 ```sql
@@ -393,7 +325,7 @@ CREATE VIEW debtors_list AS
     SELECT * FROM studies_debtors_list
 ```
 
-### 3. Ogólny raport dotyczący liczby zapisanych osób na wydarzenia
+### 2. Ogólny raport dotyczący liczby zapisanych osób na wydarzenia
 ``` sql
 CREATE VIEW students_registered_count AS
     WITH
@@ -455,7 +387,7 @@ CREATE VIEW students_registered_count AS
     LEFT JOIN extraStudentsCount esc ON l.lesson_id=esc.lesson_id
 ```
 
-### 4. Ogólny raport dotyczący liczby zapisanych osób na przyszłe wydarzenia
+### 3. Ogólny raport dotyczący liczby zapisanych osób na przyszłe wydarzenia
 ```sql
 CREATE VIEW students_registered_future_count AS (
     SELECT src.lesson_id, src.[count], src.[lesson form] 
@@ -467,7 +399,7 @@ CREATE VIEW students_registered_future_count AS (
 
 <div style="page-break-after: always;"></div>
 
-### 5. Ogólny raport dotyczący frekwencji na zakończonych już wydarzeniach
+### 4. Ogólny raport dotyczący frekwencji na zakończonych już wydarzeniach
 ``` sql
 CREATE VIEW attendance_percentage_report AS 
     WITH 
@@ -500,7 +432,7 @@ CREATE VIEW attendance_percentage_report AS
     JOIN attendancePresent atp on att.lesson_id=atp.lesson_id
 ```
 
-### 6. Lista Obecności
+### 5. Lista Obecności
 ``` sql
 CREATE VIEW attendance_list AS (
     SELECT 
@@ -520,7 +452,7 @@ CREATE VIEW attendance_list AS (
 )
 ```
 
-### 7. Raport Bilokacji
+### 6. Raport Bilokacji
 ```sql
 CREATE VIEW bilocation_report AS
 WITH
@@ -1117,6 +1049,121 @@ BEGIN
 END
 
 ``` 
+### Raporty finansowe
+### 14. Przychody dla studiów w zadanym okresie
+```sql
+CREATE PROCEDURE get_studies_income(
+    @start_date date = '0001-01-01',
+    @end_date date = '9999-12-31'
+)
+AS
+BEGIN
+    IF @start_date > @end_date
+        BEGIN
+            THROW 53000, N'start_date should be before end_date', 1
+        END;
+
+    ;WITH t AS (select lp.lesson_id, l.price, l.extended_price, s.study_id, lp.is_extended
+               FROM lesson_payments lp
+                        JOIN lessons l
+                             ON lp.lesson_id = l.lesson_id
+                        JOIN courses c
+                             ON l.course_id = c.course_id
+                        JOIN studies s
+                             ON c.study_id = s.study_id
+                        JOIN payments p
+                             ON lp.payment_id = p.payment_id AND p.status = 1
+               WHERE p.date >= @start_date
+                 AND p.date <= @end_date)
+    SELECT s.study_id,
+           s.name,
+           s.description,
+           s.employee_id,
+           ROUND((SELECT COUNT(*)
+                  FROM study_payments sp
+                           JOIN payments p
+                                ON sp.payment_id = p.payment_id AND p.status = 1
+                  WHERE sp.study_id = s.study_id
+                    AND p.date >= @start_date
+                    AND p.date <= @end_date) * s.entry_fee
+                     +
+                 (SELECT ISNULL(SUM(t.price * t.is_extended + t.extended_price * ABS(t.is_extended - 1)), 0)
+                  FROM t
+                  WHERE t.study_id = s.study_id)
+               , 2) AS income
+    FROM studies s
+END;
+```
+
+## 15. Przychody za kursy w zadanym okresie
+```sql
+CREATE PROCEDURE get_courses_income(
+    @start_date date = '0001-01-01',
+    @end_date date = '9999-12-31'
+)
+AS
+BEGIN
+    IF @start_date > @end_date
+        BEGIN
+            THROW 53000, N'start_date should be before end_date', 1
+        END
+
+    ;WITH t AS (SELECT cp.course_id, cp.is_full_price
+               FROM course_payments cp
+                        JOIN payments p
+                             ON cp.payment_id = p.payment_id AND p.status = 1
+               WHERE p.date >= @start_date
+                 AND p.date <= @end_date)
+    SELECT c.course_id,
+           c.name,
+           c.description,
+           ROUND((SELECT COUNT(*)
+                  FROM t
+                  WHERE t.course_id = c.course_id
+                    AND t.is_full_price = 1) * c.full_price
+                     +
+                 (SELECT COUNT(*)
+                  FROM t
+                  WHERE t.course_id = c.course_id
+                    AND t.is_full_price = 0) * c.entry_price, 2) AS income
+    FROM courses c
+    WHERE c.study_id IS NULL
+END;
+```
+
+### 16. Przychody za webinary w zadanym okresie
+```sql
+CREATE PROCEDURE get_webinars_income(
+    @start_date date = '0001-01-01',
+    @end_date date = '9999-12-31'
+)
+AS
+BEGIN
+    IF @start_date > @end_date
+        BEGIN
+            THROW 53000, N'start_date should be before end_date', 1
+        END;
+
+    WITH t AS (SELECT l.lesson_id, COUNT(lp.lesson_id) as counter
+               FROM lessons l
+                        JOIN lesson_payments lp
+                             ON l.lesson_id = lp.lesson_id
+                        JOIN payments p
+                             ON lp.payment_id = p.payment_id AND p.status = 1
+               WHERE l.course_id IS NULL
+                 AND p.date >= @start_date
+                 AND p.date <= @end_date
+               GROUP BY l.lesson_id)
+    SELECT l.lesson_id,
+           l.name,
+           l.description,
+           l.date,
+           ROUND(t.counter * l.price, 2) AS income
+    FROM t
+             JOIN lessons l
+                  ON l.lesson_id = t.lesson_id
+END;
+```
 
 ## Funkcje
 
