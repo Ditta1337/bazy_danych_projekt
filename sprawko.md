@@ -1181,9 +1181,9 @@ CREATE FUNCTION get_lesson_studies(@lesson_id INT)
 ### 1. Trigger usuwający zaliczkę po wpłynięciu płatności za całość kursu
 ```sql
 CREATE TRIGGER tr_remove_prev_partial_payments
-ON course_payments
-AFTER INSERT
-AS
+    ON course_payments
+    AFTER INSERT
+    AS
 BEGIN
     SET NOCOUNT ON;
 
@@ -1203,7 +1203,7 @@ END;
 
 ### 2. Trigger dodający wpis o obecności na zajęciach po zapłaceniu za te zajęcia
 ```sql
-CREATE OR ALTER TRIGGER tr_generate_attendance
+CREATE TRIGGER tr_generate_attendance
     ON payments
     AFTER INSERT, UPDATE
     AS
