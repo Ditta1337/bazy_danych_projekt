@@ -256,7 +256,7 @@ CREATE TABLE study_payments (
 
 ## Widoki
 ### 1. Lista „dłużników”
-
+###### Widok wyświetlający id studentów, którzy zalegają z płatnościami za odpowiednio: studia, kursy i lekcje, oraz zbiorczo za wszystkie te kategorie
 #### Dłużnicy dla studiów
 ```sql
 CREATE VIEW studies_debtors_list AS
