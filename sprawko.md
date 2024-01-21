@@ -1217,6 +1217,44 @@ END
 ```
 
 
+### 19. Opłacanie wydarzeń
+```sql
+CREATE PROCEDURE pay_for_event(@event_id INT, @payment_id INT)
+AS
+BEGIN
+    BEGIN TRY
+        DECLARE @vacancyCount INT
+
+        IF EXISTS (SELECT 1 FROM lesson_payments WHERE lesson_id = @event_id)
+            SET @vacancyCount = dbo.get_lesson_vacancy_count(@event_id)
+        ELSE IF EXISTS (SELECT 1 FROM course_payments WHERE course_id = @event_id)
+            SET @vacancyCount = dbo.get_course_vacancy_count(@event_id)
+        ELSE IF EXISTS (SELECT 1 FROM study_payments WHERE study_id = @event_id)
+            SET @vacancyCount = dbo.get_study_vacancy_count(@event_id)
+        ELSE
+        BEGIN
+            THROW  53000, N'Invalid @event_id', 1
+        END
+
+        IF @vacancyCount > 0
+        BEGIN
+            UPDATE payments
+            SET status = 1
+            WHERE payment_id = @payment_id;
+        END
+        ELSE
+        BEGIN
+            THROW 53000, N'No vacancies available for the specified event.', 1;
+        END
+    END TRY
+    BEGIN CATCH
+        DECLARE @msg NVARCHAR(2048) = N'ERROR: ' + ERROR_MESSAGE();
+        THROW 53000, @msg, 1
+    END CATCH
+END
+```
+
+
 ## Funkcje
 
 ### 1. Obliczanie wolnych miejsc na danych studiach
