@@ -483,6 +483,17 @@ CREATE VIEW attendance_percentage_report AS
     JOIN attendancePresent atp on att.lesson_id=atp.lesson_id
 ```
 
+Przykładowy rezultat widoku
+| lesson\_id | name | date | Attendance Percentage |
+| :--- | :--- | :--- | :--- |
+| 1 | coaching lesson | 2024-01-01 | 0.94 |
+| 2 | maybeing lesson | 2024-01-07 | 0.94 |
+| 3 | stageing lesson | 2024-01-13 | 0.83 |
+| 4 | catching lesson | 2024-01-19 | 0.94 |
+| 49 | businessing lesson | 2023-05-01 | 0.90 |
+| 50 | officering lesson | 2023-05-04 | 0.86 |
+
+
 
 ### 5. Lista Obecności
 ###### Widok wyświetlający listę obecności: id lekcji, datę lekcji, imię i nazwisko studenta oraz status obecności ( obecny / nieobecny ), dla wszystkich lekcji.
@@ -504,6 +515,17 @@ CREATE VIEW attendance_list AS (
     JOIN students s ON a.student_id=s.student_id
 )
 ```
+
+Przykładowy rezultat widoku
+| lesson\_id | date | first\_name | last\_name | status |
+| :--- | :--- | :--- | :--- | :--- |
+| 1 | 2024-01-01 | Patrick | Stevens | PRESENT |
+| 1 | 2024-01-01 | Daniel | Brown | PRESENT |
+| 1 | 2024-01-01 | Michael | Griffin | PRESENT |
+| 1 | 2024-01-01 | Miguel | Olson | PRESENT |
+| 1 | 2024-01-01 | Anthony | Lowe | PRESENT |
+| 1 | 2024-01-01 | Samantha | Schaefer | PRESENT |
+
 
 ### 6. Raport Bilokacji
 ###### Widok wyświetlający listę studentów, którzy mają kolidujące ze sobą lekcje: id studenta, data lekcji, id pierwszej kolidującej lekcji i jej nazwa, id drugiej kolidującej lekcji i jej nazwa.
@@ -528,6 +550,18 @@ WHERE md1.[date]=md2.[date] AND
         (md1.start_time > md2.start_time AND md2.end_time > md1.start_time)
     )
 ```
+
+Przykładowy rezultat widoku
+| student\_id | date | lesson 1 id | lesson 1 | lesson 2 id | lesson 2 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 65 | 2024-03-01 | 109 | itsing lesson | 99 | duringing lesson |
+| 66 | 2024-03-01 | 109 | itsing lesson | 99 | duringing lesson |
+| 67 | 2024-03-01 | 109 | itsing lesson | 99 | duringing lesson |
+| 68 | 2024-03-01 | 109 | itsing lesson | 99 | duringing lesson |
+| 69 | 2024-03-01 | 109 | itsing lesson | 99 | duringing lesson |
+| 70 | 2024-03-01 | 109 | itsing lesson | 99 | duringing lesson |
+
+
 
 <div style="page-break-after: always;"></div>
 
@@ -572,6 +606,13 @@ BEGIN
 END
 ```
 
+Przykładowy rezultat procedury dla @student_id = 101
+| lesson\_id | name | description | date | start\_time | end\_time | price | classroom | language |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 71 | likelying lesson | likelying lesson description | 2023-08-31 | 14:48:00.0000000 | 16:18:00.0000000 | 79.9900 | C1 | Spanish |
+| 72 | pressureing lesson | pressureing lesson description | 2023-09-30 | 16:40:00.0000000 | 18:10:00.0000000 | 59.9900 | A2 | Polish |
+
+
 ### 2. Wyświetl koszyk danego użytkownika (kursy)
 ```sql
 CREATE PROCEDURE student_cart_courses_info(@student_id INT)
@@ -602,6 +643,13 @@ BEGIN
     END CATCH
 END
 ```
+
+Przykładowy rezultat procedury dla @student_id = 101
+| course\_id | name | description | entry\_price | full\_price |
+| :--- | :--- | :--- | :--- | :--- |
+| 15 | pering course | pering course description | 120.0000 | 1280.0000 |
+| 16 | ining course | ining course description | 95.0000 | 605.0000 |
+
 
 <div style="page-break-after: always;"></div>
 
@@ -637,6 +685,12 @@ BEGIN
 END
 ```
 
+Przykładowy rezultat procedury dla @student_id = 101
+| study\_id | name | description | entry\_fee | exam\_date |
+| :--- | :--- | :--- | :--- | :--- |
+| 2 | responsibilitying study | responsibilitying study description | 500.0000 | 2024-01-25 00:00:00.000 |
+
+
 ### 4. Przeglądaj historię uczestnictwa
 ```sql
 CREATE PROCEDURE student_attendance_history(@student_id INT)
@@ -666,6 +720,18 @@ BEGIN
     END CATCH
 END
 ```
+
+Przykładowy rezultat procedury dla @student_id = 50
+| lesson\_id | name | date |
+| :--- | :--- | :--- |
+| 74 | theying lesson | 2023-02-01 |
+| 75 | projecting lesson | 2023-02-15 |
+| 76 | analysising lesson | 2023-03-01 |
+| 77 | performing lesson | 2023-03-15 |
+| 78 | parenting lesson | 2023-03-29 |
+| 79 | itselfing lesson | 2023-04-01 |
+
+
 
 <div style="page-break-after: always;"></div>
 
@@ -1191,13 +1257,13 @@ BEGIN
     WHERE c.study_id IS NULL
 END;
 ```
+
 Przykładowy rezultat procedury
 | course\_id | name | description | income |
 | :--- | :--- | :--- | :--- |
 | 9 | girling course | girling course description | 48300.0000 |
 | 15 | pering course | pering course description | 18160.0000 |
 | 16 | ining course | ining course description | 7035.0000 |
-
 
 
 ### 16. Przychody za webinary w zadanym okresie
@@ -1233,6 +1299,7 @@ BEGIN
                   ON l.lesson_id = t.lesson_id
 END;
 ```
+
 Przykładowy rezultat procedury
 | lesson\_id | name | description | date | income |
 | :--- | :--- | :--- | :--- | :--- |
