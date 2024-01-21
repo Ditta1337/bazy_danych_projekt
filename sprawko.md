@@ -1774,21 +1774,3 @@ ON materials (file_url)
 CREATE UNIQUE INDEX payment_url
 ON payments (payment_url)
 ```
-
--- zmienić role i uprawnienia <br>
--- dodac takie dane, zeby cos sie pokazywalo w koszyku <br>
--- komentarz za koszykiem, zeby sie nie domyslac <br>
-
-<br>
--- wrzucic przykladowe outputy po widokami itp ---DONE--- <br>
--- w momencie zapłaty sprawdzać czy jest miejsce na zajęciach ----DONE---- <br>
--- debtor_list dodac imie i nazwisko, moze ile zalega ----DONE---- <br>
--- komentarze do widokow  ----DONE---- <br>
--- wiecej danych ----DONE---- <br> 
--- filtrowanie widoków przychodów po dacie, dodanie nazwy kursu/studiów/webinaru ----DONE----<br>
--- student_registered_count moze tez po dacie? ----DONE----<br>
--- znienic insert na insert w select w triggerze ----DONE----<br>
--- zablokowc trigger zeby sie nie wykonywal dwa razy (nie wiem o co chodzi) ----DONE----<br>
--- if slecet count(*) from inserted > 1: throw error w triggerze. Czyli blokowanie insert dla wiecej niz jednego wiersza ----DONE---- <br>
--- staramy sie unikać tych petli -> insert_select ----DONE----<br>
--- dodac komentarz o indeksach ----DONE---- <br> 
