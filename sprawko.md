@@ -500,6 +500,7 @@ WHERE md1.[date]=md2.[date] AND
 ## Procedury
 
 ### 1. Wyświetl koszyk danego użytkownika (lekcje)
+###### Procedura wyświetlająca koszyk ( zawierający wyłącznie lekcje ) danego studenta.
 ```sql
 CREATE PROCEDURE student_cart_lessons_info(@student_id INT)
 AS
@@ -539,6 +540,7 @@ END
 ```
 
 ### 2. Wyświetl koszyk danego użytkownika (kursy)
+###### Procedura wyświetlająca koszyk ( zawierający wyłącznie kursy ) danego studenta.
 ```sql
 CREATE PROCEDURE student_cart_courses_info(@student_id INT)
 AS
@@ -572,6 +574,7 @@ END
 <div style="page-break-after: always;"></div>
 
 ### 3. Wyświetl koszyk danego użytkownika (studia)
+###### Procedura wyświetlająca koszyk ( zawierający wyłącznie studia ) danego studenta.
 ```sql
 CREATE PROCEDURE student_cart_studies_info(@student_id INT)
 AS
@@ -604,6 +607,7 @@ END
 ```
 
 ### 4. Przeglądaj historię uczestnictwa
+###### Procedura wyświetlająca historię uczestnictwa w lekcjach danego studenta.
 ```sql
 CREATE PROCEDURE student_attendance_history(@student_id INT)
 AS
@@ -636,6 +640,7 @@ END
 <div style="page-break-after: always;"></div>
 
 ### 5. Aktualizuj obecność
+###### Procedura pozwalająca zaktualizować status obecności danego studenta na danej lekcji.
 ```sql
 -- 5. Aktualizuj obecność
 CREATE PROCEDURE update_attendance(@lesson_id INT, @student_id INT, @status BIT)
@@ -679,7 +684,8 @@ END
 
 <div style="page-break-after: always;"></div>
 
-### 6. Dodaj lekcję ze studiów
+### 6. Dodaj lekcję w ramach studiów
+###### Procedura dodająca lekcję w ramach oferty studiów.
 ```sql
 CREATE PROCEDURE add_study_lesson(
     @lecturer_id INT,
@@ -746,6 +752,7 @@ END
 <div style="page-break-after: always;"></div>
 
 ### 7. Dodaj lekcję z kursu
+###### Procedura dodająca lekcję w ramach oferty kursu.
 ```sql
 CREATE PROCEDURE add_course_lesson(
     @lecturer_id INT,
@@ -797,6 +804,7 @@ END
 <div style="page-break-after: always;"></div>
 
 ### 8. Dodaj webinar
+###### Procedura dodająca webinar.
 ```sql
 CREATE PROCEDURE add_webinar(
     @lecturer_id INT,
@@ -844,6 +852,7 @@ END
 <div style="page-break-after: always;"></div>
 
 ### 9. Dodawanie lekcji do koszyka
+###### Procedura dodająca lekcję do koszyka danego studenta.
 ```sql
 CREATE PROCEDURE add_lesson_to_cart(@payment_id INT, @lesson_id INT, @student_id INT)
 AS
@@ -927,6 +936,7 @@ END
 <div style="page-break-after: always;"></div>
 
 ### 10. Dodawanie kursu do koszyka
+###### Procedura dodająca kurs do koszyka danego studenta.
 ```sql
 CREATE PROCEDURE add_course_to_cart(@payment_id INT, @course_id INT, @student_id INT, @is_full_price INT)
 AS
@@ -989,6 +999,7 @@ END
 <div style="page-break-after: always;"></div>
 
 ### 11. Dodawanie studiów do koszyka
+###### Procedura dodająca studia do koszyka danego studenta.
 ```sql
 CREATE PROCEDURE add_study_to_cart(@payment_id INT, @study_id INT, @student_id INT)
 AS
@@ -1040,6 +1051,7 @@ END
 ```
 
 ### 12. Wyświetl liczbę studentów zapisanych na wydarzenia odbywające się w danym przedziale czasu
+###### Procedura wyświetlająca liczbę studentów, którzy są zapisani na wydarzenia w danym przedziale czasu.
 ```sql
 CREATE PROCEDURE get_students_registered_count_in_period(@start_date DATE, @end_date DATE)
 AS
@@ -1055,6 +1067,7 @@ END
 ```
 
 ### 13. Wyświetl raport dotyczący frekwencji na zakończonych już wydarzeniach w danym przedziale czasu
+###### Procedura wyświetlająca liczbę studentów, którzy są zapisani na zakończone już wydarzenia w danym przedziale czasu.
 ```sql
 CREATE PROCEDURE get_attendance_percentage_report_in_period(@start_date DATE, @end_date DATE)
 AS
@@ -1071,6 +1084,7 @@ END
 ``` 
 ### Raporty finansowe
 ### 14. Przychody dla studiów w zadanym okresie
+###### Procedura wyświetlająca przychody dla wszystkich studiów w danym przedziale czasu.
 ```sql
 CREATE PROCEDURE get_studies_income(
     @start_date date = '0001-01-01',
@@ -1116,6 +1130,7 @@ END;
 ```
 
 ## 15. Przychody za kursy w zadanym okresie
+###### Procedura wyświetlająca przychody dla wszystkich kursów w danym przedziale czasu.
 ```sql
 CREATE PROCEDURE get_courses_income(
     @start_date date = '0001-01-01',
@@ -1152,6 +1167,7 @@ END;
 ```
 
 ### 16. Przychody za webinary w zadanym okresie
+###### Procedura wyświetlająca przychody dla wszystkich webinarów w danym przedziale czasu.
 ```sql
 CREATE PROCEDURE get_webinars_income(
     @start_date date = '0001-01-01',
@@ -1186,6 +1202,7 @@ END;
 ```
 
 ### 17. Lista obecności w danym przedziale czasu
+###### Procedura wyświetlająca listę obecności na wydarzeniach odbywających się w danym przedziale czasu.
 ```sql
 CREATE PROCEDURE get_attendance_list_in_period(@start_date DATE, @end_date DATE)
 AS
@@ -1201,6 +1218,7 @@ END
 ```
 
 ### 18. Raport bilokacji w danym przedziale czasu
+###### Procedura wyświetlająca listę studentów, którzy mają kolidujące ze sobą lekcje w danym przedziale czasu.
 ```sql
 CREATE PROCEDURE get_bilocation_report_in_period(@start_date DATE, @end_date DATE)
 AS
@@ -1218,6 +1236,7 @@ END
 
 
 ### 19. Opłacanie wydarzeń
+###### Procedura pozwalająca opłacić dane wydarzenie ( jeśli są na nim jeszcze wolne miejsca )
 ```sql
 CREATE PROCEDURE pay_for_event(@event_id INT, @payment_id INT)
 AS
@@ -1571,8 +1590,9 @@ ON payments (payment_url)
 -- dodac takie dane, zeby cos sie pokazywalo w koszyku <br>
 -- komentarz za koszykiem, zeby sie nie domyslac <br>
 -- wrzucic przykladowe outputy po widokami itp <br>
--- w momencie zapłaty sprawdzać czy jest miejsce na zajęciach <br>
+
 <br>
+-- w momencie zapłaty sprawdzać czy jest miejsce na zajęciach ----DONE---- <br>
 -- debtor_list dodac imie i nazwisko, moze ile zalega ----DONE---- <br>
 -- komentarze do widokow  ----DONE---- <br>
 -- wiecej danych ----DONE---- <br> 
