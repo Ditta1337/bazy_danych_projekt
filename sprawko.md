@@ -1337,6 +1337,7 @@ END;
 <div style="page-break-after: always;"></div>
 
 ### 2. Trigger dodający wpis o obecności na zajęciach po zapłaceniu za te zajęcia
+###### Trigger aktywuje się po zdarzeniu dodania recordu do tabeli payments ze statusem opłacone oraz po zaaktualizowaniu recordu w tabeli payments tylko przy zmianie statusu z nieopłacony na opłacony
 ```sql
 CREATE TRIGGER tr_generate_attendance
     ON payments
