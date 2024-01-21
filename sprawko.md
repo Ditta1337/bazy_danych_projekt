@@ -1599,6 +1599,10 @@ GRANT SELECT ON students_registered_future_count TO event_manager
 GRANT SELECT ON attendance_percentage_report TO event_manager
 GRANT SELECT ON attendance_list TO event_manager
 GRANT SELECT ON bilocation_report TO event_manager
+GRANT EXEC ON get_attendance_list_in_period TO event_manager
+GRANT EXEC ON get_attendance_percentage_report_in_period TO event_manager
+GRANT EXEC ON get_students_registered_count_in_period TO event_manager
+GRANT EXEC ON get_bilocation_report_in_period TO event_manager
 ```
 
 ### 3. Pracownik biurowy
@@ -1617,6 +1621,10 @@ GRANT SELECT ON students_registered_future_count TO office_worker
 GRANT SELECT ON attendance_percentage_report TO office_worker
 GRANT SELECT ON attendance_list TO office_worker
 GRANT SELECT ON bilocation_report TO office_worker
+GRANT EXEC ON get_attendance_list_in_period TO office_worker
+GRANT EXEC ON get_attendance_percentage_report_in_period TO office_worker
+GRANT EXEC ON get_students_registered_count_in_period TO office_worker
+GRANT EXEC ON get_bilocation_report_in_period TO office_worker
 ```
 
 ### 4. Wykładowca
@@ -1630,6 +1638,7 @@ GRANT INSERT ON materials TO lecturer
 GRANT UPDATE ON materials TO lecturer
 GRANT DELETE ON materials TO lecturer
 GRANT SELECT ON attendance_list TO lecturer
+GRANT EXEC ON get_attendance_list_in_period TO office_worker
 ```
 
 ### 5. Student
@@ -1644,6 +1653,7 @@ GRANT EXECUTE ON student_cart_lessons_info TO student
 GRANT EXECUTE ON student_cart_courses_info TO student
 GRANT EXECUTE ON student_cart_studies_info TO student
 GRANT SELECT ON materials TO student
+GRANT EXEC ON pay_for_event TO student
 ```
 
 <div style="page-break-after: always;"></div>
