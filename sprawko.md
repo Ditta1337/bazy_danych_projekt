@@ -1411,33 +1411,34 @@ Przykładowy rezultat procedury dla <br>
 ### 19. Opłacanie wydarzeń
 ###### Procedura pozwalająca opłacić dane wydarzenie ( jeśli są na nim jeszcze wolne miejsca )
 ```sql
-CREATE PROCEDURE pay_for_event(@event_id INT, @payment_id INT)
+CREATE PROCEDURE pay_for_event(@payment_id INT)
 AS
 BEGIN
     BEGIN TRY
-        DECLARE @vacancyCount INT
-
-        IF EXISTS (SELECT 1 FROM lesson_payments WHERE lesson_id = @event_id)
-            SET @vacancyCount = dbo.get_lesson_vacancy_count(@event_id)
-        ELSE IF EXISTS (SELECT 1 FROM course_payments WHERE course_id = @event_id)
-            SET @vacancyCount = dbo.get_course_vacancy_count(@event_id)
-        ELSE IF EXISTS (SELECT 1 FROM study_payments WHERE study_id = @event_id)
-            SET @vacancyCount = dbo.get_study_vacancy_count(@event_id)
-        ELSE
-        BEGIN
-            THROW  53000, N'Invalid @event_id', 1
-        END
-
-        IF @vacancyCount > 0
-        BEGIN
-            UPDATE payments
-            SET status = 1
-            WHERE payment_id = @payment_id;
-        END
-        ELSE
-        BEGIN
-            THROW 53000, N'No vacancies available for the specified event.', 1;
-        END
+        IF EXISTS (
+            SELECT 1 
+            FROM payments p 
+            JOIN lesson_payments lp ON p.payment_id=lp.payment_id
+            WHERE p.[payment_id]=@payment_id AND dbo.get_lesson_vacancy_count(lp.lesson_id) <= 0
+            )
+            THROW 53000, N'There are lessons with no vacancies in your order.', 1
+        ELSE IF EXISTS (
+            SELECT 1 
+            FROM payments p 
+            JOIN course_payments cp ON p.payment_id=cp.payment_id
+            WHERE p.[payment_id]=@payment_id AND dbo.get_course_vacancy_count(cp.course_id) <= 0
+            )
+            THROW 53000, N'There are courses with no vacancies in your order.', 1
+        ELSE IF EXISTS (
+            SELECT 1 
+            FROM payments p 
+            JOIN study_payments sp ON p.payment_id=sp.payment_id
+            WHERE p.[payment_id]=@payment_id AND dbo.get_study_vacancy_count(sp.study_id) <= 0
+            )
+            THROW 53000, N'There are studies with no vacancies in your order.', 1
+        UPDATE payments
+        SET status = 1
+        WHERE payment_id = @payment_id;
     END TRY
     BEGIN CATCH
         DECLARE @msg NVARCHAR(2048) = N'ERROR: ' + ERROR_MESSAGE();
