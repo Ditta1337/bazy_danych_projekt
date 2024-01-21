@@ -477,22 +477,22 @@ CREATE VIEW attendance_list AS (
 CREATE VIEW bilocation_report AS
 WITH
 myData AS (
-    SELECT s.student_id, l.lesson_id, l.name, l.[date], start_time, end_time 
+    SELECT s.student_id, l.lesson_id, l.name, l.[date], l.start_time, l.end_time 
     FROM students s
-    JOIN payments p ON s.student_id=p.student_id
-    JOIN lesson_payments lp ON p.payment_id=lp.payment_id
-    JOIN lessons l ON l.lesson_id=lp.lesson_id
-    where (p.[status]=1 OR (p.[status]=0 AND p.postponed=1))
+    JOIN attendance a ON a.student_id=s.student_id
+    JOIN lessons l ON l.lesson_id=a.lesson_id
 )
 SELECT DISTINCT md1.student_id, md1.date, md1.lesson_id as "lesson 1 id", md1.name as "lesson 1", md2.lesson_id as "lesson 2 id", md2.name as "lesson 2"
 FROM myData md1
 JOIN myData md2 ON md1.student_id=md2.student_id
 WHERE md1.[date]=md2.[date] AND 
     (
-        (md2.start_time > md1.start_time AND md1.end_time > md2.start_time) 
+        (md2.start_time >= md1.start_time AND md1.end_time >= md2.start_time) 
     OR 
-        (md1.start_time > md2.start_time AND md2.end_time > md1.start_time)
+        (md1.start_time >= md2.start_time AND md2.end_time >= md1.start_time)
     )
+    AND md1.lesson_id<>md2.lesson_id
+    AND md1.lesson_id > md2.lesson_id
 ```
 
 <div style="page-break-after: always;"></div>
@@ -1229,9 +1229,8 @@ BEGIN
     END
     SELECT *
     FROM bilocation_report br
-    WHERE br.date > @start_date AND br.date < @end_date
+    WHERE br.date >= @start_date AND br.date <= @end_date
 END
-
 ```
 
 
