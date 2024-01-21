@@ -1777,9 +1777,9 @@ ON payments (payment_url)
 -- zmienić role i uprawnienia <br>
 -- dodac takie dane, zeby cos sie pokazywalo w koszyku <br>
 -- komentarz za koszykiem, zeby sie nie domyslac <br>
--- wrzucic przykladowe outputy po widokami itp <br>
 
 <br>
+-- wrzucic przykladowe outputy po widokami itp ---DONE--- <br>
 -- w momencie zapłaty sprawdzać czy jest miejsce na zajęciach ----DONE---- <br>
 -- debtor_list dodac imie i nazwisko, moze ile zalega ----DONE---- <br>
 -- komentarze do widokow  ----DONE---- <br>
