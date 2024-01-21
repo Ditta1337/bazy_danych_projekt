@@ -340,6 +340,17 @@ CREATE OR ALTER VIEW debtors_list AS
     GROUP BY t.student_id, t.first_name, t.last_name
 ```
 
+Przykładowy rezultat widoku
+| student\_id | first\_name | last\_name | debt |
+| :--- | :--- | :--- | :--- |
+| 1 | Patrick | Stevens | 6373.5000 |
+| 2 | Daniel | Brown | 6436.5000 |
+| 3 | Michael | Griffin | 6279.0000 |
+| 4 | Miguel | Olson | 6405.0000 |
+| 5 | Anthony | Lowe | 6541.5000 |
+| 6 | Samantha | Schaefer | 6625.5000 |
+
+
 ### 2. Ogólny raport dotyczący liczby zapisanych osób na wydarzenia
 ###### Widok wyświetlający id lekcji, nazwę lekcji, datę lekcji, liczbę studentów zapisanych na daną lekcję oraz formę danej lekcji ( stacjonarna / zdalna ) dla wszystkich lekcji.
 ``` sql
@@ -403,6 +414,17 @@ CREATE VIEW students_registered_count AS
     LEFT JOIN extraStudentsCount esc ON l.lesson_id=esc.lesson_id
 ```
 
+Przykładowy rezultat widoku
+| lesson\_id | name | date | count | lesson form |
+| :--- | :--- | :--- | :--- | :--- |
+| 1 | coaching lesson | 2024-01-01 | 35 | stationary |
+| 2 | maybeing lesson | 2024-01-07 | 35 | stationary |
+| 3 | stageing lesson | 2024-01-13 | 35 | remote |
+| 4 | catching lesson | 2024-01-19 | 35 | stationary |
+| 5 | continueing lesson | 2024-01-25 | 35 | stationary |
+| 6 | cameraing lesson | 2024-01-31 | 35 | stationary |
+
+
 ### 3. Ogólny raport dotyczący liczby zapisanych osób na przyszłe wydarzenia
 ###### Widok wyświetlający id lekcji, nazwę lekcji, datę lekcji, liczbę zapisanych studentów na daną lekcję oraz formę danej lekcji (stacjonarna / zdalna ) dla lekcji, które się jeszcze nie odbyły.
 ```sql
@@ -413,6 +435,17 @@ CREATE VIEW students_registered_future_count AS (
     WHERE l.[date] > GETDATE()
 )
 ```
+
+Przykładowy rezultat widoku
+| lesson\_id | name | date | count | lesson form |
+| :--- | :--- | :--- | :--- | :--- |
+| 5 | continueing lesson | 2024-01-25 | 35 | stationary |
+| 6 | cameraing lesson | 2024-01-31 | 35 | stationary |
+| 7 | civiling lesson | 2024-02-01 | 35 | stationary |
+| 8 | necessarying lesson | 2024-02-06 | 35 | stationary |
+| 9 | developmenting lesson | 2024-02-12 | 35 | stationary |
+| 10 | perhapsing lesson | 2024-02-17 | 35 | stationary |
+
 
 <div style="page-break-after: always;"></div>
 
@@ -449,6 +482,7 @@ CREATE VIEW attendance_percentage_report AS
     FROM attendanceTotal att
     JOIN attendancePresent atp on att.lesson_id=atp.lesson_id
 ```
+
 
 ### 5. Lista Obecności
 ###### Widok wyświetlający listę obecności: id lekcji, datę lekcji, imię i nazwisko studenta oraz status obecności ( obecny / nieobecny ), dla wszystkich lekcji.
@@ -1128,6 +1162,13 @@ BEGIN
     FROM studies s
 END;
 ```
+Przykładowy rezultat procedury
+| study\_id | name | description | employee\_id | income |
+| :--- | :--- | :--- | :--- | :--- |
+| 1 | amonging study | amonging study description | 5 | 156170.0000 |
+| 2 | responsibilitying study | responsibilitying study description | 5 | 63096.0000 |
+
+
 
 ## 15. Przychody za kursy w zadanym okresie
 ###### Procedura wyświetlająca przychody dla wszystkich kursów w danym przedziale czasu.
@@ -1165,6 +1206,14 @@ BEGIN
     WHERE c.study_id IS NULL
 END;
 ```
+Przykładowy rezultat procedury
+| course\_id | name | description | income |
+| :--- | :--- | :--- | :--- |
+| 9 | girling course | girling course description | 48300.0000 |
+| 15 | pering course | pering course description | 18160.0000 |
+| 16 | ining course | ining course description | 7035.0000 |
+
+
 
 ### 16. Przychody za webinary w zadanym okresie
 ###### Procedura wyświetlająca przychody dla wszystkich webinarów w danym przedziale czasu.
@@ -1200,6 +1249,15 @@ BEGIN
                   ON l.lesson_id = t.lesson_id
 END;
 ```
+Przykładowy rezultat procedury
+| lesson\_id | name | description | date | income |
+| :--- | :--- | :--- | :--- | :--- |
+| 69 | theorying lesson | theorying lesson description | 2023-07-01 | 1199.8800 |
+| 70 | especiallying lesson | especiallying lesson description | 2023-07-31 | 1349.8500 |
+| 71 | likelying lesson | likelying lesson description | 2023-08-31 | 799.9000 |
+| 72 | pressureing lesson | pressureing lesson description | 2023-09-30 | 599.9000 |
+| 73 | shorting lesson | shorting lesson description | 2023-10-31 | 769.9300 |
+
 
 ### 17. Lista obecności w danym przedziale czasu
 ###### Procedura wyświetlająca listę obecności na wydarzeniach odbywających się w danym przedziale czasu.
