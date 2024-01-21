@@ -592,7 +592,8 @@ BEGIN
             c.course_id,
             c.name, 
             c.[description],
-            c.entry_price
+            c.entry_price,
+            c.full_price
         FROM payments p
         JOIN course_payments cp ON p.payment_id=cp.payment_id
         JOIN courses c ON c.course_id=cp.course_id
