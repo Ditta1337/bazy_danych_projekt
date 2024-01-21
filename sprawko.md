@@ -1277,6 +1277,7 @@ END
 ## Funkcje
 
 ### 1. Obliczanie wolnych miejsc na danych studiach
+###### Funkcja obliczająca ilość wolnych miejsc na danych studiach.
 ```sql
 CREATE FUNCTION calc_study_vacancy_amount(@study_id INT)
     RETURNS INT
@@ -1297,6 +1298,7 @@ CREATE FUNCTION calc_study_vacancy_amount(@study_id INT)
 <div style="page-break-after: always;"></div>
 
 ### 2. Obliczanie wolnych miejsc na danym kursie
+###### Funkcja obliczająca ilość wolnych miejsc na danym kursie.
 ```sql
 CREATE FUNCTION calc_course_vacancy_amount(@course_id INT)
     RETURNS INT
@@ -1324,6 +1326,7 @@ CREATE FUNCTION calc_course_vacancy_amount(@course_id INT)
 ```
 
 ### 3. Obliczanie wolnych miejsc na danej lekcji
+###### Funkcja obliczająca ilość wolnych miejsc na danej lekcji.
 ```sql
 CREATE FUNCTION calc_lesson_vacancy_amount(@lesson_id INT)
     RETURNS INT
@@ -1351,6 +1354,7 @@ CREATE FUNCTION calc_lesson_vacancy_amount(@lesson_id INT)
 ```
 
 ### 4. Szukanie id studiów do których należy lekcja
+###### Funkcja znajdująca id studiów do których należy dana lekcja, jeśli nie jest ona częścią studiów zwraca NULL.
 ```sql
 CREATE FUNCTION get_lesson_studies(@lesson_id INT)
     RETURNS INT
@@ -1370,7 +1374,8 @@ CREATE FUNCTION get_lesson_studies(@lesson_id INT)
 
 ## Triggery
 
-### 1. Trigger usuwający zaliczkę po wpłynięciu płatności za całość kursu
+### 1. Usuwanie zaliczek
+###### Trigger usuwający zaliczkę po wpłynięciu płatności za całość kursu.
 ```sql
 CREATE TRIGGER tr_remove_prev_partial_payments
 ON course_payments
