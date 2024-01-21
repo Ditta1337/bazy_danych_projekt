@@ -1167,6 +1167,18 @@ BEGIN
 END
 ```
 
+Przykładowy rezultat procedury dla <br> 
+@start_date = '2023-10-01', <br> 
+@end_date = '2023-11-15'
+
+| lesson\_id | name | date | count | lesson form |
+| :--- | :--- | :--- | :--- | :--- |
+| 73 | shorting lesson | 2023-10-31 | 7 | stationary |
+| 95 | hundreding lesson | 2023-10-15 | 21 | stationary |
+| 96 | ableing lesson | 2023-10-30 | 21 | stationary |
+| 97 | thusing lesson | 2023-11-14 | 21 | stationary |
+
+
 ### 13. Wyświetl raport dotyczący frekwencji na zakończonych już wydarzeniach w danym przedziale czasu
 ###### Procedura wyświetlająca liczbę studentów, którzy są zapisani na zakończone już wydarzenia w danym przedziale czasu.
 ```sql
@@ -1181,8 +1193,19 @@ BEGIN
     FROM attendance_percentage_report apr
     WHERE apr.date > @start_date AND apr.date < @end_date
 END
+```
 
-``` 
+Przykładowy rezultat procedury dla <br> 
+@start_date = '2023-10-01', <br> 
+@end_date = '2023-11-15'
+| lesson\_id | name | date | Attendance Percentage |
+| :--- | :--- | :--- | :--- |
+| 73 | shorting lesson | 2023-10-31 | 1.00 |
+| 95 | hundreding lesson | 2023-10-15 | 0.86 |
+| 96 | ableing lesson | 2023-10-30 | 0.86 |
+| 97 | thusing lesson | 2023-11-14 | 0.95 |
+
+
 ### Raporty finansowe
 ### 14. Przychody dla studiów w zadanym okresie
 ###### Procedura wyświetlająca przychody dla wszystkich studiów w danym przedziale czasu.
@@ -1343,6 +1366,19 @@ BEGIN
 END
 ```
 
+Przykładowy rezultat procedury dla <br> 
+@start_date = '2023-10-01', <br> 
+@end_date = '2023-11-15'
+| lesson\_id | date | first\_name | last\_name | status |
+| :--- | :--- | :--- | :--- | :--- |
+| 73 | 2023-10-31 | Alan | Lawson | PRESENT |
+| 73 | 2023-10-31 | Justin | Vance | PRESENT |
+| 73 | 2023-10-31 | Barbara | Briggs | PRESENT |
+| 73 | 2023-10-31 | Thomas | Mullins | PRESENT |
+| 73 | 2023-10-31 | Joshua | Moore | PRESENT |
+| 73 | 2023-10-31 | Charles | Thomas | PRESENT |
+
+
 ### 18. Raport bilokacji w danym przedziale czasu
 ###### Procedura wyświetlająca listę studentów, którzy mają kolidujące ze sobą lekcje w danym przedziale czasu.
 ```sql
@@ -1358,6 +1394,18 @@ BEGIN
     WHERE br.date >= @start_date AND br.date <= @end_date
 END
 ```
+
+Przykładowy rezultat procedury dla <br> 
+@start_date = '2023-10-01', <br> 
+@end_date = '2023-11-15'
+| student\_id | date | lesson 1 id | lesson 1 | lesson 2 id | lesson 2 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 65 | 2024-03-20 | 115 | senseing lesson | 105 | clearlying lesson |
+| 66 | 2024-03-20 | 115 | senseing lesson | 105 | clearlying lesson |
+| 67 | 2024-03-20 | 115 | senseing lesson | 105 | clearlying lesson |
+| 68 | 2024-03-20 | 115 | senseing lesson | 105 | clearlying lesson |
+| 69 | 2024-03-20 | 115 | senseing lesson | 105 | clearlying lesson |
+| 70 | 2024-03-20 | 115 | senseing lesson | 105 | clearlying lesson |
 
 
 ### 19. Opłacanie wydarzeń
