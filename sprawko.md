@@ -256,7 +256,7 @@ CREATE TABLE study_payments (
 
 ## Widoki
 ### 1. Lista „dłużników”
-###### Widoki wyświetlające id, imię oraz nazwisko studentów, którzy zalegają z płatnościami za odpowiednio: studia, kursy i webinary, oraz zbiorczo za wszystkie te kategorie.
+ Widoki wyświetlające id, imię oraz nazwisko studentów, którzy zalegają z płatnościami za odpowiednio: studia, kursy i webinary, oraz zbiorczo za wszystkie te kategorie.
 #### Dłużnicy dla studiów
 ```sql
 CREATE VIEW studies_debtors_list AS
@@ -305,6 +305,8 @@ CREATE VIEW courses_debtors_list AS
     GROUP BY s.student_id, s.first_name, s.last_name
 ```
 
+<div style="page-break-after: always;"></div>
+
 #### Dłużnicy dla webinarów
 ```sql
 CREATE VIEW webinars_debtors_list AS
@@ -325,7 +327,7 @@ CREATE VIEW webinars_debtors_list AS
     GROUP BY s.student_id, s.first_name, s.last_name
 ```
 
-<div style="page-break-after: always;"></div>
+
 
 #### Wszyscy dłużnicy
 ```sql
@@ -350,9 +352,10 @@ Przykładowy rezultat widoku
 | 5 | Anthony | Lowe | 6541.5000 |
 | 6 | Samantha | Schaefer | 6625.5000 |
 
+<div style="page-break-after: always;"></div>
 
 ### 2. Ogólny raport dotyczący liczby zapisanych osób na wydarzenia
-###### Widok wyświetlający id lekcji, nazwę lekcji, datę lekcji, liczbę studentów zapisanych na daną lekcję oraz formę danej lekcji ( stacjonarna / zdalna ) dla wszystkich lekcji.
+ Widok wyświetlający id lekcji, nazwę lekcji, datę lekcji, liczbę studentów zapisanych na daną lekcję oraz formę danej lekcji ( stacjonarna / zdalna ) dla wszystkich lekcji.
 ``` sql
 CREATE VIEW students_registered_count AS
     WITH
@@ -424,9 +427,10 @@ Przykładowy rezultat widoku
 | 5 | continueing lesson | 2024-01-25 | 35 | stationary |
 | 6 | cameraing lesson | 2024-01-31 | 35 | stationary |
 
+<div style="page-break-after: always;"></div>
 
 ### 3. Ogólny raport dotyczący liczby zapisanych osób na przyszłe wydarzenia
-###### Widok wyświetlający id lekcji, nazwę lekcji, datę lekcji, liczbę zapisanych studentów na daną lekcję oraz formę danej lekcji (stacjonarna / zdalna ) dla lekcji, które się jeszcze nie odbyły.
+ Widok wyświetlający id lekcji, nazwę lekcji, datę lekcji, liczbę zapisanych studentów na daną lekcję oraz formę danej lekcji (stacjonarna / zdalna ) dla lekcji, które się jeszcze nie odbyły.
 ```sql
 CREATE VIEW students_registered_future_count AS (
     SELECT src.lesson_id, src.name, src.date, src.[count], src.[lesson form] 
@@ -447,10 +451,10 @@ Przykładowy rezultat widoku
 | 10 | perhapsing lesson | 2024-02-17 | 35 | stationary |
 
 
-<div style="page-break-after: always;"></div>
+
 
 ### 4. Ogólny raport dotyczący frekwencji na zakończonych już wydarzeniach
-###### Widok wyświetlający id lekcji, nazwę lekcji, datę lekcji oraz frekwencję na danej lekcji dla wszystkich lekcji.
+Widok wyświetlający id lekcji, nazwę lekcji, datę lekcji oraz frekwencję na danej lekcji dla wszystkich lekcji.
 ``` sql
 CREATE VIEW attendance_percentage_report AS 
     WITH 
@@ -493,10 +497,10 @@ Przykładowy rezultat widoku
 | 49 | businessing lesson | 2023-05-01 | 0.90 |
 | 50 | officering lesson | 2023-05-04 | 0.86 |
 
-
+<div style="page-break-after: always;"></div>
 
 ### 5. Lista Obecności
-###### Widok wyświetlający listę obecności: id lekcji, datę lekcji, imię i nazwisko studenta oraz status obecności ( obecny / nieobecny ), dla wszystkich lekcji.
+Widok wyświetlający listę obecności: id lekcji, datę lekcji, imię i nazwisko studenta oraz status obecności ( obecny / nieobecny ), dla wszystkich lekcji.
 ``` sql
 CREATE VIEW attendance_list AS (
     SELECT 
@@ -528,7 +532,7 @@ Przykładowy rezultat widoku
 
 
 ### 6. Raport Bilokacji
-###### Widok wyświetlający listę studentów, którzy mają kolidujące ze sobą lekcje: id studenta, data lekcji, id pierwszej kolidującej lekcji i jej nazwa, id drugiej kolidującej lekcji i jej nazwa.
+Widok wyświetlający listę studentów, którzy mają kolidujące ze sobą lekcje: id studenta, data lekcji, id pierwszej kolidującej lekcji i jej nazwa, id drugiej kolidującej lekcji i jej nazwa.
 ```sql
 CREATE VIEW bilocation_report AS
 WITH
@@ -562,13 +566,12 @@ Przykładowy rezultat widoku
 | 70 | 2024-03-01 | 109 | itsing lesson | 99 | duringing lesson |
 
 
-
 <div style="page-break-after: always;"></div>
 
 ## Procedury
 
 ### 1. Wyświetl koszyk danego użytkownika (lekcje)
-###### Procedura wyświetlająca koszyk ( zawierający wyłącznie lekcje ) danego studenta.
+Procedura wyświetlająca koszyk ( zawierający wyłącznie lekcje ) danego studenta.
 ```sql
 CREATE PROCEDURE student_cart_lessons_info(@student_id INT)
 AS
@@ -615,7 +618,7 @@ Przykładowy rezultat procedury dla @student_id = 101
 
 
 ### 2. Wyświetl koszyk danego użytkownika (kursy)
-###### Procedura wyświetlająca koszyk ( zawierający wyłącznie kursy ) danego studenta.
+Procedura wyświetlająca koszyk ( zawierający wyłącznie kursy ) danego studenta.
 ```sql
 CREATE PROCEDURE student_cart_courses_info(@student_id INT)
 AS
@@ -647,6 +650,8 @@ BEGIN
 END
 ```
 
+<div style="page-break-after: always;"></div>
+
 Przykładowy rezultat procedury dla @student_id = 101
 | course\_id | name | description | entry\_price | full\_price |
 | :--- | :--- | :--- | :--- | :--- |
@@ -654,10 +659,10 @@ Przykładowy rezultat procedury dla @student_id = 101
 | 16 | ining course | ining course description | 95.0000 | 605.0000 |
 
 
-<div style="page-break-after: always;"></div>
+
 
 ### 3. Wyświetl koszyk danego użytkownika (studia)
-###### Procedura wyświetlająca koszyk ( zawierający wyłącznie studia ) danego studenta.
+Procedura wyświetlająca koszyk ( zawierający wyłącznie studia ) danego studenta.
 ```sql
 CREATE PROCEDURE student_cart_studies_info(@student_id INT)
 AS
@@ -696,7 +701,7 @@ Przykładowy rezultat procedury dla @student_id = 101
 
 
 ### 4. Przeglądaj historię uczestnictwa
-###### Procedura wyświetlająca historię uczestnictwa w lekcjach danego studenta.
+Procedura wyświetlająca historię uczestnictwa w lekcjach danego studenta.
 ```sql
 CREATE PROCEDURE student_attendance_history(@student_id INT)
 AS
@@ -725,6 +730,7 @@ BEGIN
     END CATCH
 END
 ```
+<div style="page-break-after: always;"></div>
 
 Przykładowy rezultat procedury dla @student_id = 50
 | lesson\_id | name | date |
@@ -738,10 +744,10 @@ Przykładowy rezultat procedury dla @student_id = 50
 
 
 
-<div style="page-break-after: always;"></div>
+
 
 ### 5. Aktualizuj obecność
-###### Procedura pozwalająca zaktualizować status obecności danego studenta na danej lekcji.
+Procedura pozwalająca zaktualizować status obecności danego studenta na danej lekcji.
 ```sql
 -- 5. Aktualizuj obecność
 CREATE PROCEDURE update_attendance(@lesson_id INT, @student_id INT, @status BIT)
@@ -786,7 +792,7 @@ END
 <div style="page-break-after: always;"></div>
 
 ### 6. Dodaj lekcję w ramach studiów
-###### Procedura dodająca lekcję w ramach oferty studiów.
+Procedura dodająca lekcję w ramach oferty studiów.
 ```sql
 CREATE PROCEDURE add_study_lesson(
     @lecturer_id INT,
@@ -853,7 +859,7 @@ END
 <div style="page-break-after: always;"></div>
 
 ### 7. Dodaj lekcję z kursu
-###### Procedura dodająca lekcję w ramach oferty kursu.
+Procedura dodająca lekcję w ramach oferty kursu.
 ```sql
 CREATE PROCEDURE add_course_lesson(
     @lecturer_id INT,
@@ -905,7 +911,7 @@ END
 <div style="page-break-after: always;"></div>
 
 ### 8. Dodaj webinar
-###### Procedura dodająca webinar.
+Procedura dodająca webinar.
 ```sql
 CREATE PROCEDURE add_webinar(
     @lecturer_id INT,
@@ -949,11 +955,10 @@ BEGIN
     END CATCH
 END
 ```
-
 <div style="page-break-after: always;"></div>
 
 ### 9. Dodawanie lekcji do koszyka
-###### Procedura dodająca lekcję do koszyka danego studenta.
+Procedura dodająca lekcję do koszyka danego studenta.
 ```sql
 CREATE PROCEDURE add_lesson_to_cart(@payment_id INT, @lesson_id INT, @student_id INT)
 AS
@@ -1033,11 +1038,10 @@ BEGIN
     END CATCH
 END
 ```
-
 <div style="page-break-after: always;"></div>
 
 ### 10. Dodawanie kursu do koszyka
-###### Procedura dodająca kurs do koszyka danego studenta.
+Procedura dodająca kurs do koszyka danego studenta.
 ```sql
 CREATE PROCEDURE add_course_to_cart(@payment_id INT, @course_id INT, @student_id INT, @is_full_price INT)
 AS
@@ -1100,7 +1104,7 @@ END
 <div style="page-break-after: always;"></div>
 
 ### 11. Dodawanie studiów do koszyka
-###### Procedura dodająca studia do koszyka danego studenta.
+Procedura dodająca studia do koszyka danego studenta.
 ```sql
 CREATE PROCEDURE add_study_to_cart(@payment_id INT, @study_id INT, @student_id INT)
 AS
@@ -1152,7 +1156,7 @@ END
 ```
 
 ### 12. Wyświetl liczbę studentów zapisanych na wydarzenia odbywające się w danym przedziale czasu
-###### Procedura wyświetlająca liczbę studentów, którzy są zapisani na wydarzenia w danym przedziale czasu.
+Procedura wyświetlająca liczbę studentów, którzy są zapisani na wydarzenia w danym przedziale czasu.
 ```sql
 CREATE PROCEDURE get_students_registered_count_in_period(@start_date DATE, @end_date DATE)
 AS
@@ -1178,9 +1182,10 @@ Przykładowy rezultat procedury dla <br>
 | 96 | ableing lesson | 2023-10-30 | 21 | stationary |
 | 97 | thusing lesson | 2023-11-14 | 21 | stationary |
 
+<div style="page-break-after: always;"></div>
 
 ### 13. Wyświetl raport dotyczący frekwencji na zakończonych już wydarzeniach w danym przedziale czasu
-###### Procedura wyświetlająca liczbę studentów, którzy są zapisani na zakończone już wydarzenia w danym przedziale czasu.
+Procedura wyświetlająca liczbę studentów, którzy są zapisani na zakończone już wydarzenia w danym przedziale czasu.
 ```sql
 CREATE PROCEDURE get_attendance_percentage_report_in_period(@start_date DATE, @end_date DATE)
 AS
@@ -1208,7 +1213,7 @@ Przykładowy rezultat procedury dla <br>
 
 ### Raporty finansowe
 ### 14. Przychody dla studiów w zadanym okresie
-###### Procedura wyświetlająca przychody dla wszystkich studiów w danym przedziale czasu.
+Procedura wyświetlająca przychody dla wszystkich studiów w danym przedziale czasu.
 ```sql
 CREATE PROCEDURE get_studies_income(
     @start_date date = '0001-01-01',
@@ -1261,7 +1266,7 @@ Przykładowy rezultat procedury
 
 
 ## 15. Przychody za kursy w zadanym okresie
-###### Procedura wyświetlająca przychody dla wszystkich kursów w danym przedziale czasu.
+Procedura wyświetlająca przychody dla wszystkich kursów w danym przedziale czasu.
 ```sql
 CREATE PROCEDURE get_courses_income(
     @start_date date = '0001-01-01',
@@ -1306,7 +1311,7 @@ Przykładowy rezultat procedury
 
 
 ### 16. Przychody za webinary w zadanym okresie
-###### Procedura wyświetlająca przychody dla wszystkich webinarów w danym przedziale czasu.
+Procedura wyświetlająca przychody dla wszystkich webinarów w danym przedziale czasu.
 ```sql
 CREATE PROCEDURE get_webinars_income(
     @start_date date = '0001-01-01',
@@ -1340,6 +1345,8 @@ BEGIN
 END;
 ```
 
+<div style="page-break-after: always;"></div>
+
 Przykładowy rezultat procedury
 | lesson\_id | name | description | date | income |
 | :--- | :--- | :--- | :--- | :--- |
@@ -1351,7 +1358,7 @@ Przykładowy rezultat procedury
 
 
 ### 17. Lista obecności w danym przedziale czasu
-###### Procedura wyświetlająca listę obecności na wydarzeniach odbywających się w danym przedziale czasu.
+Procedura wyświetlająca listę obecności na wydarzeniach odbywających się w danym przedziale czasu.
 ```sql
 CREATE PROCEDURE get_attendance_list_in_period(@start_date DATE, @end_date DATE)
 AS
@@ -1380,7 +1387,7 @@ Przykładowy rezultat procedury dla <br>
 
 
 ### 18. Raport bilokacji w danym przedziale czasu
-###### Procedura wyświetlająca listę studentów, którzy mają kolidujące ze sobą lekcje w danym przedziale czasu.
+Procedura wyświetlająca listę studentów, którzy mają kolidujące ze sobą lekcje w danym przedziale czasu.
 ```sql
 CREATE PROCEDURE get_bilocation_report_in_period(@start_date DATE, @end_date DATE)
 AS
@@ -1407,9 +1414,10 @@ Przykładowy rezultat procedury dla <br>
 | 69 | 2024-03-20 | 115 | senseing lesson | 105 | clearlying lesson |
 | 70 | 2024-03-20 | 115 | senseing lesson | 105 | clearlying lesson |
 
+<div style="page-break-after: always;"></div>
 
 ### 19. Opłacanie wydarzeń
-###### Procedura pozwalająca opłacić dane wydarzenie ( jeśli są na nim jeszcze wolne miejsca )
+Procedura pozwalająca opłacić dane wydarzenie ( jeśli są na nim jeszcze wolne miejsca )
 ```sql
 CREATE PROCEDURE pay_for_event(@payment_id INT)
 AS
@@ -1451,7 +1459,7 @@ END
 ## Funkcje
 
 ### 1. Obliczanie wolnych miejsc na danych studiach
-###### Funkcja obliczająca ilość wolnych miejsc na danych studiach.
+Funkcja obliczająca ilość wolnych miejsc na danych studiach.
 ```sql
 CREATE FUNCTION calc_study_vacancy_amount(@study_id INT)
     RETURNS INT
@@ -1472,7 +1480,7 @@ CREATE FUNCTION calc_study_vacancy_amount(@study_id INT)
 <div style="page-break-after: always;"></div>
 
 ### 2. Obliczanie wolnych miejsc na danym kursie
-###### Funkcja obliczająca ilość wolnych miejsc na danym kursie.
+Funkcja obliczająca ilość wolnych miejsc na danym kursie.
 ```sql
 CREATE FUNCTION calc_course_vacancy_amount(@course_id INT)
     RETURNS INT
@@ -1500,7 +1508,7 @@ CREATE FUNCTION calc_course_vacancy_amount(@course_id INT)
 ```
 
 ### 3. Obliczanie wolnych miejsc na danej lekcji
-###### Funkcja obliczająca ilość wolnych miejsc na danej lekcji.
+Funkcja obliczająca ilość wolnych miejsc na danej lekcji.
 ```sql
 CREATE FUNCTION calc_lesson_vacancy_amount(@lesson_id INT)
     RETURNS INT
@@ -1528,7 +1536,7 @@ CREATE FUNCTION calc_lesson_vacancy_amount(@lesson_id INT)
 ```
 
 ### 4. Szukanie id studiów do których należy lekcja
-###### Funkcja znajdująca id studiów do których należy dana lekcja, jeśli nie jest ona częścią studiów zwraca NULL.
+Funkcja znajdująca id studiów do których należy dana lekcja, jeśli nie jest ona częścią studiów zwraca NULL.
 ```sql
 CREATE FUNCTION get_lesson_studies(@lesson_id INT)
     RETURNS INT
@@ -1549,7 +1557,7 @@ CREATE FUNCTION get_lesson_studies(@lesson_id INT)
 ## Triggery
 
 ### 1. Usuwanie zaliczek
-###### Trigger usuwający zaliczkę po wpłynięciu płatności za całość kursu.
+Trigger usuwający zaliczkę po wpłynięciu płatności za całość kursu.
 ```sql
 CREATE TRIGGER tr_remove_prev_partial_payments
 ON course_payments
@@ -1570,10 +1578,10 @@ BEGIN
 END;
 ```
 
-<div style="page-break-after: always;"></div>
+
 
 ### 2. Trigger dodający wpis o obecności na zajęciach po zapłaceniu za te zajęcia
-###### Trigger aktywuje się po zdarzeniu dodania recordu do tabeli payments ze statusem opłacone oraz po zaaktualizowaniu recordu w tabeli payments tylko przy zmianie statusu z nieopłacony na opłacony
+Trigger aktywuje się po zdarzeniu dodania recordu do tabeli payments ze statusem opłacone oraz po zaaktualizowaniu recordu w tabeli payments tylko przy zmianie statusu z nieopłacony na opłacony
 ```sql
 CREATE TRIGGER tr_generate_attendance
     ON payments
@@ -1616,7 +1624,7 @@ BEGIN
 END;
 ```
 
-<div style="page-break-after: always;"></div>
+
 
 ## Role
 
@@ -1625,6 +1633,8 @@ END;
 CREATE ROLE admin
 GRANT ALL PRIVILEGES ON u_ksliwins.dbo TO admin 
 ```
+
+<div style="page-break-after: always;"></div>
 
 ### 2. Pracownik zarządzający wydarzeniami
 ```sql
@@ -1708,10 +1718,10 @@ GRANT EXEC ON pay_for_event TO student
 <div style="page-break-after: always;"></div>
 
 ## Indeksy
-###### Klucze główne oraz wartości unikalne
-###### email jest wartością unikalną, ponieważ wymuszamy na studentach, aby każdy z nich miał indywidualny email.
-###### file_url jest wartością unikalną, ponieważ musimy mieć możliwość otrzymania dostępu do każdego materiału osobno.
-###### payment_url jest wartością unikalną, ponieważ każda płatność musi mieć swój osobny url, który ją identyfikuje.
+Klucze główne oraz wartości unikalne
+email jest wartością unikalną, ponieważ wymuszamy na studentach, aby każdy z nich miał indywidualny email.
+file_url jest wartością unikalną, ponieważ musimy mieć możliwość otrzymania dostępu do każdego materiału osobno.
+payment_url jest wartością unikalną, ponieważ każda płatność musi mieć swój osobny url, który ją identyfikuje.
 ```sql
 -- Klucze głowne
 CREATE UNIQUE INDEX students_pk
