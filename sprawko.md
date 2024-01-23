@@ -220,7 +220,6 @@ CREATE TABLE payments (
     date date  NOT NULL,
     payment_url varchar(100)  NULL,
     postponed bit  NOT NULL,
-    CONSTRAINT payments_ak_1 UNIQUE (payment_url),
     CONSTRAINT payments_pk PRIMARY KEY  (payment_id)
 );
 ```
@@ -1427,21 +1426,21 @@ BEGIN
             SELECT 1 
             FROM payments p 
             JOIN lesson_payments lp ON p.payment_id=lp.payment_id
-            WHERE p.[payment_id]=@payment_id AND dbo.get_lesson_vacancy_count(lp.lesson_id) <= 0
+            WHERE p.[payment_id]=@payment_id AND dbo.calc_lesson_vacancy_amount(lp.lesson_id) <= 0
             )
             THROW 53000, N'There are lessons with no vacancies in your order.', 1
         ELSE IF EXISTS (
             SELECT 1 
             FROM payments p 
             JOIN course_payments cp ON p.payment_id=cp.payment_id
-            WHERE p.[payment_id]=@payment_id AND dbo.get_course_vacancy_count(cp.course_id) <= 0
+            WHERE p.[payment_id]=@payment_id AND dbo.calc_course_vacancy_amount(cp.course_id) <= 0
             )
             THROW 53000, N'There are courses with no vacancies in your order.', 1
         ELSE IF EXISTS (
             SELECT 1 
             FROM payments p 
             JOIN study_payments sp ON p.payment_id=sp.payment_id
-            WHERE p.[payment_id]=@payment_id AND dbo.get_study_vacancy_count(sp.study_id) <= 0
+            WHERE p.[payment_id]=@payment_id AND dbo.calc_study_vacancy_amount(sp.study_id) <= 0
             )
             THROW 53000, N'There are studies with no vacancies in your order.', 1
         UPDATE payments
@@ -1721,7 +1720,6 @@ GRANT EXEC ON pay_for_event TO student
 Klucze główne oraz wartości unikalne
 email jest wartością unikalną, ponieważ wymuszamy na studentach, aby każdy z nich miał indywidualny email.
 file_url jest wartością unikalną, ponieważ musimy mieć możliwość otrzymania dostępu do każdego materiału osobno.
-payment_url jest wartością unikalną, ponieważ każda płatność musi mieć swój osobny url, który ją identyfikuje.
 ```sql
 -- Klucze głowne
 CREATE UNIQUE INDEX students_pk
@@ -1780,7 +1778,4 @@ ON employees (email)
 CREATE UNIQUE INDEX file_url
 ON materials (file_url)
 
--- Payment Url
-CREATE UNIQUE INDEX payment_url
-ON payments (payment_url)
 ```
